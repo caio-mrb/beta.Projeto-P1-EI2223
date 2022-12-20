@@ -1,0 +1,74 @@
+# depslib dependency file v1.0
+1671481791 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\main.c
+	<stdio.h>
+	<stdlib.h>
+	<locale.h>
+	<string.h>
+	"funcoesDePortateis.h"
+	"funcoesDeRequisicoes.h"
+	"funcoesDeDados.h"
+	"constantes.h"
+
+1670359243 c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdemenus.h
+	<stdio.h>
+	"funcoesDeDesign.h"
+
+1671469475 c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdedados.h
+	<stdio.h>
+	"funcoesDePortateis.h"
+	"funcoesDeRequisicoes.h"
+	"funcoesDeData.h"
+	"constantes.h"
+
+1671478145 c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdeportateis.h
+	<stdio.h>
+	"funcoesDeData.h"
+	"constantes.h"
+
+1671459716 c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesderequisicoes.h
+	<stdio.h>
+	"funcoesDePortateis.h"
+	"funcoesDeData.h"
+
+1671478192 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdedados.c
+	"funcoesDeDados.h"
+	<stdio.h>
+	<stdlib.h>
+	<locale.h>
+	<string.h>
+
+1670359261 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdemenus.c
+	"funcoesDeMenus.h"
+	"funcoesDeDados.h"
+	<stdio.h>
+
+1671481221 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdeportateis.c
+	"funcoesDePortateis.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"funcoesDeDados.h"
+
+1669917885 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesderequisicoes.c
+	"funcoesDeRequisicoes.h"
+	<stdio.h>
+
+1671475595 c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdedata.h
+
+1671481210 c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\constantes.h
+
+1671475595 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdedata.c
+	"funcoesDeData.h"
+	"funcoesDeDados.h"
+	<stdio.h>
+
+1670357912 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdedesign.c
+	"funcoesDeDesign.h"
+	<stdio.h>
+	<locale.h>
+
+1670193535 c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdedesign.h
+	<stdio.h>
+	"funcoesDeDados.h"
+

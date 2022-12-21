@@ -19,36 +19,6 @@ void flushStdin(void)
 }
 
 
-
-
-
-void plusIfNegative(int numCompared, int *result)
-{
-    if (numCompared < 0)
-    {
-        (*result)++;
-    }
-
-}
-
-void plusIfEqualZero(int numCompared, int *result)
-{
-    if (numCompared == 0)
-    {
-        (*result)++;
-    }
-
-}
-
-void plusIfNULL(int *numCompared, int *result)
-{
-    if (numCompared == NULL)
-    {
-        (*result)++;
-    }
-
-}
-
 void readInt(char *message, int *num,int numMin, int numMax)
 {
 

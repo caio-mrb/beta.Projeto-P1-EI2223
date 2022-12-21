@@ -251,8 +251,8 @@ int main()
                 case 2:
                     /**********************************************COMEÇO OPÇÃO 2*****************************************************/
 
-                    /** Nesta opção o utilizador pode:                         **
-                     ** ->Listar a informação de todos os portateis existentes **/
+                    /** Nesta opção o utilizador pode:                         *
+                      * ->Listar a informação de todos os portateis existentes **/
 
 
                     clearScreen();
@@ -279,11 +279,11 @@ int main()
                 case 3:
                     /**********************************************COMEÇO OPÇÃO 3*****************************************************/
 
-                    /** Nesta opção o utilizador pode:                              **
-                     ** ->Alterar a localização de um portatil existente            **
-                     **                                                             **
-                     ** Nesta opção o utilizador não pode:                          **
-                     ** ->Mover o portatil para a localização em que já se encontra **/
+                    /** Nesta opção o utilizador pode:                              *
+                      * ->Alterar a localização de um portatil existente            *
+                      *                                                             *
+                      * Nesta opção o utilizador não pode:                          *
+                      * ->Mover o portatil para a localização em que já se encontra **/
 
                     //Limpa a tela
                     clearScreen();
@@ -389,6 +389,13 @@ int main()
                     break;
                 case 4:
                     /**********************************************COMEÇO OPÇÃO 4*****************************************************/
+                    /** Nesta opção o utilizador pode:                                                       *
+                      * ->Registar X avarias de um portatil                                                  *
+                      * ->Registar o reparo de todas as avarias temporarias ainda por reparar de um portatil *
+                      *                                                                                      *
+                      * Nesta opção o utilizador não pode:                                                   *
+                      * ->Escolher reparar um portatil se não possuir avarias por reparar                    **/
+
                     //Limpa a tela
                     clearScreen();
 
@@ -468,6 +475,13 @@ int main()
                                         {
                                         case 1:
                                             /*******************************************COMEÇO OPÇÃO 1************************************************/
+                                            /** Nesta opção o utilizador pode:      *
+                                              * ->Registar X avarias de um portatil *
+                                              *                                     *
+                                              * Nesta opção o utilizador não pode:  *
+                                              * ->Alterar o poratil já selecionado  **/
+
+                                            //Executa se o portatil não possuir avarias por arranjar
                                             if(laptop[equalIndex].damagesCounterActive == 0)
                                             {
                                                 //Limpa a tela
@@ -551,6 +565,11 @@ int main()
                                             break;
                                         case 2:
                                             /*******************************************COMEÇO OPÇÃO 2***********************************************/
+                                            /** Nesta opção o utilizador pode:                       *
+                                              * ->Registar o reparo de todas as avarias por arranjar *
+                                              *                                                      *
+                                              * Nesta opção o utilizador não pode:                   *
+                                              * ->Alterar o poratil já selecionado                   **/
                                             do
                                             {
                                                 //Encontra e armazena no vetor dinamico o indice de cada avaria

@@ -20,9 +20,6 @@ typedef struct Logs
 void flushStdin(void);
 void clrScr(void);
 
-void plusIfNegative(int numCompared, int *result);
-void plusIfEqualZero(int numCompared, int *result);
-void plusIfNULL(int *numCompared, int *result);
 
 void splitString(int splitPoint, char *enterStr, char firstReturnStr[MAX_SPLIT_STRING], char secondReturnStr[MAX_SPLIT_STRING]);
 void getNumOfDigits(int *result, int numToCountDigits);

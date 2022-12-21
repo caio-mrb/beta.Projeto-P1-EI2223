@@ -6,6 +6,7 @@
 #include <ctype.h>
 
 #include "funcoesDeDados.h"
+#include "funcoesDeDesign.h"
 
 
 
@@ -87,7 +88,6 @@ void readLapName(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel)
         {
             *cancel = TRUE_1;
         }
-        puts(laptop[totalLaptops].name);
     }
 }
 
@@ -269,6 +269,132 @@ void readLapPurchaseDate(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *ca
     }
 }
 
+void readDamageInfoCode(int index, int numOfDamages, DamageType *damageInfo, int *cancel)
+{
+    if (*cancel == FALSE_0)
+    {
+        char message[MAX_READ_MESSAGE_SIZE];
+        int indexDigits,numOfDamagesDigits;
+        getNumOfDigits(&indexDigits,index);
+        getNumOfDigits(&numOfDamagesDigits,numOfDamages);
+
+        printf("         _________________________________________\n");
+        printf("        |_PORTATEIS___________________________(X)_|\n");
+        printf("        |                                         |\n");
+        printf("        | Estas a registar a avaria %d de %d",index+1,numOfDamages);
+        alignMargin(indexDigits+numOfDamagesDigits,9);
+        printf("        | Selecione em que sitio foi a avaria:    |\n");
+        printf("        | 01 - Ecra                               |\n");
+        printf("        | 02 - Teclado                            |\n");
+        printf("        | 03 - Teclado Numerico                   |\n");
+        printf("        | 04 - Bateria                            |\n");
+        printf("        | 05 - Porta USB                          |\n");
+        printf("        | 06 - Entrada de Audio                   |\n");
+        printf("        | 07 - Receptor WI-FI                     |\n");
+        printf("        | 08 - Porta de Ethernet                  |\n");
+        printf("        | 09 - Placa Mae                          |\n");
+        printf("        | 10 - Placa Grafica                      |\n");
+        printf("        | 11 - Processador                        |\n");
+        printf("        | 12 - Memoria RAM                        |\n");
+        printf("        | 13 - Cancelar                           |\n");
+        printf("        |_________________________________________|\n\n");
+
+        strcpy(message,"Selecione uma opcao");
+        readInt(message,&(damageInfo->code),1,13);
+
+        if (damageInfo->code == 13)
+        {
+            *cancel = TRUE_1;
+        }
+    }
+}
+
+void readDamageInfoType(int index, int numOfDamages, DamageType *damageInfo, int *cancel)
+{
+    if (*cancel == FALSE_0)
+    {
+        char message[MAX_READ_MESSAGE_SIZE];
+
+        int indexDigits,numOfDamagesDigits;
+        getNumOfDigits(&indexDigits,index);
+        getNumOfDigits(&numOfDamagesDigits,numOfDamages);
+
+        printf("         ___________________________________________\n");
+        printf("        |_PORTATEIS_____________________________(X)_|\n");
+        printf("        |                                           |\n");
+        printf("        | Estas a registar a avaria %d de %d",index+1,numOfDamages);
+        alignMargin(indexDigits+numOfDamagesDigits,11);
+        printf("        | Avaria:                                   |\n");
+        printf("        | 1 - Temporaria                            |\n");
+        printf("        | 2 - Permanente                            |\n");
+        printf("        | 3 - Cancelar                              |\n");
+        printf("        |___________________________________________|\n\n");
+
+        strcpy(message,"Selecione uma opcao");
+        readInt(message,&(damageInfo->type),1,3);
+
+        if (damageInfo->type == 3)
+        {
+            *cancel = TRUE_1;
+        }
+    }
+
+}
+
+
+void readDamageInfoDate(int index, int numOfDamages, DamageType *damageInfo, int *cancel)
+{
+    if (*cancel == FALSE_0)
+    {
+        char message[MAX_READ_MESSAGE_SIZE];
+
+        int indexDigits,numOfDamagesDigits;
+        getNumOfDigits(&indexDigits,index);
+        getNumOfDigits(&numOfDamagesDigits,numOfDamages);
+
+        printf("         ______________________________\n");
+        printf("        |_PORTATEIS________________(X)_|\n");
+        printf("        |                              |\n");
+        printf("        | Estas a registar a avaria    |\n");
+        printf("        | %d de %d",index+1,numOfDamages);
+        alignMargin(indexDigits+numOfDamagesDigits,24);
+        printf("        | Em que dia ocorreu a avaria? |\n");
+        printf("        | Digite 0 para cancelar.      |\n");
+        printf("        |______________________________|\n\n");
+        strcpy(message,"Data");
+        readDate(message,&(damageInfo->date));
+
+        if (damageInfo->date.day == 0)
+        {
+            *cancel = TRUE_1;
+        }
+    }
+
+}
+
+
+int *searchTemporaryDamagesIndex(int *sizeDamageIndex, LaptopType laptop[MAX_LAPTOPS], int laptopId)
+{
+
+    int *damagesIndex = NULL, index;
+    *sizeDamageIndex = 0;
+
+
+    for (index = 0; index<laptop[laptopId].damagesCounterTotal; index++)
+    {
+
+        if (laptop[laptopId].damagesList[index].type == TEMPORARY && laptop[laptopId].damagesList[index].state == ACTIVE)
+        {
+            damagesIndex = realloc(damagesIndex, (*sizeDamageIndex + 1)*sizeof(int));
+            damagesIndex[*sizeDamageIndex] = index;
+            (*sizeDamageIndex)++;
+        }
+    }
+    return damagesIndex;
+}
+
+
+
 void showLaptopInfo(LaptopType laptop[MAX_LAPTOPS],int totalLaptops)
 {
 
@@ -410,92 +536,57 @@ void showLaptopInfo(LaptopType laptop[MAX_LAPTOPS],int totalLaptops)
         if (laptop[index].damagesCounterTotal > 0)
         {
             printf("        |                                |\n");
-            printf("        | -----Historico de Avarias----- |\n");
-            for (indexDamages=laptop[index].damagesCounterTotal; indexDamages>=0; indexDamages--)
+            printf("        | ---> Historico de Avarias <--- |\n");
+            for (indexDamages=laptop[index].damagesCounterTotal - 1; indexDamages>=0; indexDamages--)
             {
+
+                printf("        |                                |\n");
                 getNumOfDigits(&dayDigits,  laptop[index].damagesList[indexDamages].date.day);
                 getNumOfDigits(&monthDigits,    laptop[index].damagesList[indexDamages].date.month);
                 printf("        | [");
                 showDate(laptop[index].damagesList[indexDamages].date);
                 printf("] ");
 
-                switch(laptop[index].damagesList[indexDamages].code)
-                {
-                case SCREEN:
-                    printf("Ecra");
-                    alignMargin(0,MAX_SPACES_INFO_WINDOW-17);
-                    break;
-                case KEYBOARD:
-                    printf("Teclado");
-                    alignMargin(0,MAX_SPACES_INFO_WINDOW-20);
-                    break;
-                case NUMERIC_KEYBOARD:
-                    printf("Teclado numerico");
-                    alignMargin(0,MAX_SPACES_INFO_WINDOW-29);
-                    break;
-                case BATTERY:
-                    printf("Bateria");
-                    alignMargin(0,MAX_SPACES_INFO_WINDOW-25);
-                    break;
-                case USB_PORT:
-                    printf("Porta USB");
-                    alignMargin(0,MAX_SPACES_INFO_WINDOW-22);
-                    break;
-                case AUDIO_PORT:
-                    printf("Porta de Audio");
-                    alignMargin(0,MAX_SPACES_INFO_WINDOW-27);
-                    break;
-                case WIRELESS:
-                    printf("Internet sem Fio");
-                    alignMargin(0,MAX_SPACES_INFO_WINDOW-29);
-                    break;
-                case ETHERNET_PORT:
-                    printf("Internet a Cabo");
-                    alignMargin(0,MAX_SPACES_INFO_WINDOW-28);
-                    break;
-                case MOTHERBOARD:
-                    printf("Placa Mae");
-                    alignMargin(0,MAX_SPACES_INFO_WINDOW-22);
-                    break;
-                case GPU:
-                    printf("Placa Grafica");
-                    alignMargin(0,MAX_SPACES_INFO_WINDOW-26);
-                    break;
-                case CPU:
-                    printf("Processador");
-                    alignMargin(0,MAX_SPACES_INFO_WINDOW-24);
-                    break;
-                case RAM:
-                    printf("Memoria RAM");
-                    alignMargin(0,MAX_SPACES_INFO_WINDOW-24);
-                    break;
-                }
+                writeDamageCode(laptop[index].damagesList[indexDamages].code,MAX_SPACES_INFO_WINDOW);
 
-                if (laptop[index].damagesList[indexDamages].type == TEMPORARY){
+
+                if (laptop[index].damagesList[indexDamages].type == TEMPORARY && laptop[index].damagesList[indexDamages].state == ACTIVE)
+                {
                     printf("        | ->Avaria Temporaria<-");
                     alignMargin(0,MAX_SPACES_INFO_WINDOW-21);
-                }else
+                }
+                if (laptop[index].damagesList[indexDamages].type == TEMPORARY && laptop[index].damagesList[indexDamages].state == COMPLETED)
+                {
+                    printf("        | ->Avaria Arranjada<-");
+                    alignMargin(0,MAX_SPACES_INFO_WINDOW-20);
+                }
+                if (laptop[index].damagesList[indexDamages].type == PERMANET)
                 {
                     printf("        | ->Avaria Permanente<-");
                     alignMargin(0,MAX_SPACES_INFO_WINDOW-21);
                 }
 
+
+
+
                 getNumOfDigits(&dayDigits,laptop[index].damagesList[indexDamages].duration);
 
-                if (laptop[index].damagesList[indexDamages].duration > 0){
+                if (laptop[index].damagesList[indexDamages].state == COMPLETED)
+                {
                     printf("        | Avariado por %d dias",laptop[index].damagesList[indexDamages].duration);
                     alignMargin(dayDigits,MAX_SPACES_INFO_WINDOW-18);
                 }
-                if (laptop[index].damagesList[indexDamages].duration == 0 && laptop[index].damagesList[indexDamages].type == TEMPORARY){
+                if (laptop[index].damagesList[indexDamages].state == ACTIVE && laptop[index].damagesList[indexDamages].type == TEMPORARY)
+                {
                     printf("        | Avaria ainda por arranjar...");
-                    alignMargin(dayDigits,MAX_SPACES_INFO_WINDOW-28);
+                    alignMargin(0,MAX_SPACES_INFO_WINDOW-28);
                 }
-                if (laptop[index].damagesList[indexDamages].duration == 0 && laptop[index].damagesList[indexDamages].type == PERMANET){
+                if (laptop[index].damagesList[indexDamages].type == PERMANET)
+                {
                     printf("        | Avaria impossivel de arranjar");
-                    alignMargin(dayDigits,MAX_SPACES_INFO_WINDOW-29);
+                    alignMargin(0,MAX_SPACES_INFO_WINDOW-29);
                 }
 
-                printf("        |                                |\n");
 
             }
 
@@ -504,39 +595,113 @@ void showLaptopInfo(LaptopType laptop[MAX_LAPTOPS],int totalLaptops)
         printf("        |________________________________|\n\n");
 
     }
-
-
-
-
-
-
-
 }
 
-/*int *changeLapLocationTo(int locationNum,LaptopType laptop[MAX_LAPTOPS],int laptopIndex)
+void writeDamageCode(int code, int windowSize)
 {
 
-    int *backupPointer;
-
-    backupPointer = laptop[laptopIndex].locationHistoric;
-
-    laptop[laptopIndex].locationHistoric = realloc(laptop[laptopIndex].locationHistoric, (laptop[laptopIndex].locationsCounter + 1) * sizeof(int));
-
-    if (laptop[laptopIndex].locationHistoric == NULL)
+    switch(code)
     {
-
-        printf("        Nao e possivel alterar a localizacao deste portatil.\n");
-
-        laptop[laptopIndex].locationHistoric = backupPointer;
+    case SCREEN:
+        printf("Ecra");
+        alignMargin(0,windowSize-17);
+        break;
+    case KEYBOARD:
+        printf("Teclado");
+        alignMargin(0,windowSize-20);
+        break;
+    case NUMERIC_KEYBOARD:
+        printf("Teclado numerico");
+        alignMargin(0,windowSize-29);
+        break;
+    case BATTERY:
+        printf("Bateria");
+        alignMargin(0,windowSize-20);
+        break;
+    case USB_PORT:
+        printf("Porta USB");
+        alignMargin(0,windowSize-22);
+        break;
+    case AUDIO_PORT:
+        printf("Porta de Audio");
+        alignMargin(0,windowSize-27);
+        break;
+    case WIRELESS:
+        printf("Internet sem Fio");
+        alignMargin(0,windowSize-29);
+        break;
+    case ETHERNET_PORT:
+        printf("Internet a Cabo");
+        alignMargin(0,windowSize-28);
+        break;
+    case MOTHERBOARD:
+        printf("Placa Mae");
+        alignMargin(0,windowSize-22);
+        break;
+    case GPU:
+        printf("Placa Grafica");
+        alignMargin(0,windowSize-26);
+        break;
+    case CPU:
+        printf("Processador");
+        alignMargin(0,windowSize-24);
+        break;
+    case RAM:
+        printf("Memoria RAM");
+        alignMargin(0,windowSize-24);
+        break;
     }
-    else
+}
+
+DamageType *addDamageRepairInfo(DamageType damageRepairInfo, LaptopType laptop[MAX_LAPTOPS],int laptopIndex, int *cancel)
+{
+    if (*cancel == FALSE_0)
     {
-        laptop[laptopIndex].location = locationNum;
-        laptop[laptopIndex].locationHistoric[laptop[laptopIndex].locationsCounter] = locationNum;
-        (laptop[laptopIndex].locationsCounter)++;
+        DamageType *backupPointer;
+
+        backupPointer = laptop[laptopIndex].damagesList;
+
+        laptop[laptopIndex].damagesList = realloc(laptop[laptopIndex].damagesList, (laptop[laptopIndex].damagesCounterTotal + 1) * sizeof(DamageType));
+
+        if (laptop[laptopIndex].damagesList == NULL)
+        {
+
+            printf("        Nao e possivel registar mais avarias/reparacoes deste portatil.\n");
+
+            laptop[laptopIndex].damagesList = backupPointer;
+            *cancel = TRUE_1;
+        }
+        else
+        {
+            if (damageRepairInfo.type == TEMPORARY)
+            {
+                laptop[laptopIndex].damagesCounterActive++;
+                damageRepairInfo.state = ACTIVE;
+            }
+            laptop[laptopIndex].damagesList[laptop[laptopIndex].damagesCounterTotal] = damageRepairInfo;
+            (laptop[laptopIndex].damagesCounterTotal)++;
+        }
     }
 
-    return laptop[laptopIndex].locationHistoric;
-}*/
+    return laptop[laptopIndex].damagesList;
+}
+
+int *removeTemporaryDamage(int *damageIndexList,int sizeDamageIndexList, int indexPosition)
+{
+    int index;
+
+    for(index = indexPosition; index<sizeDamageIndexList; index++)
+    {
+        damageIndexList[index] = damageIndexList[index + 1];
+    }
+    sizeDamageIndexList--;
+    if (sizeDamageIndexList > 0){
+        damageIndexList = realloc(damageIndexList, (sizeDamageIndexList)*sizeof(int));
+    }else{
+        damageIndexList = NULL;
+    }
+
+    return damageIndexList;
+}
 
 

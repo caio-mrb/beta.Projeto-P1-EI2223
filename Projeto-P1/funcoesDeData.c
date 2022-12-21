@@ -24,3 +24,4 @@ void showDate(DateType date){
             printf("0%d/0%d/%4d",date.day,date.month,date.year);
         }
 }
+

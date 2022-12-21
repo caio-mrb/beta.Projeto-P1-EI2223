@@ -3,9 +3,9 @@
 
 #include <stdio.h>
 
+#include "funcoesDeData.h"
 #include "funcoesDePortateis.h"
 #include "funcoesDeRequisicoes.h"
-#include "funcoesDeData.h"
 #include "constantes.h"
 
 typedef struct Logs
@@ -24,7 +24,6 @@ void plusIfNegative(int numCompared, int *result);
 void plusIfEqualZero(int numCompared, int *result);
 void plusIfNULL(int *numCompared, int *result);
 
-void alignMargin(int contentSize, int totalSpaces);
 void splitString(int splitPoint, char *enterStr, char firstReturnStr[MAX_SPLIT_STRING], char secondReturnStr[MAX_SPLIT_STRING]);
 void getNumOfDigits(int *result, int numToCountDigits);
 

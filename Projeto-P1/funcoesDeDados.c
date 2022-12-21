@@ -18,16 +18,7 @@ void flushStdin(void)
     while (trash!='\n' && trash!=EOF);
 }
 
-void clrScr(void)
-{
-    int index;
 
-    for(index=0; index<LINES_CLRSCR; index++)
-    {
-        printf("\n");
-    }
-
-}
 
 
 
@@ -78,6 +69,7 @@ void readInt(char *message, int *num,int numMin, int numMax)
     }
     while(*num < numMin || *num > numMax || control == 0);
 
+
 }
 
 void readFloat(char *message, float *num, float numMin, float numMax)
@@ -116,7 +108,7 @@ void readDate(char *message, DateType *date)
 
         if (day != 0)
         {
-            if (year >= 1900 && year <= 3500)
+            if (year >= 1000 && year <= 9999)
             {
 
                 if (month>=1 && month<=12)
@@ -145,7 +137,7 @@ void readDate(char *message, DateType *date)
                             else
                             {
 
-                                if(day==29 && day==2 && (year%400==0 ||(year%4==0 && year%100!=0)))
+                                if(day==29 && month==2 && (year%400==0 ||(year%4==0 && year%100!=0)))
                                 {
 
                                     validValue = TRUE_1;
@@ -469,6 +461,7 @@ void numAvailableLaptops(int *result, LaptopType laptop[MAX_LAPTOPS],int totalLa
 {
 
     int index;
+    *result = 0;
 
     for (index=0; index<totalLaptos; index++)
     {
@@ -484,6 +477,7 @@ void numActiveRequests(int *result, RequestType *request,int totalRequests)
 {
 
     int index;
+    *result = 0;
 
     for (index=0; index<totalRequests; index++)
     {
@@ -492,20 +486,6 @@ void numActiveRequests(int *result, RequestType *request,int totalRequests)
             (*result)++;
         }
     }
-
-}
-
-
-void alignMargin(int contentSize, int totalSpaces)
-{
-
-    int index;
-
-    for(index = 0; index<totalSpaces-contentSize+1; index++)
-    {
-        printf(" ");
-    }
-    printf("|\n");
 
 }
 
@@ -605,8 +585,7 @@ void storeInfoToFile(LaptopType laptop[MAX_LAPTOPS],int totalLaptops, RequestTyp
         else
         {
             result = fwrite(&totalLaptops,sizeof(int),1,infofile);
-
-            if (result != 0)
+            if (result !=0)
             {
                 result = fwrite(laptop,sizeof(LaptopType),totalLaptops,infofile);
 
@@ -628,10 +607,10 @@ void storeInfoToFile(LaptopType laptop[MAX_LAPTOPS],int totalLaptops, RequestTyp
                     if (result != 0)
                     {
 
-
                         result = fwrite(&totalRequests,sizeof(int),1,infofile);
-                        if (result != 0)
+                        if(result != 0)
                         {
+
                             result = fwrite(request,sizeof(RequestType),totalRequests,infofile);
                             if (result != 0)
                             {
@@ -653,6 +632,8 @@ void storeInfoToFile(LaptopType laptop[MAX_LAPTOPS],int totalLaptops, RequestTyp
                                 printf("        |_______________________________|\n\n");
 
                             }
+
+
                         }
                         else
                         {
@@ -661,6 +642,7 @@ void storeInfoToFile(LaptopType laptop[MAX_LAPTOPS],int totalLaptops, RequestTyp
                             printf("        | Erro ao escrever o total |\n");
                             printf("        | de requisicoes!          |\n");
                             printf("        |__________________________|\n\n");
+
                         }
 
                     }
@@ -729,8 +711,9 @@ RequestType *loadFileToInfo(LaptopType laptop[MAX_LAPTOPS],int *totalLaptops, Re
     {
         result = fread(totalLaptops,sizeof(int),1,infofile);
 
-        if (result != 0)
+        if (result !=0)
         {
+
             result = fread(laptop,sizeof(LaptopType),*totalLaptops,infofile);
 
             if (result != 0)
@@ -753,8 +736,10 @@ RequestType *loadFileToInfo(LaptopType laptop[MAX_LAPTOPS],int *totalLaptops, Re
                 {
 
                     result = fread(totalRequests,sizeof(int),1,infofile);
+
                     if (result != 0)
                     {
+
                         request = malloc((*totalRequests)*sizeof(RequestType));
                         if (request != NULL)
                         {
@@ -782,9 +767,9 @@ RequestType *loadFileToInfo(LaptopType laptop[MAX_LAPTOPS],int *totalLaptops, Re
                     }
                     else
                     {
-
                         printf("| Erro ao ler o total de           |\n");
                         printf("| requisicoes!                     |\n");
+
                     }
 
                 }
@@ -805,6 +790,7 @@ RequestType *loadFileToInfo(LaptopType laptop[MAX_LAPTOPS],int *totalLaptops, Re
                 printf("| portateis!                       |\n");
 
             }
+
 
         }
         else

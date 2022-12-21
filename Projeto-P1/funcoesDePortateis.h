@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include "funcoesDeData.h"
+
 #include "constantes.h"
 
 
@@ -35,6 +36,8 @@ typedef struct Laptops
 } LaptopType;
 
 void searchEqualLapId(int *result, LaptopType laptop[MAX_LAPTOPS],int totalLaptops, int numToComp);
+int *searchTemporaryDamagesIndex(int *sizeDamageIndex, LaptopType laptop[MAX_LAPTOPS], int laptopId);
+
 void readLapName(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
 void readLapId(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
 void readLapProcessor(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
@@ -42,8 +45,16 @@ void readLapRam(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
 void readLapPrice(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
 void readLapLocation(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
 void readLapPurchaseDate(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
+
+
+void readDamageInfoCode(int index, int numOfDamages, DamageType *damageInfo, int *cancel);
+void readDamageInfoType(int index, int numOfDamages, DamageType *damageInfo, int *cancel);
+void readDamageInfoDate(int index, int numOfDamages, DamageType *damageInfo, int *cancel);
+
 int *changeLapLocationTo(int locationNum,LaptopType laptop[MAX_LAPTOPS],int laptopIndex);
 void showLaptopInfo(LaptopType laptop[MAX_LAPTOPS],int totalLaptops);
-
+void writeDamageCode(int code, int windowSize);
+DamageType *addDamageRepairInfo(DamageType damageRepairInfo, LaptopType laptop[MAX_LAPTOPS],int laptopIndex, int *cancel);
+int *removeTemporaryDamage(int *damageIndexList,int sizeDamageIndexList, int indexPosition);
 
 #endif // FUNCOESDEPORTATEIS_H

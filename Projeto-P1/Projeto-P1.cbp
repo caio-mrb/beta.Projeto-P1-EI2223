@@ -40,6 +40,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="funcoesDeData.h" />
+		<Unit filename="funcoesDeDesign.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="funcoesDeDesign.h" />
 		<Unit filename="funcoesDePortateis.c">
 			<Option compilerVar="CC" />
 		</Unit>

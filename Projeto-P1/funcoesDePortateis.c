@@ -25,7 +25,6 @@ void searchEqualLapId(int *equalIndex, LaptopType laptop[MAX_LAPTOPS],int totalL
         }
     }
 
-
 }
 
 void readLapId(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel)
@@ -74,7 +73,6 @@ void readLapId(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel)
     }
 }
 
-
 void readLapName(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel)
 {
     if (*cancel == FALSE_0)
@@ -82,7 +80,7 @@ void readLapName(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel)
         char message[MAX_READ_MESSAGE_SIZE];
 
         strcpy(message,"Nome do Portatil");
-        readStringOnlyLetters(message,laptop[totalLaptops].name,MAX_NAME_CHAR);
+        readString(message,laptop[totalLaptops].name,MAX_NAME_CHAR);
 
         if (laptop[totalLaptops].name[0] == '0')
         {
@@ -91,39 +89,38 @@ void readLapName(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel)
     }
 }
 
-
 void readLapProcessor(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel)
 {
     if (*cancel == FALSE_0)
     {
 
-        char message[MAX_READ_MESSAGE_SIZE],option[MAX_NAME_CHAR];
+        char message[MAX_READ_MESSAGE_SIZE],option[MAX_OPTION_CHAR];
         int validValue;
 
         strcpy(message,"Processador (0, i3, i5, i7)");
 
         do
         {
-            readString(message,option,MAX_NAME_CHAR);
+            readString(message,option,MAX_OPTION_CHAR);
 
             option[0] = toupper(option[0]);
 
 
-            if (option[0] == 'I' && option[1] == '3')
+            if (strcmp(option,"I3")==0)
             {
 
                 laptop[totalLaptops].processor = INTEL_I3;
 
                 validValue = TRUE_1;
             }
-            if (option[0] == 'I' && option[1] == '5')
+            if (strcmp(option,"I5")==0)
             {
 
                 laptop[totalLaptops].processor = INTEL_I5;
 
                 validValue = TRUE_1;
             }
-            if (option[0] == 'I' && option[1] == '7')
+            if (strcmp(option,"I7")==0)
             {
 
                 laptop[totalLaptops].processor = INTEL_I7;
@@ -131,7 +128,7 @@ void readLapProcessor(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cance
                 validValue = TRUE_1;
             }
 
-            if (option[0] == '0')
+            if (strcmp(option,"0")==0)
             {
                 *cancel = TRUE_1;
             }
@@ -179,13 +176,12 @@ void readLapPrice(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel)
     }
 }
 
-
-void readLapLocation(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel)
+void readLapLocation(LaptopType laptop[MAX_LAPTOPS],int laptopIndex,int *cancel)
 {
 
     if (*cancel == FALSE_0)
     {
-        char message[MAX_READ_MESSAGE_SIZE],option[MAX_NAME_CHAR];
+        char message[MAX_READ_MESSAGE_SIZE],option[MAX_OPTION_CHAR];
 
         int validValue = FALSE_0;
 
@@ -194,47 +190,46 @@ void readLapLocation(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel
 
         do
         {
-            readString(message,option,MAX_NAME_CHAR);
+            readString(message,option,MAX_OPTION_CHAR);
 
-            option[0] = toupper(option[0]);
-            option[1] = toupper(option[1]);
+            toupperString(option,option);
 
-            if (option[0] == 'R' && option[1] == 'E')
+            if (strcmp(option,"RE")==0)
             {
-                laptop[totalLaptops].location = RESIDENCES;
+                laptop[laptopIndex].location = RESIDENCES;
 
                 validValue = TRUE_1;
             }
-            if (option[0] == 'C' && option[1] == '1')
+            if (strcmp(option,"C1")==0)
             {
 
-                laptop[totalLaptops].location = CAMPUS_1;
+                laptop[laptopIndex].location = CAMPUS_1;
 
                 validValue = TRUE_1;
             }
-            if (option[0] == 'C' && option[1] == '2')
+            if (strcmp(option,"C2")==0)
             {
 
-                laptop[totalLaptops].location = CAMPUS_2;
+                laptop[laptopIndex].location = CAMPUS_2;
 
                 validValue = TRUE_1;
             }
-            if (option[0] == 'C' && option[1] == '3')
+            if (strcmp(option,"C3")==0)
             {
 
-                laptop[totalLaptops].location = CAMPUS_3;
+                laptop[laptopIndex].location = CAMPUS_3;
 
                 validValue = TRUE_1;
             }
-            if (option[0] == 'C' && option[1] == '5')
+            if (strcmp(option,"C5")==0)
             {
 
-                laptop[totalLaptops].location = CAMPUS_5;
+                laptop[laptopIndex].location = CAMPUS_5;
 
                 validValue = TRUE_1;
             }
 
-            if (option[0] == '0')
+            if (strcmp(option,"0")==0)
             {
                 *cancel = TRUE_1;
             }
@@ -244,13 +239,9 @@ void readLapLocation(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel
 
                 printf("        Selecione uma das opcoes acima ou digite 0 para cancelar.\n");
             }
-
         }
         while(validValue != TRUE_1 && *cancel != TRUE_1);
     }
-
-
-
 }
 
 void readLapPurchaseDate(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel)
@@ -322,6 +313,10 @@ void readDamageInfoType(int index, int numOfDamages, DamageType *damageInfo, int
         printf("         ___________________________________________\n");
         printf("        |_PORTATEIS_____________________________(X)_|\n");
         printf("        |                                           |\n");
+        printf("        | Obs: Avarias permanentes sao irreparaveis |\n");
+        printf("        | o que torna o portatil indisponivel por   |\n");
+        printf("        | tempo indeterminado.                      |\n");
+        printf("        |                                           |\n");
         printf("        | Estas a registar a avaria %d de %d",index+1,numOfDamages);
         alignMargin(indexDigits+numOfDamagesDigits,11);
         printf("        | Avaria:                                   |\n");
@@ -340,7 +335,6 @@ void readDamageInfoType(int index, int numOfDamages, DamageType *damageInfo, int
     }
 
 }
-
 
 void readDamageInfoDate(int index, int numOfDamages, DamageType *damageInfo, int *cancel)
 {
@@ -372,7 +366,6 @@ void readDamageInfoDate(int index, int numOfDamages, DamageType *damageInfo, int
 
 }
 
-
 int *searchTemporaryDamagesIndex(int *sizeDamageIndex, LaptopType laptop[MAX_LAPTOPS], int laptopId)
 {
 
@@ -393,9 +386,7 @@ int *searchTemporaryDamagesIndex(int *sizeDamageIndex, LaptopType laptop[MAX_LAP
     return damagesIndex;
 }
 
-
-
-void showLaptopInfo(LaptopType laptop[MAX_LAPTOPS],int totalLaptops)
+void showLaptopInfo(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,RequestType *request,int totalRequests)
 {
 
     //A caixa de informações tem um tamanho fixo de 34
@@ -405,196 +396,109 @@ void showLaptopInfo(LaptopType laptop[MAX_LAPTOPS],int totalLaptops)
     //              30 -> Espaços para conteudo em si
 
     //Exemplo de linha:  _________PORTATIL ID#1__________
-    //Exemplo de linha: | [--conteudo aqui 26 espaços--] |
+    //Exemplo de linha: | [--conteudo aqui 30 espaços--] |
     //Exemplo de linha: | Processador: Intel Core i7     |
     //Exemplo de linha: | Valor de Compra: 540.00        |
 
-    int index, indexDamages, idDigits, priceDigitis, dayDigits, monthDigits, ramDigits, damagesDigits;
-    char firstSplitedStr[MAX_SPLIT_STRING] = {'\0'}, secondSplitedStr[MAX_SPLIT_STRING] = {'\0'}, thirdSplitedStr[MAX_SPLIT_STRING] = {'\0'};
+    int index, indexRequests;
+    char extraText[19] = "Nome do Portatil: ";
 
     for (index = 0; index<totalLaptops; index++)
     {
-
-        getNumOfDigits(&priceDigitis,   (int)laptop[index].price);
-        getNumOfDigits(&idDigits,   laptop[index].id);
-        getNumOfDigits(&ramDigits,  laptop[index].ram);
-        getNumOfDigits(&damagesDigits, laptop[index].damagesCounterTotal);
-
-
-        getNumOfDigits(&dayDigits,  laptop[index].purchaseDate.day);
-        getNumOfDigits(&monthDigits,    laptop[index].purchaseDate.month);
-
         printf("         ________________________________\n");
-        switch (idDigits)
-        {
-
-        case 1:
-            printf("        (_________PORTATIL ID#%d__________)\n",laptop[index].id);
-            break;
-        case 2:
-            printf("        (_________PORTATIL ID#%d_________)\n",laptop[index].id);
-            break;
-        case 3:
-            printf("        (________PORTATIL ID#%d_________)\n",laptop[index].id);
-            break;
-        case 4:
-            printf("        (________PORTATIL ID#%d________)\n",laptop[index].id);
-            break;
-        }
+        drawLaptopIdInfoWindow(laptop[index].id);
         printf("        |                                |\n");
-
-        if (strlen(laptop[index].name) < 13)
-        {
-            printf("        | Nome do portatil: %s",laptop[index].name);
-            alignMargin(strlen(laptop[index].name),12);
-        }
-
-        if (strlen(laptop[index].name) < 43 && strlen(laptop[index].name) >= 13)
-        {
-            splitString(12,laptop[index].name,firstSplitedStr,secondSplitedStr);
-
-            printf("        | Nome do portatil: %s",firstSplitedStr);
-            alignMargin(strlen(firstSplitedStr),12);
-
-            printf("        | %s",secondSplitedStr);
-            alignMargin(strlen(secondSplitedStr),MAX_SPACES_INFO_WINDOW);
-
-        }
-
-        if (strlen(laptop[index].name) < 51 && strlen(laptop[index].name) >= 43)
-        {
-            splitString(12,laptop[index].name,firstSplitedStr,secondSplitedStr);
-            splitString(MAX_SPACES_INFO_WINDOW,secondSplitedStr,secondSplitedStr,thirdSplitedStr);
-
-
-            printf("        | Nome do portatil: %s",firstSplitedStr);
-            alignMargin(strlen(firstSplitedStr),12);
-
-            printf("        | %s",secondSplitedStr);
-            alignMargin(strlen(secondSplitedStr),MAX_SPACES_INFO_WINDOW);
-
-            printf("        | %s",thirdSplitedStr);
-            alignMargin(strlen(thirdSplitedStr),MAX_SPACES_INFO_WINDOW);
-
-        }
-
+        drawNameInfoWindow(extraText,laptop[index].name);
         printf("        |                                |\n");
-
-        if (laptop[index].state == AVAILABLE)
+        drawLaptopStateInfoWindow(laptop[index].state);
+        drawLaptopLocationInfoWindow(laptop[index].location);
+        drawLaptopTotalDamagesInfoWindow(laptop[index].damagesCounterTotal);
+        drawLaptopTotalRequestsInfoWindow(laptop[index].requestsCounter);
+        printf("        |                                |\n");
+        printf("        | --------Especificacoes-------- |\n");
+        drawLaptopProcessorInfoWindow(laptop[index].processor);
+        drawLaptopRamInfoWindow(laptop[index].ram);
+        printf("        | ------------------------------ |\n");
+        drawLaptopPriceInfoWindow(laptop[index].price);
+        drawLaptopPurchaseDateInfoWindow(laptop[index].purchaseDate);
+        printf("        |                                |\n");
+        printf("        | -->Historico de Requisicoes<-- |\n");
+        if (laptop[index].requestsCounter > 0)
         {
-            printf("        | Estado: Disponivel");
-            alignMargin(0,MAX_SPACES_INFO_WINDOW-18);
+            for (indexRequests=totalRequests-1; indexRequests>=0; indexRequests--)
+            {
+                if (request[indexRequests].laptopIndex == index){
+                  printf("        |                                |\n");
+                  drawRequestApplicantTypeInfoWindow(request[indexRequests].applicantType);
+                  drawRequestDurationInfoWindow(request[indexRequests].duration);
+                }
+            }
         }
         else
         {
-            printf("        | Estado: Indisponivel");
-            alignMargin(0,MAX_SPACES_INFO_WINDOW-20);
-
+            printf("        |                                |\n");
+            printf("        | O portatil nao possui          |\n");
+            printf("        | requisicoes registadas ainda.  |\n");
         }
-        switch(laptop[index].location)
-        {
-        case RESIDENCES:
-            printf("        | Localizacao Atual: Residencias |\n");
-            break;
-        case CAMPUS_1:
-            printf("        | Localizacao Atual: Campus1");
-            alignMargin(0,MAX_SPACES_INFO_WINDOW-26);
-            break;
-        case CAMPUS_2:
-            printf("        | Localizacao Atual: Campus2");
-            alignMargin(0,MAX_SPACES_INFO_WINDOW-26);
-            break;
-        case CAMPUS_3:
-            printf("        | Localizacao Atual: Campus3");
-            alignMargin(0,MAX_SPACES_INFO_WINDOW-26);
-            break;
-        case CAMPUS_5:
-            printf("        | Localizacao Atual: Campus5");
-            alignMargin(0,MAX_SPACES_INFO_WINDOW-26);
-            break;
+        printf("        |________________________________|\n\n");
 
-        }
+    }
+}
 
-        printf("        | Quantidade de avarias: %d", laptop[index].damagesCounterTotal);
-        alignMargin(damagesDigits,MAX_SPACES_INFO_WINDOW-23);
+void showDamageHistoric(LaptopType laptop[MAX_LAPTOPS],int totalLaptops)
+{
+
+    int index, indexDamages;
+    char extraText[19] = "Nome do Portatil: ";
+
+    for (index = 0; index<totalLaptops; index++)
+    {
+        printf("         ________________________________\n");
+        drawLaptopIdInfoWindow(laptop[index].id);
         printf("        |                                |\n");
-
+        drawNameInfoWindow(extraText,laptop[index].name);
+        printf("        |                                |\n");
+        drawLaptopStateInfoWindow(laptop[index].state);
+        drawLaptopLocationInfoWindow(laptop[index].location);
+        drawLaptopTotalDamagesInfoWindow(laptop[index].damagesCounterTotal);
+        drawLaptopTotalRequestsInfoWindow(laptop[index].requestsCounter);
+        printf("        |                                |\n");
         printf("        | --------Especificacoes-------- |\n");
-        printf("        | Processador: Intel Core i%d     |\n",laptop[index].processor);
-
-        printf("        | Memoria RAM: %d GB",laptop[index].ram);
-        alignMargin(ramDigits,MAX_SPACES_INFO_WINDOW-16);
+        drawLaptopProcessorInfoWindow(laptop[index].processor);
+        drawLaptopRamInfoWindow(laptop[index].ram);
         printf("        | ------------------------------ |\n");
-
-        printf("        | Valor de Compra: %.2f euros",laptop[index].price);
-        alignMargin(priceDigitis,MAX_SPACES_INFO_WINDOW-26);
-
-        printf("        | Data de Compra: ");
-        showDate(laptop[index].purchaseDate);
-        alignMargin(0,MAX_SPACES_INFO_WINDOW-26);
+        drawLaptopPriceInfoWindow(laptop[index].price);
+        drawLaptopPurchaseDateInfoWindow(laptop[index].purchaseDate);
+        printf("        |                                |\n");
+        printf("        | ---> Historico de Avarias <--- |\n");
 
         if (laptop[index].damagesCounterTotal > 0)
         {
-            printf("        |                                |\n");
-            printf("        | ---> Historico de Avarias <--- |\n");
             for (indexDamages=laptop[index].damagesCounterTotal - 1; indexDamages>=0; indexDamages--)
             {
-
                 printf("        |                                |\n");
-                getNumOfDigits(&dayDigits,  laptop[index].damagesList[indexDamages].date.day);
-                getNumOfDigits(&monthDigits,    laptop[index].damagesList[indexDamages].date.month);
                 printf("        | [");
                 showDate(laptop[index].damagesList[indexDamages].date);
                 printf("] ");
 
                 writeDamageCode(laptop[index].damagesList[indexDamages].code,MAX_SPACES_INFO_WINDOW);
 
+                drawLaptopDamageTypeInfoWindow(laptop[index].damagesList[indexDamages].type);
 
-                if (laptop[index].damagesList[indexDamages].type == TEMPORARY && laptop[index].damagesList[indexDamages].state == ACTIVE)
-                {
-                    printf("        | ->Avaria Temporaria<-");
-                    alignMargin(0,MAX_SPACES_INFO_WINDOW-21);
-                }
-                if (laptop[index].damagesList[indexDamages].type == TEMPORARY && laptop[index].damagesList[indexDamages].state == COMPLETED)
-                {
-                    printf("        | ->Avaria Arranjada<-");
-                    alignMargin(0,MAX_SPACES_INFO_WINDOW-20);
-                }
-                if (laptop[index].damagesList[indexDamages].type == PERMANET)
-                {
-                    printf("        | ->Avaria Permanente<-");
-                    alignMargin(0,MAX_SPACES_INFO_WINDOW-21);
-                }
-
-
-
-
-                getNumOfDigits(&dayDigits,laptop[index].damagesList[indexDamages].duration);
-
-                if (laptop[index].damagesList[indexDamages].state == COMPLETED)
-                {
-                    printf("        | Avariado por %d dias",laptop[index].damagesList[indexDamages].duration);
-                    alignMargin(dayDigits,MAX_SPACES_INFO_WINDOW-18);
-                }
-                if (laptop[index].damagesList[indexDamages].state == ACTIVE && laptop[index].damagesList[indexDamages].type == TEMPORARY)
-                {
-                    printf("        | Avaria ainda por arranjar...");
-                    alignMargin(0,MAX_SPACES_INFO_WINDOW-28);
-                }
-                if (laptop[index].damagesList[indexDamages].type == PERMANET)
-                {
-                    printf("        | Avaria impossivel de arranjar");
-                    alignMargin(0,MAX_SPACES_INFO_WINDOW-29);
-                }
-
-
+                drawLaptopDamageDescInfoWindow(laptop[index].damagesList, indexDamages);
             }
-
+        }
+        else
+        {
+          printf("        |                                |\n");
+          printf("        | O portatil nao possui avarias  |\n");
+          printf("        | registadas ainda.              |\n");
         }
 
-        printf("        |________________________________|\n\n");
+          printf("        |________________________________|\n\n");
 
     }
+
 }
 
 void writeDamageCode(int code, int windowSize)
@@ -673,10 +577,18 @@ DamageType *addDamageRepairInfo(DamageType damageRepairInfo, LaptopType laptop[M
         }
         else
         {
+            if (damageRepairInfo.type == PERMANET){
+                laptop[laptopIndex].state = BROKEN_PERMANENT;
+            }
             if (damageRepairInfo.type == TEMPORARY)
             {
                 laptop[laptopIndex].damagesCounterActive++;
                 damageRepairInfo.state = ACTIVE;
+                if (laptop[laptopIndex].state != BROKEN_PERMANENT)
+                {
+                    laptop[laptopIndex].state = BROKEN_TEMPORARY;
+                }
+
             }
             laptop[laptopIndex].damagesList[laptop[laptopIndex].damagesCounterTotal] = damageRepairInfo;
             (laptop[laptopIndex].damagesCounterTotal)++;
@@ -695,9 +607,12 @@ int *removeTemporaryDamage(int *damageIndexList,int sizeDamageIndexList, int ind
         damageIndexList[index] = damageIndexList[index + 1];
     }
     sizeDamageIndexList--;
-    if (sizeDamageIndexList > 0){
+    if (sizeDamageIndexList > 0)
+    {
         damageIndexList = realloc(damageIndexList, (sizeDamageIndexList)*sizeof(int));
-    }else{
+    }
+    else
+    {
         damageIndexList = NULL;
     }
 

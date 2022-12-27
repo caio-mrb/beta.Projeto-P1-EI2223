@@ -4,13 +4,10 @@
 #include <stdio.h>
 
 #include "funcoesDeData.h"
-
 #include "constantes.h"
-
 
 typedef struct Damages
 {
-
     int code;
     int state;
     int type;
@@ -29,11 +26,14 @@ typedef struct Laptops
     int location;
     int state;
     int requestsCounter;
+    int daysRequestedCounter;
     DamageType *damagesList;
     int damagesCounterTotal;
     int damagesCounterActive;
     DateType purchaseDate;
 } LaptopType;
+
+#include "funcoesDeRequisicoes.h"
 
 void searchEqualLapId(int *result, LaptopType laptop[MAX_LAPTOPS],int totalLaptops, int numToComp);
 int *searchTemporaryDamagesIndex(int *sizeDamageIndex, LaptopType laptop[MAX_LAPTOPS], int laptopId);
@@ -43,7 +43,7 @@ void readLapId(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
 void readLapProcessor(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
 void readLapRam(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
 void readLapPrice(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
-void readLapLocation(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
+void readLapLocation(LaptopType laptop[MAX_LAPTOPS],int laptopIndex,int *cancel);
 void readLapPurchaseDate(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
 
 
@@ -52,7 +52,8 @@ void readDamageInfoType(int index, int numOfDamages, DamageType *damageInfo, int
 void readDamageInfoDate(int index, int numOfDamages, DamageType *damageInfo, int *cancel);
 
 int *changeLapLocationTo(int locationNum,LaptopType laptop[MAX_LAPTOPS],int laptopIndex);
-void showLaptopInfo(LaptopType laptop[MAX_LAPTOPS],int totalLaptops);
+void showLaptopInfo(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,RequestType *request,int totalRequests);
+void showDamageHistoric(LaptopType laptop[MAX_LAPTOPS],int totalLaptops);
 void writeDamageCode(int code, int windowSize);
 DamageType *addDamageRepairInfo(DamageType damageRepairInfo, LaptopType laptop[MAX_LAPTOPS],int laptopIndex, int *cancel);
 int *removeTemporaryDamage(int *damageIndexList,int sizeDamageIndexList, int indexPosition);

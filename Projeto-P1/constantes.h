@@ -2,24 +2,20 @@
 #define CONSTANTES_H
 
 #define MAX_LAPTOPS 30
-#define MAX_REQUESTS 30
 
 #define MAX_DAMAGE_DAYS 9999
 
 #define MAX_ID 9999
 
-#define MAX_LOAD_INFO 4
+#define MAX_OPTION_CHAR 10
 
 #define MAX_NAME_CHAR 51
-#define MAX_NAME_APPLICANT_TYPE 25
-#define MAX_NAME_REQUEST_STATE 10
-#define MAX_NAME_LOCATION 12
 
 #define MAX_READ_MESSAGE_SIZE 70
 
 #define MAX_SPLIT_STRING 40
 
-#define MAX_CODE_CHAR 20
+#define MAX_CODE_CHAR 21
 
 #define LINES_CLEAR_SCREEN 28
 
@@ -47,7 +43,9 @@
 //For Laptops
 
 #define AVAILABLE 1
-#define UNAVAILABLE 2
+#define REQUESTED 2
+#define BROKEN_TEMPORARY 3
+#define BROKEN_PERMANENT 4
 
 
 #define RESIDENCES 1

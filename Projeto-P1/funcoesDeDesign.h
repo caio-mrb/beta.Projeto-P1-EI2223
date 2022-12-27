@@ -2,7 +2,6 @@
 #define FUNCOESDEDESIGN_H
 
 #include "funcoesDeDados.h"
-#include "constantes.h"
 
 /** Este ficheiro engloba todas as funções  *
   * relacionadas a design de alguma maneira *
@@ -38,6 +37,11 @@ void drawLaptopMenu(void);
   *Como usar:                                                                 *
   *-> Adicionar uma função de leitura para receber a informação do utilizador **/
 
+void drawInfoMenu(void);
+/**Função para desenhar o menu das informações dos portateis no ecrã          *
+  *Como usar:                                                                 *
+  *-> Adicionar uma função de leitura para receber a informação do utilizador **/
+
 void drawLaptopDamagesSubMenu(int laptopId);
 /**Função para desenhar o menu das avarias/reaparações no ecrã                *
   *Como usar:                                                                 *
@@ -48,6 +52,32 @@ void drawConfirmExit(void);
   *Como usar:                                                                 *
   *-> Adicionar uma função de leitura para receber a informação do utilizador **/
 
+
+//Funções de mostrar informações
+
+void drawLaptopIdInfoWindow(int laptopId);
+void drawNameInfoWindow(char *extraText,char *laptopName);
+void drawLaptopStateInfoWindow(int laptopState);
+void drawLaptopLocationInfoWindow(int laptopLocation);
+void drawLaptopTotalDamagesInfoWindow(int damagesTotal);
+void drawLaptopRamInfoWindow(int laptopRam);
+void drawLaptopPurchaseDateInfoWindow(DateType purchaseDate);
+void drawLaptopDamageTypeInfoWindow(int damageType);
+void drawLaptopDamageDescInfoWindow(DamageType *damagesList,int indexDamage);
+void drawLaptopProcessorInfoWindow(int laptopProcessor);
+void drawLaptopPriceInfoWindow(float laptopPrice);
+void drawLaptopTotalRequestsInfoWindow(int requestTotal);
+
+void drawRequestDelayFeeInfoWindow(int delayFee);
+void drawRequestTotalDurationInfoWindow(int durationTotal);
+void drawRequestLocationInfoWindow(int returnLocation);
+void drawRequestStateInfoWindow(int requestState);
+void drawLaptopDaysRequested(int daysRequested);
+void drawRequestLaptopIdInfoWindow(int laptopId);
+void drawRequestApplicantTypeInfoWindow(int applicantType);
+void drawRequestDurationInfoWindow(int duration);
+
+
 //Alertas
 
 void drawMaxLaptopsReachAlert(void);
@@ -55,6 +85,17 @@ void drawMaxLaptopsReachAlert(void);
 
 void drawLaptopsNotFound(void);
 /**Função para desenhar o aviso que não foram encontrados portateis no sistema**/
+
+void drawAllReturnSucessful(void);
+void drawLaptopsUnavailable(void);
+void drawAllRepairSucessful(void);
+void drawActiveRequestsNotFound(void);
+void drawReturnDelayFeeAlert(int delayFee);
+void drawLaptopSelectedInfo(int laptopIndex, LaptopType laptop[MAX_LAPTOPS]);
+
+
+void drawRequestsNotFound(void);
+/**Função para desenhar o aviso que não foram encontradas requisições no sistema**/
 
 void drawAddLaptopCancel(int numOfLaptops);
 /**Função para desenhar o aviso que o utilizador interrompeu a adição de novos portateis com                        *
@@ -67,6 +108,12 @@ void drawDamageCancel(int numOfDamages);
   *portatil com a informação "total de avarias adicionados antes do cancelamento"                                 *
   *Como usar:                                                                                                     *
   *-> Criar uma variável que armazene o numero de avarias adicionados a medida que o utilizador introduz os dados **/
+
+void drawRequestCancel(int numOfRequests);
+
+void drawReturnCancel(int numOfReturns);
+
+void drawRenewCancel(int numOfRenews);
 
 void drawDamagensNoneActive(int laptopId);
 /**Função para desenhar o aviso que o utilizador interrompeu a adição de novas avarias ao                         *
@@ -82,6 +129,12 @@ void drawLaptopInfoAsk(int index, int totalLaptops);
   *Como usar:                                                                            *
   *-> Criar um ciclo que re-execute a função o numero de vezes inserido pelo utilizador  *
   *-> Armazenar a posição do ciclo em "portatil atual a ser adicionado"                  **/
+
+void drawRequestInfoAsk(int index,int numOfRequests);
+
+void drawReturnInfoAsk(int index, int numOfReturns);
+
+void drawRenewInfoAsk(int index, int numOfRenews);
 
 void drawLaptopIdToMove(void);
 /**Função para desenhar a mensagem sobre pedir os dados do portatil a adicionar          *
@@ -121,6 +174,10 @@ void clearScreen(void);
 
 void enterToContinue(void);
 /**Função para aguardar o input do utilizador antes de continuar**/
+
+void drawPercentageBar(float percentage);
+
+void centerTittle(char *extraText, char *tittle, int windowSize);
 
 void alignMargin(int contentSize, int totalSpaces);
 /**Função para alinhar a margem da janela simulada de acordo com o                                                        *

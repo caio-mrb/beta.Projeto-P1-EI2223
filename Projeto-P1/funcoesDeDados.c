@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <string.h>
+#include <ctype.h>
 
 
 
@@ -78,7 +79,7 @@ void readDate(char *message, DateType *date)
 
         if (day != 0)
         {
-            if (year >= 1000 && year <= 9999)
+            if (year >= 1900 && year <= 3500)
             {
 
                 if (month>=1 && month<=12)
@@ -128,13 +129,13 @@ void readDate(char *message, DateType *date)
                 }
                 if ((month<1 || month>12) && control == 3)
                 {
-                    printf("        Mes invalido!\n");
+                    printf("        Mes invalido, valido (1-12)!\n");
                 }
 
             }
             if ((year < 1900 || year > 3500) && control == 3)
             {
-                printf("        Ano invalido!\n");
+                printf("        Ano invalido, valido (1900-3500)\n");
             }
 
         }
@@ -168,9 +169,9 @@ void readString(char *message,char *string, int maxStringSize)
     do
     {
         invalidChar = FALSE_0;
-        printf("        %s: ",message);
+        printf("        %s (letras e numeros): ",message);
         fgets(string, maxStringSize, stdin);
-        removeExtraSpaces(string);
+        removeSpecificChar(string,' ');
         stringSize = strlen(string);
         if (stringSize == 1)
         {
@@ -194,9 +195,9 @@ void readString(char *message,char *string, int maxStringSize)
         }
     }
     while (stringSize == 1 || invalidChar == TRUE_1);
-    if (string[stringSize-1] != '\n') // não foram armazenados no vetor todos os caracteres
+    if (string[stringSize-1] != '\n')
     {
-        flushStdin(); // elimina caracteres que ficaram no buffer stdin
+        flushStdin();
     }
     else
     {
@@ -211,11 +212,12 @@ void readStringOnlyLetters(char *message,char *string, int maxStringSize)
     do
     {
         invalidChar = FALSE_0;
-        printf("        %s: ",message);
+        printf("        %s (apenas letras): ",message);
         fgets(string, maxStringSize, stdin);
-        if(string[0] != '0')
+        removeSpecificChar(string,' ');
+        if(strcmp(string,"0")!=0)
         {
-            removeExtraSpacesAndZeros(string);
+            removeSpecificChar(string,'0');
         }
         stringSize = strlen(string);
         if (stringSize == 1)
@@ -240,9 +242,9 @@ void readStringOnlyLetters(char *message,char *string, int maxStringSize)
         }
     }
     while (stringSize == 1 || invalidChar == TRUE_1);
-    if (string[stringSize-1] != '\n') // não foram armazenados no vetor todos os caracteres
+    if (string[stringSize-1] != '\n')
     {
-        flushStdin(); // elimina caracteres que ficaram no buffer stdin
+        flushStdin();
     }
     else
     {
@@ -252,177 +254,38 @@ void readStringOnlyLetters(char *message,char *string, int maxStringSize)
 
 }
 
-/*void removeExtraSpacesAndZeros(char string[MAX_NAME_CHAR], int stringSize)
-{
-    int index = 0, index2 = 0, wordsCounter = 0, *firstChar = NULL,fCharIndex=-1, *lastChar = NULL, lCharIndex=-1, posInString = 0;
-
-    for (index = 0; index<stringSize; index++)
-    {
-
-        if ((string[index] != ' ' && string[index] != '0' && string[index] != '\0') && (index == 0 || (index > 0 && (string[index - 1] == ' ' || string[index - 1] == '0'))))  //first char
-        {
-            fCharIndex++;
-            firstChar = realloc(firstChar,(fCharIndex + 1)*sizeof(int));
-            firstChar[fCharIndex] = index;
-
-        }
-
-        if (string[index] != ' ' && string[index] != '0' && (string[index + 1] == ' ' || string[index + 1] == '0' || string[index + 1] == '\0') && index<stringSize-1)  //lastchar
-        {
-            lCharIndex++;
-            lastChar = realloc(lastChar,(lCharIndex + 1)*sizeof(int));
-            lastChar[lCharIndex] = index;
-        }
-    }
-
-    for (index = 0; index<=fCharIndex;index++){
-
-        for (index2 = 0; index2<(lastChar[index]-firstChar[index]+1);index2++){
-            string[index2 + posInString] = string[index2+firstChar[index]];
-        }
-        string[index2 + posInString] = '@';
-        posInString += index2 + 1;
-    }
-    stringSize = 0;
-
-    for (index = 0; index<=fCharIndex;index++){
-        stringSize += lastChar[index]-firstChar[index]+1;
-    }
-    stringSize += fCharIndex+1;
-    string[stringSize - 1] = '\0';
-
-    free(firstChar);
-    free(lastChar);
-}*/
-
-void removeExtraSpaces(char *string)
+void removeSpecificChar(char *stringToEdit,char charToRemove)
 {
 
     int index, stringSize, stringOffset = 0;
 
-    stringSize = strlen(string) + 1;
+    stringSize = strlen(stringToEdit);
 
     for (index=0; index<stringSize; index++)
     {
 
-        if (string[index] != ' ' && string[index + 1] != ' ')
+        if (stringToEdit[index] != charToRemove && stringToEdit[index + 1] != ' ')
         {
 
-            string[index-stringOffset] = string[index];
+            stringToEdit[index-stringOffset] = stringToEdit[index];
 
             stringOffset--;
         }
 
-        if (string[index] != ' ' && (string[index + 1] == ' ' || string[index + 1] == '\0'))
+        if (stringToEdit[index] != charToRemove && (stringToEdit[index + 1] == ' ' || stringToEdit[index + 1] == '\0'))
         {
-
-            string[index-stringOffset] = string[index];
+            stringToEdit[index-stringOffset] = stringToEdit[index];
             index++;
-            string[index-stringOffset] = string[index];
+            stringToEdit[index-stringOffset] = stringToEdit[index];
             stringOffset--;
-
         }
-
         stringOffset++;
     }
-
-    string[stringSize - stringOffset - 2] = '\0';
-    stringSize = strlen(string) + 1;
-
-}
-
-
-void removeExtraSpacesAndZeros(char *string)
-{
-
-    int index, stringSize, stringOffset = 0;
-
-    stringSize = strlen(string) + 1;
-
-    for (index=0; index<stringSize; index++)
+    stringToEdit[stringSize - stringOffset - 1] = '\0';
+    if (stringToEdit[stringSize - stringOffset - 3] == ' ')
     {
-
-        if (string[index] != ' ' && string[index] != '0' && string[index + 1] != ' ')
-        {
-
-            string[index-stringOffset] = string[index];
-
-            stringOffset--;
-        }
-
-        if (string[index] != ' ' && string[index] != '0' && (string[index + 1] == ' ' || string[index + 1] == '\0'))
-        {
-
-            string[index-stringOffset] = string[index];
-            index++;
-            string[index-stringOffset] = string[index];
-            stringOffset--;
-
-        }
-
-        stringOffset++;
-    }
-
-    string[stringSize - stringOffset - 2] = '\0';
-    stringSize = strlen(string) + 1;
-
-}
-
-
-
-void getApplicantTypeName(int typeNum, char stringApplicantType[MAX_NAME_APPLICANT_TYPE])
-{
-
-    if (typeNum == STUDENT)
-    {
-        strcpy(stringApplicantType,"Estudante");
-    }
-    if (typeNum == TEACHER)
-    {
-        strcpy(stringApplicantType,"Docente");
-    }
-    if (typeNum == ADMIN_TECH)
-    {
-        strcpy(stringApplicantType,"Técnico Administrativo");
-    }
-
-}
-
-void getLocationName(int locationNum, char stringLocation[MAX_NAME_LOCATION])
-{
-    if (locationNum == RESIDENCES)
-    {
-        strcpy(stringLocation,"Residencias");
-    }
-    if (locationNum == CAMPUS_1)
-    {
-        strcpy(stringLocation,"Campus1");
-    }
-    if (locationNum == CAMPUS_2)
-    {
-        strcpy(stringLocation,"Campus2");
-    }
-    if (locationNum == CAMPUS_3)
-    {
-        strcpy(stringLocation,"Campus3");
-    }
-    if (locationNum == CAMPUS_5)
-    {
-        strcpy(stringLocation,"Campus5");
-    }
-
-}
-
-void getRequestStateName(int stateNum, char stringRequestState[MAX_NAME_REQUEST_STATE])
-{
-
-    if (stateNum == ACTIVE)
-    {
-        strcpy(stringRequestState,"Ativa");
-    }
-    if (stateNum == COMPLETED)
-    {
-        strcpy(stringRequestState,"Concluída");
+        stringToEdit[stringSize - stringOffset - 2] = '\0';
+        stringToEdit[stringSize - stringOffset - 3] = '\n';
     }
 
 }
@@ -451,12 +314,26 @@ void numActiveRequests(int *result, RequestType *request,int totalRequests)
 
     for (index=0; index<totalRequests; index++)
     {
-        if (request[index].state == AVAILABLE)
+        if (request[index].state == ACTIVE)
         {
             (*result)++;
         }
     }
+}
 
+void numCompletedRequests(int *result, RequestType *request,int totalRequests)
+{
+
+    int index;
+    *result = 0;
+
+    for (index=0; index<totalRequests; index++)
+    {
+        if (request[index].state == COMPLETED)
+        {
+            (*result)++;
+        }
+    }
 }
 
 void splitString(int splitPoint, char *enterStr, char firstReturnStr[MAX_SPLIT_STRING], char secondReturnStr[MAX_SPLIT_STRING])
@@ -466,11 +343,9 @@ void splitString(int splitPoint, char *enterStr, char firstReturnStr[MAX_SPLIT_S
 
     sizeEnterStr = strlen(enterStr);
 
-    //printf("\nSize: %d\n\n",sizeEnterStr);
-
     for (index = 0; index<sizeEnterStr; index++)
     {
-        if (enterStr[index] == ' ' && index >= splitPoint - 4)
+        if (enterStr[index] == ' ' && index >= splitPoint - 2 && index <= splitPoint)
         {
             spacePos = index;
             index = sizeEnterStr;
@@ -525,12 +400,304 @@ void getNumOfDigits(int *result, int numToCountDigits)
     while((int)index > 0);
 }
 
+void toupperString(char *result, char *stringToUp)
+{
+    int index, stringSize;
+    stringSize = strlen(stringToUp);
+    for(index = 0; index<stringSize; index++)
+    {
+        result[index] = toupper(stringToUp[index]);
+    }
+}
+
+void showStatistics(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,RequestType *request,int totalRequests)
+{
+    char tittle[14];
+
+    strcpy(tittle,"MULTAS");
+
+    printf("                ________________________________________\n");
+    printf("               ");
+    centerTittle(tittle,"\0",38);
+    printf("               |                                        |\n");
+    if(totalRequests > 0)
+    {
+        float avarageDelayFees;
+        avarageFees(&avarageDelayFees,request,totalRequests);
+        if((int)avarageDelayFees>0)
+        {
+            int higherDelayFee, lowerDelayFee;
+            higherFee(&higherDelayFee,request,totalRequests);
+            lowerFee(&lowerDelayFee,request,totalRequests);
+
+            int lowerDigits, higherDigits, avarageDigits;
+            getNumOfDigits(&lowerDigits,lowerDelayFee);
+            getNumOfDigits(&higherDigits,higherDelayFee);
+            getNumOfDigits(&avarageDigits,(int)avarageDelayFees);
+
+            printf("               | O custo medio de cada multa paga       |\n");
+            printf("               | foi %.2f euros.",avarageDelayFees);
+            alignMargin(avarageDigits,24);
+            printf("               | A maior multa foi de %d euros.",higherDelayFee);
+            alignMargin(higherDigits,10);
+            printf("               | A menor multa foi de %d euros.",lowerDelayFee);
+            alignMargin(lowerDigits,10);
+        }
+        else
+        {
+            printf("               |       Ainda nao existem multas.        |\n");
+        }
+    }
+    else
+    {
+        printf("               |     Ainda nao existem requisicoes.     |\n");
+    }
+
+    printf("               |________________________________________|\n\n");
+
+
+    float percentageI3, percentageI5, percentageI7;
+    percentageProcessor(&percentageI3,laptop,totalLaptops,INTEL_I3);
+    percentageProcessor(&percentageI5,laptop,totalLaptops,INTEL_I5);
+    percentageProcessor(&percentageI7,laptop,totalLaptops,INTEL_I7);
+
+    int i3Digits, i5Digits, i7Digits;
+    getNumOfDigits(&i3Digits,(int)percentageI3);
+    getNumOfDigits(&i5Digits,(int)percentageI5);
+    getNumOfDigits(&i7Digits,(int)percentageI7);
+
+    strcpy(tittle,"PROCESSADORES");
+
+    printf("             ______________________________________________\n");
+    printf("            ");
+    centerTittle(tittle,"\0",44);
+    printf("            |                                              |\n");
+    printf("            | Percentagem de processadores por portatil.   |\n");
+    printf("            | ");
+    drawPercentageBar(percentageI3);
+    printf(" Intel Core i3");
+    alignMargin(i3Digits,3);
+    printf("            | ");
+    drawPercentageBar(percentageI5);
+    printf(" Intel Core i5");
+    alignMargin(i5Digits,3);
+    printf("            | ");
+    drawPercentageBar(percentageI7);
+    printf(" Intel Core i7");
+    alignMargin(i7Digits,3);
+    printf("            |______________________________________________|\n\n");
+
+
+    strcpy(tittle,"UTENTES");
+    printf("         _______________________________________________________\n");
+    printf("        ");
+    centerTittle(tittle,"\0",53);
+    printf("        |                                                       |\n");
+    if(totalRequests > 0)
+    {
+        float percentageStudent, percentageTeacher, percentageAdminTech;
+        percentageApplicant(&percentageStudent,request,totalRequests,STUDENT);
+        percentageApplicant(&percentageTeacher,request,totalRequests,TEACHER);
+        percentageApplicant(&percentageAdminTech,request,totalRequests,ADMIN_TECH);
+
+        int studentDigits, teacherDigits, adminTechDigits;
+        getNumOfDigits(&studentDigits,(int)percentageStudent);
+        getNumOfDigits(&teacherDigits,(int)percentageTeacher);
+        getNumOfDigits(&adminTechDigits,(int)percentageAdminTech);
+
+        int numOfSpaces = 0;
+
+        printf("        | Percentagem de requisicoes por tipo de utente.        |\n");
+        printf("        | ");
+        drawPercentageBar(percentageStudent);
+        printf(" Estudante");
+        alignMargin(studentDigits,16);
+        printf("        | ");
+        drawPercentageBar(percentageTeacher);
+        printf(" Docente");
+        alignMargin(teacherDigits,18);
+        printf("        | ");
+        drawPercentageBar(percentageAdminTech);
+        printf(" Tecnico Administrativo");
+        alignMargin(adminTechDigits,3);
+
+        printf("        |                                                       |\n");
+        printf("        | Utente(s) com a menor quantidade de requisicoes:      |\n");
+        printf("        | ");
+        if((int)percentageStudent <= (int)percentageTeacher && (int)percentageStudent <= (int)percentageAdminTech)
+        {
+            printf("->Estudante ");
+            numOfSpaces += 12;
+        }
+        if((int)percentageTeacher <= (int)percentageStudent && (int)percentageTeacher <= (int)percentageAdminTech)
+        {
+            printf("->Docente ");
+            numOfSpaces += 10;
+        }
+        if((int)percentageAdminTech <= (int)percentageTeacher && (int)percentageAdminTech <= (int)percentageStudent)
+        {
+            printf("->Tecnico Administrativo ");
+            numOfSpaces += 25;
+        }
+        alignMargin(numOfSpaces,53);
+    }
+    else
+    {
+        printf("        |            Ainda nao existem requisicoes.             |\n");
+    }
+
+    printf("        |_______________________________________________________|\n\n");
+
+    strcpy(tittle,"DEVOLUCOES");
+
+    printf("         ________________________________\n");
+    printf("        ");
+    centerTittle(tittle,"\0",30);
+    printf("        |                                |\n");
+    if(totalRequests > 0)
+    {
+        int completedRequests;
+        numCompletedRequests(&completedRequests,request,totalRequests);
+        if (completedRequests > 0)
+        {
+
+
+            if(completedRequests > 3)
+            {
+                completedRequests = 3;
+            }
+
+
+            if (completedRequests == 1)
+            {
+                printf("        | Devolucao mais recente:        |\n");
+            }
+            else
+            {
+                printf("        | Devolucoes mais recentes:      |\n");
+            }
+
+            printf("        | (mais recente primeiro)        |\n");
+            showRecentCompletedRequests(completedRequests,request,totalRequests);
+        }
+        else
+        {
+            printf("        | Ainda nao existem devolucoes.  |\n");
+        }
+    }
+    else
+    {
+        printf("        | Ainda nao existem requisicoes. |\n");
+    }
+    printf("        |________________________________|\n\n");
+}
+
+void showRecentCompletedRequests(int numOfRequests,RequestType *request, int totalRequests)
+{
+    int index;
+    char extraNameText[23];
+    for(index=totalRequests-1; index>=0; index--)
+    {
+        if(request[index].state==COMPLETED)
+        {
+            printf("        |                                |\n");
+            printf("        | --------------[%d]------------- |\n",4-numOfRequests);
+            strcpy(extraNameText,"Codigo da Requisicao: ");
+            drawNameInfoWindow(extraNameText,request[index].code);
+            strcpy(extraNameText,"Nome do Utente: ");
+            drawNameInfoWindow(extraNameText,request[index].applicantName);
+            drawRequestDurationInfoWindow(request[index].duration);
+            drawRequestTotalDurationInfoWindow(request[index].durationTotal);
+            numOfRequests--;
+        }
+        if(numOfRequests == 0)
+        {
+            index = -1;
+        }
+    }
+}
+
+void lowerFee(int *lower, RequestType *request,int totalRequests)
+{
+    int index;
+
+    *lower = request[0].delayFee;
+
+    for (index=0; index<totalRequests; index++)
+    {
+        if(request[index].delayFee < *lower && request[index].delayFee > 0 && request[index].state == COMPLETED)
+        {
+            *lower = request[index].delayFee;
+        }
+    }
+}
+
+void higherFee(int *higher, RequestType *request,int totalRequests)
+{
+    int index;
+
+    *higher = request[0].delayFee;
+
+    for (index=0; index<totalRequests; index++)
+    {
+        if(request[index].delayFee > *higher && request[index].state == COMPLETED)
+        {
+            *higher = request[index].delayFee;
+        }
+    }
+}
+
+void avarageFees(float *avarage,RequestType *request,int totalRequests)
+{
+    int index, feeCounter = 0, totalFee = 0;
+    *avarage = 0;
+    for (index=0; index<totalRequests; index++)
+    {
+        if(request[index].delayFee > 0 && request[index].state == COMPLETED)
+        {
+            feeCounter++;
+            totalFee += request[index].delayFee;
+        }
+    }
+    if(feeCounter != 0)
+    {
+        *avarage = (float)totalFee/feeCounter;
+    }
+}
+
+void percentageApplicant(float *percentage,RequestType *request, int totalRequests,int applicantType)
+{
+    int index;
+    *percentage = 0;
+    for(index=0; index<totalRequests; index++)
+    {
+        if(request[index].applicantType == applicantType)
+        {
+            (*percentage)++;
+        }
+    }
+    if(totalRequests != 0)
+    {
+        *percentage = (*percentage)*100/totalRequests;
+    }
+}
+
+void percentageProcessor(float *percentage,LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int processor)
+{
+    int index;
+    *percentage = 0;
+    for(index=0; index<totalLaptops; index++)
+    {
+        if(laptop[index].processor == processor)
+        {
+            (*percentage)++;
+        }
+    }
+    *percentage = (*percentage)*100/totalLaptops;
+}
+
 void storeInfoToFile(LaptopType laptop[MAX_LAPTOPS],int totalLaptops, RequestType *request, int totalRequests)
 {
-
-
-
-
     if (totalLaptops == 0 && totalRequests == 0)
     {
         printf("         _________________________\n");
@@ -546,11 +713,11 @@ void storeInfoToFile(LaptopType laptop[MAX_LAPTOPS],int totalLaptops, RequestTyp
         infofile = fopen("info.dat","wb");
         if (infofile == NULL)
         {
-            printf("         __________________\n");
-            printf("        |                  |\n");
-            printf("        | Erro ao abrir o  |\n");
-            printf("        | ficheiro!        |\n");
-            printf("        |__________________|\n\n");
+            printf("         _____________________\n");
+            printf("        |                     |\n");
+            printf("        | Erro ao abrir o     |\n");
+            printf("        | ficheiro \"info.dat\" |\n");
+            printf("        |_____________________|\n\n");
         }
         else
         {
@@ -558,7 +725,6 @@ void storeInfoToFile(LaptopType laptop[MAX_LAPTOPS],int totalLaptops, RequestTyp
             if (result !=0)
             {
                 result = fwrite(laptop,sizeof(LaptopType),totalLaptops,infofile);
-
                 if (result != 0)
                 {
 
@@ -573,7 +739,6 @@ void storeInfoToFile(LaptopType laptop[MAX_LAPTOPS],int totalLaptops, RequestTyp
                             }
                         }
                     }
-
                     if (result != 0)
                     {
 
@@ -582,7 +747,7 @@ void storeInfoToFile(LaptopType laptop[MAX_LAPTOPS],int totalLaptops, RequestTyp
                         {
 
                             result = fwrite(request,sizeof(RequestType),totalRequests,infofile);
-                            if (result != 0)
+                            if (result != 0 || totalRequests == 0)
                             {
 
                                 printf("         _______________________\n");
@@ -649,7 +814,6 @@ void storeInfoToFile(LaptopType laptop[MAX_LAPTOPS],int totalLaptops, RequestTyp
                 printf("        |_____________________|\n");
 
             }
-
             fclose(infofile);
         }
 
@@ -714,7 +878,7 @@ RequestType *loadFileToInfo(LaptopType laptop[MAX_LAPTOPS],int *totalLaptops, Re
                         if (request != NULL)
                         {
                             result = fread(request,sizeof(RequestType),*totalRequests,infofile);
-                            if (result != 0)
+                            if (result != 0 || *totalRequests == 0)
                             {
                                 printf("| Todas as informacoes foram lidas |\n");
                                 printf("| do ficheiro com sucesso!         |\n");
@@ -781,88 +945,101 @@ RequestType *loadFileToInfo(LaptopType laptop[MAX_LAPTOPS],int *totalLaptops, Re
 }
 
 
+void writeApplicantTypeToFile(int numApplicantType, FILE *infofile)
+{
+    switch(numApplicantType)
+    {
+    case STUDENT:
+        fprintf(infofile,"Estudante");
+        break;
+    case TEACHER:
+        fprintf(infofile,"Docente");
+        break;
+    case ADMIN_TECH:
+        fprintf(infofile,"Técnico Administrativo");
+        break;
+    }
+}
 
-
+void writeLocationToFile(int numLocation, FILE *infofile)
+{
+    switch(numLocation)
+    {
+    case RESIDENCES:
+        fprintf(infofile,"Residências");
+        break;
+    case CAMPUS_1:
+        fprintf(infofile,"Campus1");
+        break;
+    case CAMPUS_2:
+        fprintf(infofile,"Campus2");
+        break;
+    case CAMPUS_3:
+        fprintf(infofile,"Campus3");
+        break;
+    case CAMPUS_5:
+        fprintf(infofile,"Campus5");
+        break;
+    }
+}
 
 //Log DATA
 
-/*void storeLogData(LogType *log,int totalLogs,int wroteCorrect[MAX_LOAD_INFO])
+void storeLogData(LaptopType laptop[MAX_LAPTOPS], RequestType *request, int requestIndex)
 {
-    int index, checkLine, checkTotal;
-    char stringApplicantType[MAX_NAME_APPLICANT_TYPE], stringRequestState[MAX_NAME_REQUEST_STATE];
     FILE *logfile;
     logfile = fopen("log.txt","a");
     if (logfile == NULL)
     {
-        wroteCorrect[0] = 0; //Coloca 0 em wroteCorrect[0] caso não tenha conseguido abrir o ficheiro
+        printf("         ____________________\n");
+        printf("        |                    |\n");
+        printf("        | Erro ao abrir o    |\n");
+        printf("        | ficheiro \"log.txt\" |\n");
+        printf("        |____________________|\n\n");
     }
     else
     {
-        wroteCorrect[0] = 1; //Coloca 1 em wroteCorrect[0] caso tenha conseguido abrir o ficheiro
+        fprintf(logfile,"Código da Requisição: %s, ",request[requestIndex].code);
 
-        wroteCorrect[1] = fprintf(logfile,"%d\n", totalLogs); //Coloca em wroteCorrect[1] o número de inteiros escritos com sucesso
+        fprintf(logfile,"Data da Requisicao: ");
+        writeDateToFile(request[requestIndex].requestDate,logfile);
+        fprintf(logfile,", ");
 
-        for (index=0; index<totalLogs; index++)
+        fprintf(logfile,"Data da Devolução: ");
+        writeDateToFile(request[requestIndex].returnDate,logfile);
+        fprintf(logfile,", ");
+
+        fprintf(logfile,"Utente: %s, ",request[requestIndex].applicantName);
+
+        fprintf(logfile,"Tipo: ");
+        writeApplicantTypeToFile(request[requestIndex].applicantType,logfile);
+        fprintf(logfile,", ");
+
+        fprintf(logfile,"Local de Devolução: ");
+        writeLocationToFile(request[requestIndex].returnLocation,logfile);
+        fprintf(logfile,", ");
+
+        fprintf(logfile,"Prazo da Requisição: %d dia(s), ",request[requestIndex].duration);
+
+        fprintf(logfile,"Tempo da Requisição: %d dia(s), ",request[requestIndex].durationTotal);
+
+        if (request[requestIndex].delayFee > 0)
         {
-            checkLine = 0;
-            checkTotal = 0;
-
-            checkLine = fprintf(logfile,"[%d/%d/%d]",log->todayDate.day,log->todayDate.month,log->todayDate.year);
-            plusIfNegative(checkLine,&checkTotal);
-
-            checkLine = fprintf(logfile,"Código de Requisição: %s, ",log->request.code); //Coloca um valor negativo em checkLine se não conseguir escrever com sucesso
-            plusIfNegative(checkLine,&checkTotal); //Se checkLine < 0 então adiciona um em checkTotal
-
-            checkLine = fprintf(logfile,"Requerente: %s, ",log->request.applicantName);
-            plusIfNegative(checkLine,&checkTotal);
-
-            getApplicantTypeName(log->request.applicantType,stringApplicantType);
-
-            checkLine = fprintf(logfile,"Tipo: %s, ",stringApplicantType);
-            plusIfNegative(checkLine,&checkTotal);
-
-            getRequestStateName(log->request.state,stringRequestState);
-
-            checkLine = fprintf(logfile,"Estado da Requisição: %s, ",stringRequestState);
-            plusIfNegative(checkLine,&checkTotal);
-
-            checkLine = fprintf(logfile,"Laptod ID#%d, ",log->request.laptop.id);
-            plusIfNegative(checkLine,&checkTotal);
-
-            checkLine = fprintf(logfile,"CPU: %d, ",log->request.laptop.processor);
-            plusIfNegative(checkLine,&checkTotal);
-
-            checkLine = fprintf(logfile,"RAM: %d, ",log->request.laptop.ram);
-            plusIfNegative(checkLine,&checkTotal);
-
-            checkLine = fprintf(logfile,"Preço: %.2f, ",log->request.laptop.price);
-            plusIfNegative(checkLine,&checkTotal);
-
-            checkLine = fprintf(logfile,"Data da Requisição: %d/%d/%d, ",log->request.requestDate.day,log->request.requestDate.month,log->request.requestDate.year);
-            plusIfNegative(checkLine,&checkTotal);
-
-            checkLine = fprintf(logfile,"Local da Requisição: %d, ",log->request.renewLocation);
-            plusIfNegative(checkLine,&checkTotal);
-
-            checkLine = fprintf(logfile,"Tempo de Requisição: %d dias, ",log->request.requestPeriod);
-            plusIfNegative(checkLine,&checkTotal);
-
-            checkLine = fprintf(logfile,"Data da Devolução: %d/%d/%d, ",log->request.renewDate.day,log->request.renewDate.month,log->request.renewDate.year);
-            plusIfNegative(checkLine,&checkTotal);
-
-            checkLine = fprintf(logfile,"Taxa de Atraso: %d\n",log->request.delayFee);
-            plusIfNegative(checkLine,&checkTotal);
-
-
-            if (checkTotal == 0)
-            {
-                wroteCorrect[2]++; //Se houver algum erro na escrita, então não adciona um em wroteCorrect[2] para verficar quantos RequestType's foram escritos com sucesso
-            }
+            fprintf(logfile,"Multa: %d euro(s), ",request[requestIndex].delayFee);
         }
-        wroteCorrect[3] = fclose(logfile);  //Coloca 0 em wroteCorrect[3] se conseguir fechar o ficheiro
-        wroteCorrect[3]++; //Adiciona 1 ao valor em wroteCorrect[3] para ser diferente do valor de inicialização e poder ser feita a verificação futuramente
+        else
+        {
+            fprintf(logfile,"Multa: Não houve multa pois foi entregue dentro do prazo, ");
+        }
+
+        fprintf(logfile,"Laptod ID#%d, ",laptop[request[requestIndex].laptopIndex].id);
+
+        fprintf(logfile,"CPU: Intel Core i%d, ",laptop[request[requestIndex].laptopIndex].processor);
+
+        fprintf(logfile,"RAM: %d GB.\n",laptop[request[requestIndex].laptopIndex].ram);
     }
-}*/
+    fclose(logfile);
+}
 
 
 

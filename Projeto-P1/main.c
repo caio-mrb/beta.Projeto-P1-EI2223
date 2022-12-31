@@ -26,9 +26,6 @@ int main()
     //activeRequests: Representa todas as requisições ativas
     int totalLaptops = 0, availableLaptops = 0, totalRequests = 0, activeRequests = 0;
 
-    //Aloca na memoria memoria no vetor dinamico
-    request = malloc(totalRequests*sizeof(RequestType));
-
     //Desenha o titulo do projeto
     drawTittle();
 
@@ -59,15 +56,15 @@ int main()
     }
 
     //Aguarda o input do utilizador para dar seguimento ao programa
-    enterToContinue();
+    enterToContinue("\0");
 
-    int optMainMenu,optLapMenu, optDamageMenu,optInfoMenu,numOfLaptops,optReqMenu,optStatsMenu,optExtMenu,index,equalIndex,lastLocation,readedID = 0, optRepairMenu, numOfRequests, optReturnMenu, numOfReturns, optRenewMenu, numOfRenews, optReqInfoMenu;
+    int optMainMenu,optLapMenu,optReqMenu,optExtMenu,optDamageMenu,optRepairMenu,optInfoMenu,optReturnMenu,optRenewMenu,optReqInfoMenu;
 
-    DamageType damageInfo;
+    int index,equalIndex,readedID=0,numOfLaptops,numOfRequests,numOfDamages,numOfReturns,numOfRenews;
 
-    int *damagesIndex, numOfDamages, sizeDamageIndex = 0;
+    int *damagesIndex, totalPermanentDamages, sizeDamageIndex = 0;
 
-    int cancel = FALSE_0, existDamage = -1;
+    int cancel = FALSE_0;
 
     char message[MAX_READ_MESSAGE_SIZE] = "Selecione uma opcao";
 
@@ -86,12 +83,12 @@ int main()
         readInt(message,&optMainMenu,1,4);
 
         //Executa alguma ação de acordo com a escolha do utilizador
-        //Opção 1: Menu dos portateis com 4 submenus
-        //Opção 2: Menu das requisições/devoluções com X submenus
-        //Opção 3: Menu das estatísticas com X submenus
+        //Opção 1: Menu dos portateis com 4 opções
+        //Opção 2: Menu das requisições/devoluções com 4 opções
+        //Opção 3: Mostra as estatísticas
         //Opção 4: Menu para confirmar a escolha de sair
 
-        //----------------------------------------------COMEÇO MENU PRINCIPAL----------------------------------------------
+        ///----------------------------------------------COMEÇO MENU PRINCIPAL----------------------------------------------
         switch (optMainMenu)
         {
         case 1:
@@ -114,12 +111,11 @@ int main()
                 //Opção 2: Listar informações dos portateis
                 //Opção 3: Menu das estatísticas com X submenus
 
-
-                //----------------------------------------------COMEÇO MENU DE PORTATEIS----------------------------------------------
+                ///----------------------------------------------COMEÇO MENU DE PORTATEIS----------------------------------------------
                 switch (optLapMenu)
                 {
                 case 1:
-                    /************************************************COMEÇO OPÇÃO 1******************************************************/
+                    /*************************************COMEÇO OPÇÃO ADICIONAR PORTATEIS**************************************************/
 
                     /** Nesta opção o utilizador pode:                   **
                       * ->Escolher a quantidade de portateis a adicionar *
@@ -137,9 +133,7 @@ int main()
                     {
                         //Desenha o alerta de limite de portateis atingido
                         drawMaxLaptopsReachAlert();
-
-                        printf("         ");
-                        enterToContinue();
+                        enterToContinue("        ");
                     }
                     //Executa se for possível adicionar um novo portatil
                     else
@@ -167,52 +161,13 @@ int main()
                             //Repete o ciclo o numero de vezes que o utilizador inseriu
                             for (index = 0; index<numOfLaptops; index++)
                             {
-                                //Limpa a tela
                                 clearScreen();
 
-                                //Desenha o pedido de informações
-                                drawLaptopInfoAsk(index,numOfLaptops);
+                                //Pede todas as informações ao utilizador para a adição de um novo portátil
+                                registerNewLaptop(laptop,totalLaptops,index,numOfLaptops,&cancel);
 
-                                //Lê o ID do portatil a ser adicionado se o pedido de adição não tiver sido cancelado
-                                /*Mais informações em "funcoesDePortateis.h*/
-                                readLapId(laptop,totalLaptops,&cancel);
-
-                                //Lê a designação do portatil a ser adicionado se o pedido de adição não tiver sido cancelado
-                                /*Mais informações em "funcoesDePortateis.h*/
-                                readLapName(laptop,totalLaptops,&cancel);
-
-                                //Lê o processador do portatil a ser adicionado se o pedido de adição não tiver sido cancelado
-                                /*Mais informações em "funcoesDePortateis.h*/
-                                readLapProcessor(laptop,totalLaptops,&cancel);
-
-                                //Lê a quantidade de memoria RAM do portatil a ser adicionado se o pedido de adição não tiver sido cancelado
-                                /*Mais informações em "funcoesDePortateis.h*/
-                                readLapRam(laptop,totalLaptops,&cancel);
-
-                                //Lê o preço do portatil a ser adicionado se o pedido de adição não tiver sido cancelado
-                                /*Mais informações em "funcoesDePortateis.h*/
-                                readLapPrice(laptop,totalLaptops,&cancel);
-
-                                //Lê a data de compra do portatil a ser adicionado se o pedido de adição não tiver sido cancelado
-                                /*Mais informações em "funcoesDePortateis.h*/
-                                readLapPurchaseDate(laptop,totalLaptops,&cancel);
-
-                                //Executa se o pedido de adição não tiver sido cancelado
                                 if (cancel == FALSE_0)
                                 {
-                                    //Desenha a lista de localizações possíveis para o portatil
-                                    drawLocationsMiniList();
-                                }
-
-                                //Lê a localização do portatil a ser adicionado se o pedido de adição não tiver sido cancelado
-                                /*Mais informações em "funcoesDePortateis.h*/
-                                readLapLocation(laptop,totalLaptops,&cancel);
-
-                                //Executa se o pedido de adição não tiver sido cancelado
-                                if (cancel == FALSE_0)
-                                {
-                                    //Define o estado do portatil a ser adicionado como disponível
-                                    laptop[totalLaptops].state = AVAILABLE;
                                     //Acrescenta um aos portateis disponiveis
                                     availableLaptops++;
                                     //Acrescenta um ao total de portateis
@@ -220,9 +175,8 @@ int main()
                                     //Guarda a informação do portatil adicionado no ficheiro "info.dat"
                                     storeInfoToFile(laptop,totalLaptops,request,totalRequests);
                                 }
-
                                 //Executa se o pedido de adição tiver sido cancelado
-                                if (cancel == TRUE_1)
+                                else
                                 {
                                     //Iguala o número de portateis ao índice para quebrar o ciclo e cancelar a adição de novos portateis
                                     numOfLaptops = index;
@@ -233,26 +187,22 @@ int main()
                             //de portateis a serem adicionados for maior que 0
                             if (cancel == TRUE_1 && numOfLaptops > 0)
                             {
+                                clearScreen();
                                 //Desenha o aviso que apenas alguns portateis foram adicionados
                                 drawAddLaptopCancel(numOfLaptops);
-
-                                //Desenha a margem a esquerda
-                                printf("        ");
-
                                 //Aguarda o input do utilizador para dar seguimento ao programa
-                                enterToContinue();
+                                enterToContinue("        ");
                             }
                         }
                     }
-                    /************************************************FIM OPÇÃO 1******************************************************/
+                    /*******************************************FIM OPÇÃO ADICIONAR PORTATEIS*****************************************/
                     break;
                 case 2:
-                    /**********************************************COMEÇO OPÇÃO 2*****************************************************/
+                    /**********************************COMEÇO OPÇÃO LISTAR INFORMAÇÃO DOS PORTATEIS***********************************/
 
                     /** Nesta opção o utilizador pode:                         *
                       * ->Listar a informação de todos os portateis existentes **/
 
-                    clearScreen();
                     if (totalLaptops > 0)
                     {
                         do
@@ -271,20 +221,15 @@ int main()
                                 clearScreen();
                                 //Mostra a informação base de todos os portateis existentes
                                 showLaptopInfo(laptop,totalLaptops,request,totalRequests);
-                                //Desenha a margem a esquerda
-                                printf("        ");
                                 //Aguarda o input do utilizador para dar seguimento ao programa
-                                enterToContinue();
+                                enterToContinue("        ");
                                 break;
                             case 2:
                                 clearScreen();
                                 //Mostra o historico de avarias de todos os portateis existentes
                                 showDamageHistoric(laptop,totalLaptops);
-                                //Desenha a margem a esquerda
-                                printf("        ");
                                 //Aguarda o input do utilizador para dar seguimento ao programa
-                                enterToContinue();
-
+                                enterToContinue("        ");
                                 break;
                             }
 
@@ -293,17 +238,16 @@ int main()
                     }
                     else
                     {
+                        clearScreen();
                         //Desenha o alerta de 0 portateis no sistema
                         drawLaptopsNotFound();
-                        //Desenha a margem a esquerda
-                        printf("        ");
                         //Aguarda o input do utilizador para dar seguimento ao programa
-                        enterToContinue();
+                        enterToContinue("        ");
                     }
-                    /************************************************FIM OPÇÃO 2*****************************************************/
+                    /**********************************FIM OPÇÃO LISTAR INFORMAÇÃO DOS PORTATEIS***************************************/
                     break;
                 case 3:
-                    /**********************************************COMEÇO OPÇÃO 3*****************************************************/
+                    /*********************************COMEÇO OPÇÃO ALTERAR LOCALIZAÇÃO DO PORTATIL*************************************/
 
                     /** Nesta opção o utilizador pode:                              *
                       * ->Alterar a localização de um portatil existente            *
@@ -344,52 +288,20 @@ int main()
                             {
                                 //Procura um portatil com um id igual ao pedido pelo utilizador e guarda no primeiro parâmetro, caso contrário devolve -1
                                 /*Mais informações em "funcoesDePortateis.h*/
-                                searchEqualLapId(&equalIndex,laptop,totalLaptops,readedID);
+                                searchEqualLaptopId(&equalIndex,laptop,totalLaptops,readedID);
 
                                 //Executa se encontrar um portatil com o ID inserido pelo utliziador
                                 if (equalIndex > -1)
                                 {
-                                    //Armazena em uma variavel a localização (int) atual do portatil
-                                    lastLocation = laptop[equalIndex].location;
+                                    //Limpa a tela
+                                    clearScreen();
 
-                                    //Desenha a lista de localizações possíveis
-                                    drawLocationsBigList();
-
-                                    //-----Do{}While-----
-                                    //Executa o conjuto de instruções
-                                    //a seguir enquanto o utilizador
-                                    //pedir para mudar o portatil para
-                                    //a posição em que já se encontra
-                                    //(lastLocation == laptop[equalIndex].location)
-                                    //e enquanto não pedir para cancelar
-                                    //(cancel == FALSE_0)
-                                    do
-                                    {
-                                        //Lê a localização do portatil e sobrepõe a localização anterior
-                                        readLapLocation(laptop,equalIndex,&cancel);
-
-                                        //Executa se o utilizador mover o portatil para a localização em que já se encontra e se não pedir pra cancelar
-                                        if (lastLocation == laptop[equalIndex].location && cancel == FALSE_0)
-                                        {
-                                            //Informa o utilizador que está a tentar mover para o posição que o portatil já está
-                                            printf("        O portatil ja esta nesta localizacao!\n");
-                                        }
-
-                                        //Executa se o utilizador mover o portatil para uma localização diferente da que já se encontra e se não pedir pra cancelar
-                                        if (lastLocation != laptop[equalIndex].location && cancel == FALSE_0)
-                                        {
-                                            //Informa o utilizador que a localização do portatil foi alterada com sucesso
-                                            printf("        Localizacao alterada com sucesso!\n\n");
-                                            //Armazena a informação alterada no ficheiro "info.dat"
-                                            /*Mais informações em "funcoesDeDados.h"*/
-                                            storeInfoToFile(laptop,totalLaptops,request,totalRequests);
-                                            //Desenha a margem a esquerda
-                                            printf("        ");
-                                            //Aguarda o input do utilizador para dar seguimento ao programa
-                                            enterToContinue();
-                                        }
-                                    }
-                                    while (lastLocation == laptop[equalIndex].location && cancel == FALSE_0);
+                                    changeLaptopLocation(laptop,equalIndex,&cancel);
+                                    //Armazena a informação alterada no ficheiro "info.dat"
+                                    /*Mais informações em "funcoesDeDados.h"*/
+                                    storeInfoToFile(laptop,totalLaptops,request,totalRequests);
+                                    //Aguarda o input do utilizador para dar seguimento ao programa
+                                    enterToContinue("        ");
                                 }
                             }
                             //Executa se não encontrar um portatil com o ID inserido pelo utilizador
@@ -406,15 +318,13 @@ int main()
                     {
                         //Desenha o alerta de 0 portateis no sistema
                         drawLaptopsNotFound();
-                        //Desenha a margem a esquerda
-                        printf("        ");
                         //Aguarda o input do utilizador para dar seguimento ao programa
-                        enterToContinue();
+                        enterToContinue("        ");
                     }
-                    /************************************************FIM OPÇÃO 3*****************************************************/
+                    /********************************FIM OPÇÃO ALTERAR LOCALIZAÇÃO DO PORTATIL****************************************/
                     break;
                 case 4:
-                    /**********************************************COMEÇO OPÇÃO 4*****************************************************/
+                    /***************************COMEÇO OPÇÃO REGISTAR AVARIA/REPARAÇÃO DO PORTATIL************************************/
                     /** Nesta opção o utilizador pode:                                                       *
                       * ->Registar X avarias de um portatil                                                  *
                       * ->Registar o reparo de todas as avarias temporarias ainda por reparar de um portatil *
@@ -447,12 +357,13 @@ int main()
                             //Constante MAX_ID = 9999
                             readInt(message,&readedID,0,MAX_ID);
 
-                            //Execita se o utilizador não pedir para cancelar
+                            //Executa se o utilizador não pedir para cancelar
                             if(readedID > 0)
                             {
+
                                 //Procura um portatil com um id igual ao pedido pelo utilizador e guarda no primeiro parâmetro, caso contrário devolve -1
                                 /*Mais informações em "funcoesDePortateis.h*/
-                                searchEqualLapId(&equalIndex,laptop,totalLaptops,readedID);
+                                searchEqualLaptopId(&equalIndex,laptop,totalLaptops,readedID);
 
                                 //Executa se encontrar um portatil com o id inserido pelo utilizador
                                 if (equalIndex > -1)
@@ -465,235 +376,252 @@ int main()
                                         laptop[equalIndex].damagesList = NULL;
                                     }
 
-                                    //-----Do{}While-----
-                                    //Executa o conjunto de instruções
-                                    //a seguir enquanto o utilizador não
-                                    //pedir para cancelar (readedID != 0)
+                                    numPermanentDamages(&totalPermanentDamages,laptop[equalIndex].damagesList,laptop[equalIndex].damagesCounterTotal);
 
-                                    do
+                                    if(totalPermanentDamages < 12 || laptop[equalIndex].damagesCounterActive !=0)
                                     {
 
+                                        //-----Do{}While-----
+                                        //Executa o conjunto de instruções
+                                        //a seguir enquanto o utilizador não
+                                        //pedir para cancelar (readedID != 0)
 
-                                        //Executa se o portatil selecionado pelo utilizador possuir avarias ativas
-                                        if (laptop[equalIndex].damagesCounterActive != 0)
+                                        do
                                         {
-                                            //Limpa a tela
-                                            clearScreen();
-
-                                            //Desenha o menu de avarias/reparações
-                                            drawLaptopDamagesSubMenu(laptop[equalIndex].id);
-
-                                            //Altera o texto da mensagem para fazer sentido ao utilizador
-                                            strcpy(message,"Selecione uma opcao");
-                                            //Lê uma opção (int) do menu de avarias/reparações
-                                            readInt(message,&optDamageMenu,1,3);
-
-                                        }
-                                        //Executa se o portatil selecionado pelo utilizador não possuir avarias ativas o que implica só poder registar avarias
-                                        //e não reparações, ou seja, sem avarias é impossível registar reparações.
-                                        else
-                                        {
-                                            //Define a variavel como 1 (Registar Avaria)
-                                            optDamageMenu = 1;
-                                        }
-
-                                        //--------------------------------------COMEÇO SUBMENU DE AVARIAS/REPARAÇÕES------------------------------------------
-                                        switch(optDamageMenu)
-                                        {
-                                        case 1:
-                                            /*******************************************COMEÇO OPÇÃO 1************************************************/
-                                            /** Nesta opção o utilizador pode:      *
-                                              * ->Registar X avarias de um portatil *
-                                              *                                     *
-                                              * Nesta opção o utilizador não pode:  *
-                                              * ->Alterar o poratil já selecionado  **/
-                                            if(laptop[equalIndex].state == REQUESTED)
+                                            //Executa se o portatil selecionado pelo utilizador possuir avarias ativas
+                                            if (laptop[equalIndex].damagesCounterActive != 0)
                                             {
-                                                cancel = FALSE_0;
-                                                printf("         ___________________________________\n");
-                                                printf("        |_REQUISICOES/DEVOLUCOES________(X)_|\n");
-                                                printf("        |                                   |\n");
-                                                printf("        | Este portatil esta requisitado.   |\n");
-                                                printf("        | Para registar uma ou mais avarias |\n");
-                                                printf("        | e necessario devolve-lo antes.    |\n");
-                                                printf("        | Selecione uma opcao:              |\n");
-                                                printf("        | 1 - Devolver portatil             |\n");
-                                                printf("        | 2 - Cancelar                      |\n");
-                                                printf("        |___________________________________|\n\n");
-
-                                                //Altera o texto da mensagem para fazer sentido ao utilizador
-                                                strcpy(message,"Selecione uma opcao");
-                                                //Lê uma opção (int) do menu de avarias/reparações
-                                                readInt(message,&optReturnMenu,1,2);
-                                                if(optReturnMenu == 2)
-                                                {
-                                                    cancel = TRUE_1;
-                                                }
-                                                else
-                                                {
-                                                    registerReturnByDamageMenu(laptop, totalLaptops, request, totalRequests, equalIndex, &cancel);
-                                                }
-                                            }
-                                            if(cancel == FALSE_0)
-                                            {
-                                                //Executa se o portatil não possuir avarias por arranjar
-                                                if(laptop[equalIndex].damagesCounterActive == 0)
+                                                if (totalPermanentDamages < 12)
                                                 {
                                                     //Limpa a tela
                                                     clearScreen();
 
-                                                    //Desenha o alerta que o portatil selecionado pelo utilizador não possui avarias por arranjar
-                                                    //e só é possivel registar novas avarias
-                                                    drawDamagensNoneActive(laptop[equalIndex].id);
+                                                    //Desenha o menu de avarias/reparações
+                                                    drawLaptopDamagesSubMenu(laptop[equalIndex].id);
+
+                                                    //Altera o texto da mensagem para fazer sentido ao utilizador
+                                                    strcpy(message,"Selecione uma opcao");
+                                                    //Lê uma opção (int) do menu de avarias/reparações
+                                                    readInt(message,&optDamageMenu,1,3);
+                                                }
+                                                else
+                                                {
+                                                    //Limpa a tela
+                                                    clearScreen();
+
+                                                    //Desenha o alerta que o portatil selecionado pelo utilizador já possui o máximo
+                                                    //de avarias possível e só é possível registar a reparação das avarias pendentes
+                                                    drawDamagesMaxPermanent();
 
                                                     //Redefine o valor da variavel para falso
-                                                    cancel = FALSE_0;
+                                                    enterToContinue("        ");
+
+                                                    optDamageMenu = 2;
                                                 }
 
-                                                //Altera o texto da mensagem para fazer sentido ao utilizador
-                                                strcpy(message,"Digite quantas avarias desejas registar");
+                                            }
+                                            //Executa se o portatil selecionado pelo utilizador não possuir avarias ativas o que implica só poder registar avarias
+                                            //e não reparações, ou seja, sem avarias ativas é impossível registar reparações.
+                                            else
+                                            {
+                                                //Define a variavel como 1 (Registar Avaria)
+                                                optDamageMenu = 1;
+                                            }
 
-                                                //Lê a quantidade de avarias (int) que o utilizador deseja registar
-                                                readInt(message,&numOfDamages,0,9999);
-
-                                                //Executa se o utilizador não pedir para cancelar
-                                                if (numOfDamages > 0)
+                                            ///--------------------------------------COMEÇO SUBMENU DE AVARIAS/REPARAÇÕES------------------------------------------
+                                            switch(optDamageMenu)
+                                            {
+                                            case 1:
+                                                /*******************************************COMEÇO OPÇÃO 1************************************************/
+                                                /** Nesta opção o utilizador pode:      *
+                                                  * ->Registar X avarias de um portatil *
+                                                  *                                     *
+                                                  * Nesta opção o utilizador não pode:  *
+                                                  * ->Alterar o poratil já selecionado  **/
+                                                if(laptop[equalIndex].state == REQUESTED)
                                                 {
-                                                    //Repete o ciclo o numero de vezes que o utilizador inseriu
-                                                    for (index = 0; index<numOfDamages; index++)
+                                                    cancel = FALSE_0;
+
+                                                    drawReturnSubMenuInDamageMenu();
+                                                    //Altera o texto da mensagem para fazer sentido ao utilizador
+                                                    strcpy(message,"Selecione uma opcao");
+                                                    //Lê uma opção (int) do menu de avarias/reparações
+                                                    readInt(message,&optReturnMenu,1,2);
+                                                    if(optReturnMenu == 2)
+                                                    {
+
+                                                        cancel = TRUE_1;
+                                                    }
+                                                    else
+                                                    {
+                                                        registerReturnByDamageMenu(laptop, totalLaptops, request, totalRequests, equalIndex, &cancel);
+                                                    }
+                                                }
+                                                if(cancel == FALSE_0)
+                                                {
+                                                    //Executa se o portatil não possuir avarias por arranjar
+                                                    if(laptop[equalIndex].damagesCounterActive == 0)
                                                     {
                                                         //Limpa a tela
                                                         clearScreen();
 
-                                                        //Lê o local/código da avaria se o registo de avaria não tiver sido cancelado
-                                                        /*Mais informações em "funcoesDePortateis.h*/
-                                                        readDamageInfoCode(index,numOfDamages,&damageInfo, &cancel);
+                                                        //Desenha o alerta que o portatil selecionado pelo utilizador não possui avarias por arranjar
+                                                        //e só é possivel registar novas avarias
+                                                        drawDamagensNoneActive(laptop[equalIndex].id);
 
-                                                        //Lê o tipo da avaria se o registo de avaria não tiver sido cancelado
-                                                        /*Mais informações em "funcoesDePortateis.h*/
-                                                        readDamageInfoType(index,numOfDamages,&damageInfo, &cancel);
-
-                                                        //Lê a data da avaria se o registo de avaria não tiver sido cancelado
-                                                        /*Mais informações em "funcoesDePortateis.h*/
-                                                        readDamageInfoDate(index,numOfDamages,&damageInfo, &cancel);
-
-                                                        //Armazena na lista de avarias do portatil se o registo de avaria não tiver sido cancelado
-                                                        /*Mais informações em "funcoesDePortateis.h*/
-                                                        laptop[equalIndex].damagesList = addDamageRepairInfo(damageInfo, laptop, equalIndex, &cancel);
-
-                                                        //Executa se o registo de avaria não tiver sido cancelado
-                                                        if(cancel == FALSE_0)
-                                                        {
-                                                            //Armazena no ficheiro as atualizações do portatil
-                                                            storeInfoToFile(laptop,totalLaptops,request,totalRequests);
-                                                        }
-
-                                                        ////Executa se o registo de avaria tiver sido cancelado
-                                                        if (cancel == TRUE_1)
-                                                        {
-                                                            //Iguala o número de avarias ao índice para quebrar o ciclo e cancelar o registo de novas avarias
-                                                            numOfDamages = index;
-                                                        }
+                                                        //Redefine o valor da variavel para falso
+                                                        cancel = FALSE_0;
                                                     }
-
-                                                    //Executa se o pedido de registo de avaria tiver sido cancelado
-                                                    //e o numero de avarias a serem registadas for maior que 0
-                                                    if (cancel == TRUE_1 && numOfDamages > 0)
-                                                    {
-
-                                                        //Desenha o aviso que apenas algumas avarias foram registadas
-                                                        drawDamageCancel(numOfDamages);
-
-                                                        //Desenha a margem a esquerda
-                                                        printf("        ");
-                                                        //Aguarda o input do utilizador para dar seguimento ao programa
-                                                        enterToContinue();
-                                                    }
-                                                }
-                                                //Executa se o utilizador pedir para cancelar
-                                                else
-                                                {
-                                                    //Redefine o valor da variavel para verdadeiro
-                                                    cancel = TRUE_1;
-                                                }
-                                            }
-                                            /********************************************FIM OPÇÃO 1************************************************/
-                                            break;
-                                        case 2:
-                                            /*******************************************COMEÇO OPÇÃO 2***********************************************/
-                                            /** Nesta opção o utilizador pode:                       *
-                                              * ->Registar o reparo de todas as avarias por arranjar *
-                                              *                                                      *
-                                              * Nesta opção o utilizador não pode:                   *
-                                              * ->Alterar o poratil já selecionado                   **/
-                                            do
-                                            {
-                                                //Encontra e armazena no vetor dinamico o indice de cada avaria
-                                                //temporaria pertencente a lista de avarias do respetivo portatil.
-                                                /*Mais informações em "funcoesDePortateis.c*/
-                                                damagesIndex = searchTemporaryDamagesIndex(&sizeDamageIndex,laptop,equalIndex);
-                                                //Executa se encontrar avarias temporárias por arranjar
-                                                if (sizeDamageIndex>0)
-                                                {
-                                                    //Desenha a lista de avarias do respetivo portatil
-                                                    drawRepairList(laptop,equalIndex,damagesIndex,sizeDamageIndex);
 
                                                     //Altera o texto da mensagem para fazer sentido ao utilizador
-                                                    strcpy(message,"Selecione uma opcao");
-                                                    //Lê a opção (int) da avaria para registar o arranjo
-                                                    readInt(message,&optRepairMenu,1,sizeDamageIndex+1);
+                                                    strcpy(message,"Digite quantas avarias desejas registar");
+
+                                                    //Lê a quantidade de avarias (int) que o utilizador deseja registar
+                                                    readInt(message,&numOfDamages,0,9999);
 
                                                     //Executa se o utilizador não pedir para cancelar
-                                                    if (optRepairMenu != sizeDamageIndex+1)
+                                                    if (numOfDamages > 0)
                                                     {
-                                                        //Altera o texto da mensagem para fazer sentido ao utilizador
-                                                        strcpy(message,"Digite quantos dias o portatil esteve avariado");
-                                                        //Lê e guarda o tempo (int) em dias que demorou até ser reparado
-                                                        readInt(message,&laptop[equalIndex].damagesList[damagesIndex[optRepairMenu-1]].duration,0,MAX_DAMAGE_DAYS);
-                                                        //Altera o estado da avaria para concluida
-                                                        laptop[equalIndex].damagesList[damagesIndex[optRepairMenu-1]].state = COMPLETED;
-                                                        //Remove 1 a quantidade de avarias ativas
-                                                        laptop[equalIndex].damagesCounterActive--;
-                                                        //Executa se nao possuir mais danos ativos
-                                                        if(laptop[equalIndex].damagesCounterActive == 0 && laptop[equalIndex].state != BROKEN_PERMANENT)
+                                                        //Repete o ciclo o numero de vezes que o utilizador inseriu
+                                                        for (index = 0; index<numOfDamages; index++)
                                                         {
-                                                            laptop[equalIndex].state = AVAILABLE;
+                                                            //Limpa a tela
+                                                            clearScreen();
+
+                                                            registerNewDamage(laptop,equalIndex,&index,numOfDamages,&cancel);
+
+                                                            //Executa se o registo de avaria não tiver sido cancelado
+                                                            if(cancel == FALSE_0)
+                                                            {
+                                                                if(laptop[equalIndex].damagesList[laptop[equalIndex].damagesCounterTotal-1].type == PERMANET)
+                                                                {
+                                                                    totalPermanentDamages++;
+                                                                }
+                                                                //Armazena no ficheiro as atualizações do portatil
+                                                                storeInfoToFile(laptop,totalLaptops,request,totalRequests);
+                                                            }
+
+                                                            ////Executa se o registo de avaria tiver sido cancelado
+                                                            if (cancel == TRUE_1 || totalPermanentDamages == 12)
+                                                            {
+                                                                //Iguala o número de avarias ao índice para quebrar o ciclo e cancelar o registo de novas avarias
+                                                                numOfDamages = index;
+                                                            }
                                                         }
-                                                        //Armazena no ficheiro as atualizações do portatil
-                                                        storeInfoToFile(laptop,totalLaptops,request,totalRequests);
-                                                        //Remove a avaria acabada de arranjar da lista de avarias temporárias
-                                                        damagesIndex = removeTemporaryDamage(damagesIndex,sizeDamageIndex,sizeDamageIndex);
-                                                        //Executa se não houverem mais avarias por reparar
+
+                                                        //Executa se o pedido de registo de avaria tiver sido cancelado
+                                                        //e o numero de avarias a serem registadas for maior que 0
+                                                        if (cancel == TRUE_1 && numOfDamages > 0)
+                                                        {
+                                                            clearScreen();
+
+                                                            //Desenha o aviso que apenas algumas avarias foram registadas
+                                                            drawDamageCancel(numOfDamages);
+
+                                                            //Aguarda o input do utilizador para dar seguimento ao programa
+                                                            enterToContinue("        ");
+                                                        }
+                                                        if(totalPermanentDamages == 12)
+                                                        {
+                                                            clearScreen();
+
+                                                            //Desenha o aviso que o maximo de avarias foi atingido
+                                                            drawDamageCancelMaxPermanent();
+
+                                                            //Aguarda o input do utilizador para dar seguimento ao programa
+                                                            enterToContinue("        ");
+                                                        }
+
+                                                    }
+                                                    //Executa se o utilizador pedir para cancelar
+                                                    else
+                                                    {
+                                                        //Redefine o valor da variavel para verdadeiro
+                                                        cancel = TRUE_1;
                                                     }
                                                 }
-                                                else
+                                                /********************************************FIM OPÇÃO 1************************************************/
+                                                break;
+                                            case 2:
+                                                /*******************************************COMEÇO OPÇÃO 2***********************************************/
+                                                /** Nesta opção o utilizador pode:                       *
+                                                  * ->Registar o reparo de todas as avarias por arranjar *
+                                                  *                                                      *
+                                                  * Nesta opção o utilizador não pode:                   *
+                                                  * ->Alterar o poratil já selecionado                   **/
+                                                do
                                                 {
-                                                    clearScreen();
+                                                    //Encontra e armazena no vetor dinamico o indice de cada avaria
+                                                    //temporaria pertencente a lista de avarias do respetivo portatil.
+                                                    /*Mais informações em "funcoesDePortateis.c*/
+                                                    damagesIndex = searchTemporaryDamagesIndex(&sizeDamageIndex,laptop,equalIndex);
+                                                    //Executa se encontrar avarias temporárias por arranjar
+                                                    if (sizeDamageIndex>0)
+                                                    {
+                                                        //Desenha a lista de avarias do respetivo portatil
+                                                        drawRepairList(laptop,equalIndex,damagesIndex,sizeDamageIndex);
 
-                                                    drawAllRepairSucessful();
-                                                    //Desenha a margem a esquerda
-                                                    printf("        ");
-                                                    //Aguarda o input do utilizador para dar seguimento ao programa
-                                                    enterToContinue();
-                                                    //Iguala a opção do menu de reparação ao número que cancela no menu para quebrar o ciclo
-                                                    optRepairMenu = sizeDamageIndex+1;
-                                                    //Redefine a variavel para verdadeiro para quebrar o outro ciclo e voltar ao menu dos portateis
-                                                    cancel = TRUE_1;
+                                                        //Altera o texto da mensagem para fazer sentido ao utilizador
+                                                        strcpy(message,"Selecione uma opcao");
+                                                        //Lê a opção (int) da avaria para registar o arranjo
+                                                        readInt(message,&optRepairMenu,1,sizeDamageIndex+1);
+
+                                                        //Executa se o utilizador não pedir para cancelar
+                                                        if (optRepairMenu != sizeDamageIndex+1)
+                                                        {
+                                                            //Altera o texto da mensagem para fazer sentido ao utilizador
+                                                            strcpy(message,"Digite quantos dias o portatil esteve avariado");
+                                                            //Lê e guarda o tempo (int) em dias que demorou até ser reparado
+                                                            readInt(message,&laptop[equalIndex].damagesList[damagesIndex[optRepairMenu-1]].duration,0,MAX_DAMAGE_DAYS);
+                                                            //Altera o estado da avaria para concluida
+                                                            laptop[equalIndex].damagesList[damagesIndex[optRepairMenu-1]].state = COMPLETED;
+                                                            //Remove 1 a quantidade de avarias ativas
+                                                            laptop[equalIndex].damagesCounterActive--;
+                                                            //Executa se nao possuir mais danos ativos
+                                                            if(laptop[equalIndex].damagesCounterActive == 0 && laptop[equalIndex].state != BROKEN_PERMANENT)
+                                                            {
+                                                                laptop[equalIndex].state = AVAILABLE;
+                                                            }
+                                                            //Armazena no ficheiro as atualizações do portatil
+                                                            storeInfoToFile(laptop,totalLaptops,request,totalRequests);
+                                                            //Remove a avaria acabada de arranjar da lista de avarias temporárias
+                                                            damagesIndex = removeTemporaryDamage(damagesIndex,sizeDamageIndex,sizeDamageIndex);
+                                                            //Executa se não houverem mais avarias por reparar
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        clearScreen();
+
+                                                        drawAllRepairSucessful();
+                                                        //Aguarda o input do utilizador para dar seguimento ao programa
+                                                        enterToContinue("        ");
+                                                        //Iguala a opção do menu de reparação ao número que cancela no menu para quebrar o ciclo
+                                                        optRepairMenu = sizeDamageIndex+1;
+                                                        //Redefine a variavel para verdadeiro para quebrar o outro ciclo e voltar ao menu dos portateis
+                                                        cancel = TRUE_1;
+                                                    }
+
+
                                                 }
+                                                while(optRepairMenu != sizeDamageIndex+1);
 
 
+                                                /********************************************FIM OPÇÃO 2************************************************/
+                                                break;
+                                            case 3:
+                                                /*******************************************COMEÇO OPÇÃO 3**********************************************/
+                                                cancel = TRUE_1;
+                                                /********************************************FIM OPÇÃO 3************************************************/
+                                                break;
                                             }
-                                            while(optRepairMenu != sizeDamageIndex+1);
-                                            /********************************************FIM OPÇÃO 2************************************************/
-                                            break;
-                                        case 3:
-                                            /*******************************************COMEÇO OPÇÃO 3***********************************************/
-                                            cancel = TRUE_1;
-                                            /********************************************FIM OPÇÃO 3************************************************/
-                                            break;
                                         }
+                                        while (cancel == FALSE_0);
                                     }
-                                    while (cancel == FALSE_0);
+                                    else
+                                    {
+                                        printf("        Este portatil ja possui o maximo de avarias possivel!\n");
+                                    }
                                 }
                                 //Executa se não encontrar um portatil com o ID inserido pelo utilizador
                                 if (equalIndex == -1)
@@ -701,24 +629,23 @@ int main()
                                     printf("        Nao existe um portatil com este ID!\n");
                                 }
                             }
+                            ///--------------------------------------------FIM SUBMENU DE AVARIAS/REPARAÇÕES------------------------------------------
                         }
                         while (readedID != 0 && cancel == FALSE_0);
 
-                        /************************************************FIM OPÇÃO 4*****************************************************/
+                        /******************************FIM OPÇÃO REGISTAR AVARIA/REPARAÇÃO DO PORTATIL********************************/
                         break;
                     }
                     else
                     {
                         //Desenha o alerta de 0 portateis no sistema
                         drawLaptopsNotFound();
-                        //Desenha a margem a esquerda
-                        printf("        ");
                         //Aguarda o input do utilizador para dar seguimento ao programa
-                        enterToContinue();
+                        enterToContinue("        ");
 
                     }
                 }
-                //---------------------------------------------------FIM MENU DE PORTATEIS----------------------------------------------
+                ///---------------------------------------------------FIM MENU DE PORTATEIS----------------------------------------------
             }
             while (optLapMenu != 5);
             /************************************************FIM OPÇÃO PORTATEIS******************************************************/
@@ -751,9 +678,10 @@ int main()
                     case 1:
                         if (availableLaptops > 0)
                         {
-                            if (availableLaptops > 1){
-                            strcpy(message,"Digite quantas requisicoes pretendes registar");
-                            readInt(message,&numOfRequests,0,availableLaptops);
+                            if (availableLaptops > 1)
+                            {
+                                strcpy(message,"Digite quantas requisicoes pretendes registar");
+                                readInt(message,&numOfRequests,0,availableLaptops);
                             }
                             else
                             {
@@ -778,22 +706,19 @@ int main()
 
                             if (cancel == TRUE_1 && numOfRequests > 0)
                             {
+                                clearScreen();
                                 //Desenha o aviso que apenas algumas requisições foram registadas
                                 drawRequestCancel(numOfRequests);
-                                //Desenha a margem a esquerda
-                                printf("        ");
                                 //Aguarda o input do utilizador para dar seguimento ao programa
-                                enterToContinue();
+                                enterToContinue("        ");
                             }
                         }
                         else
                         {
                             //Desenha o alerta de 0 portateis disponiveis no sistema
                             drawLaptopsUnavailable();
-                            //Desenha a margem a esquerda
-                            printf("        ");
                             //Aguarda o input do utilizador para dar seguimento ao programa
-                            enterToContinue();
+                            enterToContinue("        ");
 
                         }
                         break;
@@ -818,83 +743,86 @@ int main()
                                 {
                                     if(activeRequests > 1)
                                     {
-                                    strcpy(message,"Selecione quantas devolucoes pretendes registar");
-                                    readInt(message,&numOfReturns,0,activeRequests);
-                                    if (numOfReturns == 0)
-                                    {
-                                        cancel = TRUE_1;
-                                    }
+                                        strcpy(message,"Selecione quantas devolucoes pretendes registar");
+                                        readInt(message,&numOfReturns,0,activeRequests);
+                                        if (numOfReturns == 0)
+                                        {
+                                            cancel = TRUE_1;
+                                        }
                                     }
                                     else
                                     {
                                         numOfReturns = 1;
                                     }
                                 }
-                                switch(optReturnMenu)
+                                else
                                 {
-                                case 1:
-                                    for (index = 0; index<numOfReturns; index++)
+                                    cancel = TRUE_1;
+                                }
+                                if(cancel == FALSE_0)
+                                {
+                                    switch(optReturnMenu)
+                                    {
+                                    case 1:
+                                        for (index = 0; index<numOfReturns; index++)
+                                        {
+                                            clearScreen();
+
+                                            registerReturnByLaptopId(laptop,totalLaptops,request,totalRequests,index,numOfReturns,&cancel);
+
+                                            if (cancel == TRUE_1)
+                                            {
+                                                numOfReturns = index;
+                                            }
+                                        }
+                                        break;
+                                    case 2:
+                                        for (index = 0; index<numOfReturns; index++)
+                                        {
+                                            clearScreen();
+
+                                            registerReturnByRequestCode(laptop,totalLaptops,request,totalRequests,index,numOfReturns,&cancel);
+
+                                            if (cancel == TRUE_1)
+                                            {
+                                                numOfReturns = index;
+                                            }
+                                        }
+                                        break;
+                                    }
+                                    activeRequests -= numOfReturns;
+                                    availableLaptops += numOfReturns;
+
+                                    if(cancel == TRUE_1 && numOfReturns > 0)
                                     {
                                         clearScreen();
-
-                                        registerReturnByLaptopId(laptop,totalLaptops,request,totalRequests,index,numOfReturns,&cancel);
-
-                                        if (cancel == TRUE_1)
-                                        {
-                                            numOfReturns = index;
-                                        }
+                                        //Desenha o aviso que apenas algumas devoluções foram registadas
+                                        drawReturnCancel(numOfReturns);
+                                        //Aguarda o input do utilizador para dar seguimento ao programa
+                                        enterToContinue("        ");
+                                        optReturnMenu = 3;
                                     }
-                                    break;
-                                case 2:
-                                    for (index = 0; index<numOfReturns; index++)
+
+                                    if (activeRequests == 0 && numOfReturns > 0)
                                     {
                                         clearScreen();
-
-                                        registerReturnByRequestCode(laptop,totalLaptops,request,totalRequests,index,numOfReturns,&cancel);
-
-                                        if (cancel == TRUE_1)
-                                        {
-                                            numOfReturns = index;
-                                        }
+                                        //Desenha o alerta de que todas as devolucoes foram registadas no sistema com sucesso
+                                        drawAllReturnSucessful();
+                                        //Aguarda o input do utilizador para dar seguimento ao programa
+                                        enterToContinue("        ");
+                                        optReturnMenu = 3;
                                     }
-                                    break;
-                                }
-                                activeRequests -= numOfReturns;
-                                availableLaptops += numOfReturns;
-
-                                if(cancel == TRUE_1 && numOfReturns > 0)
-                                {
-                                    //Desenha o aviso que apenas algumas devoluções foram registadas
-                                    drawReturnCancel(numOfReturns);
-                                    //Desenha a margem a esquerda
-                                    printf("        ");
-                                    //Aguarda o input do utilizador para dar seguimento ao programa
-                                    enterToContinue();
-                                    optReturnMenu = 3;
-                                }
-
-                                if (activeRequests == 0)
-                                {
-                                    clearScreen();
-                                    //Desenha o alerta de que todas as devolucoes foram reguistadas no sistema com sucesso
-                                    drawAllReturnSucessful();
-                                    //Desenha a margem a esquerda
-                                    printf("        ");
-                                    //Aguarda o input do utilizador para dar seguimento ao programa
-                                    enterToContinue();
-                                    optReturnMenu = 3;
                                 }
                             }
                             while(optReturnMenu != 3);
                         }
                         else
                         {
+                            clearScreen();
                             //Desenha o alerta de 0 requisicoes ativas no sistema
                             drawActiveRequestsNotFound();
-                            //Desenha a margem a esquerda
-                            printf("        ");
                             //Aguarda o input do utilizador para dar seguimento ao programa
-                            enterToContinue();
+                            enterToContinue("        ");
                         }
                         break;
                     case 3:
@@ -923,57 +851,62 @@ int main()
                                         cancel = TRUE_1;
                                     }
                                 }
-                                switch(optRenewMenu)
+                                else
                                 {
-                                case 1:
-                                    for (index = 0; index<numOfRenews; index++)
-                                    {
-                                        clearScreen();
-
-                                        registerRenewByLaptopId(laptop,totalLaptops,request,totalRequests,index,numOfRenews,&cancel);
-
-                                        if (cancel == TRUE_1)
-                                        {
-                                            numOfRenews = index;
-                                        }
-                                    }
-                                    break;
-                                case 2:
-                                    for (index = 0; index<numOfRenews; index++)
-                                    {
-                                        clearScreen();
-
-                                        registerRenewByRequestCode(laptop,totalLaptops,request,totalRequests,index,numOfRenews,&cancel);
-
-                                        if (cancel == TRUE_1)
-                                        {
-                                            numOfRenews = index;
-                                        }
-                                    }
-                                    break;
+                                    cancel = TRUE_1;
                                 }
-
-                                if(cancel == TRUE_1 && numOfRenews > 0)
+                                if(cancel == FALSE_0)
                                 {
-                                    //Desenha o aviso que apenas algumas devoluções foram registadas
-                                    drawRenewCancel(numOfRenews);
-                                    //Desenha a margem a esquerda
-                                    printf("        ");
-                                    //Aguarda o input do utilizador para dar seguimento ao programa
-                                    enterToContinue();
-                                    optReturnMenu = 3;
+                                    switch(optRenewMenu)
+                                    {
+                                    case 1:
+                                        for (index = 0; index<numOfRenews; index++)
+                                        {
+                                            clearScreen();
+
+                                            registerRenewByLaptopId(laptop,totalLaptops,request,totalRequests,index,numOfRenews,&cancel);
+
+                                            if (cancel == TRUE_1)
+                                            {
+                                                numOfRenews = index;
+                                            }
+                                        }
+                                        break;
+                                    case 2:
+                                        for (index = 0; index<numOfRenews; index++)
+                                        {
+                                            clearScreen();
+
+                                            registerRenewByRequestCode(laptop,totalLaptops,request,totalRequests,index,numOfRenews,&cancel);
+
+                                            if (cancel == TRUE_1)
+                                            {
+                                                numOfRenews = index;
+                                            }
+                                        }
+                                        break;
+                                    }
+
+                                    if(cancel == TRUE_1 && numOfRenews > 0)
+                                    {
+                                        clearScreen();
+                                        //Desenha o aviso que apenas algumas devoluções foram registadas
+                                        drawRenewCancel(numOfRenews);
+                                        //Aguarda o input do utilizador para dar seguimento ao programa
+                                        enterToContinue("        ");
+                                        optReturnMenu = 3;
+                                    }
                                 }
                             }
                             while(optRenewMenu != 3);
                         }
                         else
                         {
+                            clearScreen();
                             //Desenha o alerta de 0 requisicoes ativas no sistema
                             drawActiveRequestsNotFound();
-                            //Desenha a margem a esquerda
-                            printf("        ");
                             //Aguarda o input do utilizador para dar seguimento ao programa
-                            enterToContinue();
+                            enterToContinue("        ");
                         }
                         break;
                     case 4:
@@ -1003,18 +936,17 @@ int main()
                                     printf("        |_REQUISICOES/DEVOLUCOES____(X)_|\n");
                                     printf("        |                               |\n");
                                     printf("        | Digite o codigo da requisicao |\n");
-                                    printf("        | que desejas ver a informaçao. |\n");
+                                    printf("        | que desejas ver.              |\n");
                                     printf("        | Digite 0 para cancelar.       |\n");
                                     printf("        |_______________________________|\n\n");
+
                                     readRequestCodeShowInfo(&index,request,totalRequests,&cancel);
                                     if(cancel == FALSE_0)
                                     {
                                         clearScreen();
                                         showRequestInfo(laptop,request,index);
-                                        //Desenha a margem a esquerda
-                                        printf("        ");
                                         //Aguarda o input do utilizador para dar seguimento ao programa
-                                        enterToContinue();
+                                        enterToContinue("        ");
                                     }
                                     break;
                                 case 2:
@@ -1023,10 +955,8 @@ int main()
                                     {
                                         showRequestInfo(laptop,request,index);
                                     }
-                                    //Desenha a margem a esquerda
-                                    printf("        ");
                                     //Aguarda o input do utilizador para dar seguimento ao programa
-                                    enterToContinue();
+                                    enterToContinue("        ");
                                     break;
                                 }
 
@@ -1035,12 +965,11 @@ int main()
                         }
                         else
                         {
+                            clearScreen();
                             //Desenha o alerta de 0 requisicoes no sistema
                             drawRequestsNotFound();
-                            //Desenha a margem a esquerda
-                            printf("        ");
                             //Aguarda o input do utilizador para dar seguimento ao programa
-                            enterToContinue();
+                            enterToContinue("        ");
                         }
                         break;
                     }
@@ -1050,35 +979,29 @@ int main()
             }
             else
             {
+                clearScreen();
                 //Desenha o alerta de 0 portateis no sistema
                 drawLaptopsNotFound();
-                //Desenha a margem a esquerda
-                printf("        ");
                 //Aguarda o input do utilizador para dar seguimento ao programa
-                enterToContinue();
+                enterToContinue("        ");
             }
             /******************************************FIM OPÇÃO REQUISIÇÕES/DEVOLUÇÕES***********************************************/
             break;
         case 3:
             /*********************************************COMEÇO OPÇÃO ESTATISTICAS***************************************************/
+            clearScreen();
             if (totalLaptops > 0)
             {
-                clearScreen();
                 showStatistics(laptop,totalLaptops,request,totalRequests);
-                //Desenha a margem a esquerda
-                printf("        ");
-                //Aguarda o input do utilizador para dar seguimento ao programa
-                enterToContinue();
             }
             else
             {
                 //Desenha o alerta de 0 portateis no sistema
                 drawLaptopsNotFound();
-                //Desenha a margem a esquerda
-                printf("        ");
-                //Aguarda o input do utilizador para dar seguimento ao programa
-                enterToContinue();
             }
+
+            //Aguarda o input do utilizador para dar seguimento ao programa
+            enterToContinue("        ");
 
             /***********************************************FIM OPÇÃO ESTATISTICAS****************************************************/
             //infoLaptop();
@@ -1098,7 +1021,7 @@ int main()
             /***********************************************FIM CONFIRMAÇÃO DE SAIDA***************************************************/
             break;
         }
-        //--------------------------------------------------FIM MENU PRINCIPAL----------------------------------------------
+        ///--------------------------------------------------FIM MENU PRINCIPAL----------------------------------------------
     }
     while(optExtMenu != 2);
     //Liberta a memória do vertor dinamico

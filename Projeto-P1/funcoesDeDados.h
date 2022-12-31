@@ -13,6 +13,7 @@ void splitString(int splitPoint, char *enterStr, char firstReturnStr[MAX_SPLIT_S
 void toupperString(char *result, char *stringToUp);
 void getNumOfDigits(int *result, int numToCountDigits);
 
+void removeOneNext(int *numArray,int arraySize, int removeFromWhere);
 void readInt(char *message, int *num,int numMin, int numMax);
 void readFloat(char *message, float *num, float numMin, float numMax);
 void readDate(char *message,DateType *date);
@@ -31,6 +32,7 @@ void showRecentCompletedRequests(int numOfRequests,RequestType *request, int tot
 void numAvailableLaptops(int *result, LaptopType laptop[MAX_LAPTOPS],int totalLaptos);
 void numActiveRequests(int *result, RequestType *request,int totalRequests);
 void numCompletedRequests(int *result, RequestType *request,int totalRequests);
+void numPermanentDamages(int *result, DamageType *damagesList, int totalDamages);
 
 void writeApplicantTypeToFile(int numApplicantType, FILE *infofile);
 void writeLocationToFile(int numLocation, FILE *infofile);

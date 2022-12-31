@@ -47,6 +47,8 @@ void drawLaptopDamagesSubMenu(int laptopId);
   *Como usar:                                                                 *
   *-> Adicionar uma função de leitura para receber a informação do utilizador **/
 
+void drawReturnSubMenuInDamageMenu(void);
+
 void drawConfirmExit(void);
 /**Função para desenhar a confirmação de saída no ecrã                        *
   *Como usar:                                                                 *
@@ -56,7 +58,7 @@ void drawConfirmExit(void);
 //Funções de mostrar informações
 
 void drawLaptopIdInfoWindow(int laptopId);
-void drawNameInfoWindow(char *extraText,char *laptopName);
+void drawNameInfoWindow(char *margin, char *extraText, char *name);
 void drawLaptopStateInfoWindow(int laptopState);
 void drawLaptopLocationInfoWindow(int laptopLocation);
 void drawLaptopTotalDamagesInfoWindow(int damagesTotal);
@@ -83,6 +85,12 @@ void drawRequestDurationInfoWindow(int duration);
 void drawMaxLaptopsReachAlert(void);
 /**Função para desenhar o aviso que o número máximo de portateis existentes foi atingido**/
 
+void drawMaxDamagesReachAlert(void);
+
+void drawDamagesMaxPermanent(void);
+
+void drawDamageCancelMaxPermanent(void);
+
 void drawLaptopsNotFound(void);
 /**Função para desenhar o aviso que não foram encontrados portateis no sistema**/
 
@@ -90,9 +98,14 @@ void drawAllReturnSucessful(void);
 void drawLaptopsUnavailable(void);
 void drawAllRepairSucessful(void);
 void drawActiveRequestsNotFound(void);
+
 void drawReturnDelayFeeAlert(int delayFee);
+
 void drawLaptopSelectedInfo(int laptopIndex, LaptopType laptop[MAX_LAPTOPS]);
 
+void drawDamageDateMustBeHigherThanPurchaseDate(DateType date);
+
+void drawDamageDateMustBeHigherThanLastDate(DateType date);
 
 void drawRequestsNotFound(void);
 /**Função para desenhar o aviso que não foram encontradas requisições no sistema**/
@@ -136,6 +149,7 @@ void drawReturnInfoAsk(int index, int numOfReturns);
 
 void drawRenewInfoAsk(int index, int numOfRenews);
 
+
 void drawLaptopIdToMove(void);
 /**Função para desenhar a mensagem sobre pedir os dados do portatil a adicionar          *
   *com a informação "portatil atual a ser adicionado" e "total de portateis a adicionar" *
@@ -172,8 +186,8 @@ void drawRepairList(LaptopType laptop[MAX_LAPTOPS], int laptopIndex, int *damage
 void clearScreen(void);
 /**Função para limpar o ecrã**/
 
-void enterToContinue(void);
-/**Função para aguardar o input do utilizador antes de continuar**/
+void enterToContinue(char *margin);
+/**Função para aguardar o input do utilizador antes de continuar com o parâmetro de margem para alinhar**/
 
 void drawPercentageBar(float percentage);
 

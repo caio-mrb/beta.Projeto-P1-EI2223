@@ -19,6 +19,15 @@ void flushStdin(void)
     while (trash!='\n' && trash!=EOF);
 }
 
+void removeOneNext(int *numArray,int arraySize, int removeFromWhere)
+{
+    int index;
+
+    for(index=removeFromWhere;index<arraySize;index++)
+    {
+        numArray[index] = numArray[index]-1;
+    }
+}
 
 void readInt(char *message, int *num,int numMin, int numMax)
 {
@@ -135,7 +144,7 @@ void readDate(char *message, DateType *date)
             }
             if ((year < 1900 || year > 3500) && control == 3)
             {
-                printf("        Ano invalido, valido (1900-3500)\n");
+                printf("        Ano invalido, valido (1900-3500)!\n");
             }
 
         }
@@ -161,7 +170,6 @@ void readDate(char *message, DateType *date)
 
 }
 
-
 void readString(char *message,char *string, int maxStringSize)
 {
     int stringSize,index, invalidChar;
@@ -175,7 +183,7 @@ void readString(char *message,char *string, int maxStringSize)
         stringSize = strlen(string);
         if (stringSize == 1)
         {
-            printf("        O campo não pode ficar vazio!\n");
+            printf("        O campo nao pode ficar vazio!\n");
         }
         else
         {
@@ -323,13 +331,26 @@ void numActiveRequests(int *result, RequestType *request,int totalRequests)
 
 void numCompletedRequests(int *result, RequestType *request,int totalRequests)
 {
-
     int index;
     *result = 0;
 
     for (index=0; index<totalRequests; index++)
     {
         if (request[index].state == COMPLETED)
+        {
+            (*result)++;
+        }
+    }
+}
+
+void numPermanentDamages(int *result, DamageType *damagesList, int totalDamages)
+{
+    int index;
+    *result = 0;
+
+    for (index=0; index<totalDamages; index++)
+    {
+        if (damagesList[index].type == PERMANET)
         {
             (*result)++;
         }
@@ -413,6 +434,49 @@ void toupperString(char *result, char *stringToUp)
 void showStatistics(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,RequestType *request,int totalRequests)
 {
     char tittle[14];
+
+    strcpy(tittle,"DEVOLUCOES");
+
+    printf("                    ________________________________\n");
+    printf("                   ");
+    centerTittle(tittle,"\0",30);
+    printf("                   |                                |\n");
+    if(totalRequests > 0)
+    {
+        int completedRequests;
+        numCompletedRequests(&completedRequests,request,totalRequests);
+        if (completedRequests > 0)
+        {
+
+
+            if(completedRequests > 3)
+            {
+                completedRequests = 3;
+            }
+
+
+            if (completedRequests == 1)
+            {
+                printf("                   | Devolucao mais recente:        |\n");
+            }
+            else
+            {
+                printf("                   | Devolucoes mais recentes:      |\n");
+            }
+
+            printf("                   | (mais recente primeiro)        |\n");
+            showRecentCompletedRequests(completedRequests,request,totalRequests);
+        }
+        else
+        {
+            printf("                   | Ainda nao existem devolucoes.  |\n");
+        }
+    }
+    else
+    {
+        printf("                   | Ainda nao existem requisicoes. |\n");
+    }
+    printf("                   |________________________________|\n\n");
 
     strcpy(tittle,"MULTAS");
 
@@ -524,17 +588,17 @@ void showStatistics(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,RequestType 
         printf("        |                                                       |\n");
         printf("        | Utente(s) com a menor quantidade de requisicoes:      |\n");
         printf("        | ");
-        if((int)percentageStudent <= (int)percentageTeacher && (int)percentageStudent <= (int)percentageAdminTech)
+        if((int)(percentageStudent*100) <= (int)(percentageTeacher*100) && (int)(percentageStudent*100) <= (int)(percentageAdminTech*100))
         {
             printf("->Estudante ");
             numOfSpaces += 12;
         }
-        if((int)percentageTeacher <= (int)percentageStudent && (int)percentageTeacher <= (int)percentageAdminTech)
+        if((int)(percentageTeacher*100) <= (int)(percentageStudent*100) && (int)(percentageTeacher*100) <= (int)(percentageAdminTech*100))
         {
             printf("->Docente ");
             numOfSpaces += 10;
         }
-        if((int)percentageAdminTech <= (int)percentageTeacher && (int)percentageAdminTech <= (int)percentageStudent)
+        if((int)(percentageAdminTech*100) <= (int)(percentageTeacher*100) && (int)(percentageAdminTech*100) <= (int)(percentageStudent*100))
         {
             printf("->Tecnico Administrativo ");
             numOfSpaces += 25;
@@ -548,65 +612,27 @@ void showStatistics(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,RequestType 
 
     printf("        |_______________________________________________________|\n\n");
 
-    strcpy(tittle,"DEVOLUCOES");
 
-    printf("         ________________________________\n");
-    printf("        ");
-    centerTittle(tittle,"\0",30);
-    printf("        |                                |\n");
-    if(totalRequests > 0)
-    {
-        int completedRequests;
-        numCompletedRequests(&completedRequests,request,totalRequests);
-        if (completedRequests > 0)
-        {
-
-
-            if(completedRequests > 3)
-            {
-                completedRequests = 3;
-            }
-
-
-            if (completedRequests == 1)
-            {
-                printf("        | Devolucao mais recente:        |\n");
-            }
-            else
-            {
-                printf("        | Devolucoes mais recentes:      |\n");
-            }
-
-            printf("        | (mais recente primeiro)        |\n");
-            showRecentCompletedRequests(completedRequests,request,totalRequests);
-        }
-        else
-        {
-            printf("        | Ainda nao existem devolucoes.  |\n");
-        }
-    }
-    else
-    {
-        printf("        | Ainda nao existem requisicoes. |\n");
-    }
-    printf("        |________________________________|\n\n");
 }
 
 void showRecentCompletedRequests(int numOfRequests,RequestType *request, int totalRequests)
 {
-    int index;
+    int index, counter = 0;
     char extraNameText[23];
     for(index=totalRequests-1; index>=0; index--)
     {
         if(request[index].state==COMPLETED)
         {
-            printf("        |                                |\n");
-            printf("        | --------------[%d]------------- |\n",4-numOfRequests);
+            counter++;
+            printf("                   |                                |\n");
+            printf("                   | --------------[%d]------------- |\n",counter);
             strcpy(extraNameText,"Codigo da Requisicao: ");
-            drawNameInfoWindow(extraNameText,request[index].code);
+            drawNameInfoWindow("                   ",extraNameText,request[index].code);
             strcpy(extraNameText,"Nome do Utente: ");
-            drawNameInfoWindow(extraNameText,request[index].applicantName);
+            drawNameInfoWindow("                   ",extraNameText,request[index].applicantName);
+            printf("           ");
             drawRequestDurationInfoWindow(request[index].duration);
+            printf("           ");
             drawRequestTotalDurationInfoWindow(request[index].durationTotal);
             numOfRequests--;
         }
@@ -823,7 +849,6 @@ void storeInfoToFile(LaptopType laptop[MAX_LAPTOPS],int totalLaptops, RequestTyp
 
 }
 
-
 RequestType *loadFileToInfo(LaptopType laptop[MAX_LAPTOPS],int *totalLaptops, RequestType *request, int *totalRequests)
 {
 
@@ -944,7 +969,6 @@ RequestType *loadFileToInfo(LaptopType laptop[MAX_LAPTOPS],int *totalLaptops, Re
     return request;
 }
 
-
 void writeApplicantTypeToFile(int numApplicantType, FILE *infofile)
 {
     switch(numApplicantType)
@@ -982,8 +1006,6 @@ void writeLocationToFile(int numLocation, FILE *infofile)
         break;
     }
 }
-
-//Log DATA
 
 void storeLogData(LaptopType laptop[MAX_LAPTOPS], RequestType *request, int requestIndex)
 {
@@ -1040,8 +1062,3 @@ void storeLogData(LaptopType laptop[MAX_LAPTOPS], RequestType *request, int requ
     }
     fclose(logfile);
 }
-
-
-
-
-

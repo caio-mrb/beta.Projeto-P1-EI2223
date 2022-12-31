@@ -1,27 +1,15 @@
 #ifndef CONSTANTES_H
 #define CONSTANTES_H
 
-#define MAX_LAPTOPS 30
-
-#define MAX_DAMAGE_DAYS 9999
-
-#define MAX_ID 9999
+//General
 
 #define MAX_OPTION_CHAR 10
-
 #define MAX_NAME_CHAR 51
-
 #define MAX_READ_MESSAGE_SIZE 70
 
-#define MAX_SPLIT_STRING 40
+//Damages
 
-#define MAX_CODE_CHAR 21
-
-#define LINES_CLEAR_SCREEN 28
-
-#define MAX_SPACES_INFO_WINDOW 30
-
-//Damages LIST
+#define MAX_DAMAGE_DAYS 9999
 
 #define SCREEN 1
 #define KEYBOARD 2
@@ -36,17 +24,13 @@
 #define CPU 11
 #define RAM 12
 
-
 #define TEMPORARY 1
 #define PERMANET 2
 
-//For Laptops
+//Laptops
 
-#define AVAILABLE 1
-#define REQUESTED 2
-#define BROKEN_TEMPORARY 3
-#define BROKEN_PERMANENT 4
-
+#define MAX_LAPTOPS 30
+#define MAX_ID 9999
 
 #define RESIDENCES 1
 #define CAMPUS_1 2
@@ -54,12 +38,18 @@
 #define CAMPUS_3 4
 #define CAMPUS_5 5
 
-
 #define INTEL_I3 3
 #define INTEL_I5 5
 #define INTEL_I7 7
 
-//For Requests
+#define AVAILABLE 1
+#define REQUESTED 2
+#define BROKEN_TEMPORARY 3
+#define BROKEN_PERMANENT 4
+
+//Requests
+
+#define MAX_CODE_CHAR 21
 
 #define STUDENT 1
 #define TEACHER 2
@@ -68,11 +58,15 @@
 #define ACTIVE 1
 #define COMPLETED 2
 
+//Design
+
+#define MAX_SPLIT_STRING 40
+#define LINES_CLEAR_SCREEN 28
+#define MAX_SPACES_INFO_WINDOW 30
 
 //Bolean
 
-#define TRUE_1 1
 #define FALSE_0 0
-
+#define TRUE_1 1
 
 #endif // CONSTANTES_H

@@ -15,7 +15,6 @@ void drawTittle(void)
     printf("Criado por: Andre Rosa e Caio Barbosa.\n");
 }
 
-
 void drawWelcome(void)
 {
     printf(" ________________________\n");
@@ -70,7 +69,6 @@ void drawMainMenu(int totalLaptops, int availableLaptops, int totalRequests, int
     printf("        |________________________________________|\n\n");
 }
 
-
 void drawLaptopMenu(void)
 {
 
@@ -103,7 +101,6 @@ void drawInfoMenu(void)
 
 }
 
-
 void drawRequestsNotFound(void)
 {
 
@@ -123,13 +120,13 @@ void drawLaptopIdInfoWindow(int laptopId)
     centerTittle(extraText,stringId,MAX_SPACES_INFO_WINDOW);
 }
 
-void drawNameInfoWindow(char *extraText, char *name)
+void drawNameInfoWindow(char *margin, char *extraText, char *name)
 {
     char firstSplitedStr[MAX_SPLIT_STRING] = {'\0'}, secondSplitedStr[MAX_SPLIT_STRING] = {'\0'}, thirdSplitedStr[MAX_SPLIT_STRING] = {'\0'};
 
     if (strlen(name)+strlen(extraText) < MAX_SPACES_INFO_WINDOW)
     {
-        printf("        | %s%s",extraText,name);
+        printf("%s| %s%s",margin,extraText,name);
         alignMargin(strlen(name)+strlen(extraText),MAX_SPACES_INFO_WINDOW);
     }
 
@@ -137,10 +134,10 @@ void drawNameInfoWindow(char *extraText, char *name)
     {
         splitString(MAX_SPACES_INFO_WINDOW-strlen(extraText),name,firstSplitedStr,secondSplitedStr);
 
-        printf("        | %s%s",extraText,firstSplitedStr);
+        printf("%s| %s%s",margin,extraText,firstSplitedStr);
         alignMargin(strlen(firstSplitedStr)+strlen(extraText),MAX_SPACES_INFO_WINDOW);
 
-        printf("        | %s",secondSplitedStr);
+        printf("%s| %s",margin,secondSplitedStr);
         alignMargin(strlen(secondSplitedStr),MAX_SPACES_INFO_WINDOW);
 
     }
@@ -151,17 +148,16 @@ void drawNameInfoWindow(char *extraText, char *name)
         splitString(MAX_SPACES_INFO_WINDOW,secondSplitedStr,secondSplitedStr,thirdSplitedStr);
 
 
-        printf("        | %s%s",extraText,firstSplitedStr);
+        printf("%s| %s%s",margin,extraText,firstSplitedStr);
         alignMargin(strlen(firstSplitedStr)+strlen(extraText),MAX_SPACES_INFO_WINDOW);
 
-        printf("        | %s",secondSplitedStr);
+        printf("%s| %s",margin,secondSplitedStr);
         alignMargin(strlen(secondSplitedStr),MAX_SPACES_INFO_WINDOW);
 
-        printf("        | %s",thirdSplitedStr);
+        printf("%s| %s",margin,thirdSplitedStr);
         alignMargin(strlen(thirdSplitedStr),MAX_SPACES_INFO_WINDOW);
     }
 }
-
 
 void drawLaptopStateInfoWindow(int laptopState)
 {
@@ -227,7 +223,6 @@ void drawLaptopProcessorInfoWindow(int laptopProcessor)
     printf("        | Processador: Intel Core i%d     |\n",laptopProcessor);
 
 }
-
 
 void drawLaptopRamInfoWindow(int laptopRam)
 {
@@ -307,7 +302,6 @@ void drawLaptopDamageDescInfoWindow(DamageType *damagesList,int indexDamage)
 
 }
 
-
 void drawMaxLaptopsReachAlert(void)
 {
     printf("         ____________________________________\n");
@@ -317,6 +311,16 @@ void drawMaxLaptopsReachAlert(void)
     printf("        | portateis existentes.              |\n");
     printf("        |____________________________________|\n\n");
 
+}
+
+void drawMaxDamagesReachAlert(void)
+{
+    printf("         __________________________________\n");
+    printf("        |_PORTATEIS____________________(X)_|\n");
+    printf("        |                                  |\n");
+    printf("        | O portátil selecionado ja possui |\n");
+    printf("        | o maximo de avarias possivel.    |\n");
+    printf("        |__________________________________|\n\n");
 }
 
 void drawAddLaptop(int totalLaptops)
@@ -338,7 +342,6 @@ void drawAddLaptop(int totalLaptops)
     printf("        |___________________________________|\n\n");
 
 }
-
 
 void drawLaptopInfoAsk(int index, int numOfLaptops)
 {
@@ -369,7 +372,6 @@ void drawRequestInfoAsk(int index,int numOfRequests)
     printf("        | Digite 0 em qualquer campo para cancelar.  |\n");
     printf("        |____________________________________________|\n\n");
 }
-
 
 void drawLocationsMiniList(void)
 {
@@ -529,8 +531,6 @@ void drawRequestLaptopIdInfoWindow(int laptopId)
     alignMargin(idDigits+12,MAX_SPACES_INFO_WINDOW);
 }
 
-
-
 void drawRequestApplicantTypeInfoWindow(int applicantType)
 {
     switch(applicantType)
@@ -617,13 +617,14 @@ void drawRequestStateInfoWindow(int requestState)
 
 void drawLaptopDaysRequested(int daysRequested)
 {
-    if (daysRequested > 0){
-    int daysDigits;
+    if (daysRequested > 0)
+    {
+        int daysDigits;
 
-    getNumOfDigits(&daysDigits,daysRequested);
-    printf("        | Este postatil foi requisitado  |\n");
-    printf("        | ao todo por %d dias.",daysRequested);
-    alignMargin(daysDigits+18,MAX_SPACES_INFO_WINDOW);
+        getNumOfDigits(&daysDigits,daysRequested);
+        printf("        | Este postatil foi requisitado  |\n");
+        printf("        | ao todo por %d dias.",daysRequested);
+        alignMargin(daysDigits+18,MAX_SPACES_INFO_WINDOW);
     }
 }
 
@@ -644,6 +645,7 @@ void drawLaptopsNotFound(void)
     printf("        |__________________________________|\n\n");
 
 }
+
 void drawLaptopsUnavailable(void)
 {
 
@@ -656,20 +658,78 @@ void drawLaptopsUnavailable(void)
 
 }
 
+void drawDamageDateMustBeHigherThanPurchaseDate(DateType date)
+{
+    printf("         ___________________________\n");
+    printf("        | A data da avaria nao pode |\n");
+    printf("        | ser inferior a data       |\n");
+    printf("        | de compra do portatil.    |\n");
+    printf("        | O portatil em questao foi |\n");
+    printf("        |_comprado dia ");
+    showDate(date);
+    printf("___|\n\n");
+}
+
+void drawDamageDateMustBeHigherThanLastDate(DateType date)
+{
+    printf("         __________________________\n");
+    printf("        | A data da avaria         |\n");
+    printf("        | permanete deve ser       |\n");
+    printf("        | superior a data da       |\n");
+    printf("        | ultima avaria temporaria |\n");
+    printf("        | deste componente.        |\n");
+    printf("        | A ultima avaria deste    |\n");
+    printf("        | componte foi registada   |\n");
+    printf("        |_no dia ");
+    showDate(date);
+    printf("________|\n\n");
+}
+
 void drawReturnDelayFeeAlert(int delayFee)
 {
-    int delayFeeDigits;
-
-    getNumOfDigits(&delayFeeDigits,delayFee);
 
     printf("         __________________________________________\n");
     printf("        |_REQUISICOES/DEVOLUCOES_______________(X)_|\n");
     printf("        |                                          |\n");
+
+    if(delayFee > 0)
+    {
+    int delayFeeDigits;
+
+    getNumOfDigits(&delayFeeDigits,delayFee);
+
+
     printf("        | Sera cobrada uma multa de %d euros",delayFee);
     alignMargin(delayFeeDigits,8);
     printf("        | devido aos %d dias de atraso.",(delayFee/10));
     alignMargin(delayFeeDigits-1,13);
+
+    }
+    else
+    {
+
+    printf("        | Nao sera cobrada nenhuma multa pois o    |\n");
+    printf("        | portatil foi devolvido dentro do prazo   |\n");
+
+    }
+
     printf("        |__________________________________________|\n\n");
+
+
+}
+
+void drawReturnSubMenuInDamageMenu(void)
+{
+    printf("         ___________________________________\n");
+    printf("        |_REQUISICOES/DEVOLUCOES________(X)_|\n");
+    printf("        |                                   |\n");
+    printf("        | Este portatil esta requisitado.   |\n");
+    printf("        | Para registar uma ou mais avarias |\n");
+    printf("        | e necessario devolve-lo antes.    |\n");
+    printf("        | Selecione uma opcao:              |\n");
+    printf("        | 1 - Devolver portatil             |\n");
+    printf("        | 2 - Cancelar                      |\n");
+    printf("        |___________________________________|\n\n");
 
 }
 
@@ -691,7 +751,6 @@ void drawReturnInfoAsk(int index, int numOfReturns)
     printf("        |___________________________________________|\n\n");
 
 }
-
 
 void drawRenewInfoAsk(int index, int numOfRenews)
 {
@@ -742,8 +801,6 @@ void drawAllReturnSucessful(void)
     printf("        |____________________________|\n\n");
 }
 
-
-
 void drawLaptopSelectedInfo(int laptopIndex, LaptopType laptop[MAX_LAPTOPS])
 {
     int idDigits;
@@ -754,11 +811,10 @@ void drawLaptopSelectedInfo(int laptopIndex, LaptopType laptop[MAX_LAPTOPS])
     printf("         ________________________________\n");
     printf("        | ->Selecionado Portatil ID#%d",laptop[laptopIndex].id);
     alignMargin(idDigits+26,MAX_SPACES_INFO_WINDOW);
-    drawNameInfoWindow(extraText,laptop[laptopIndex].name);
+    drawNameInfoWindow("        ",extraText,laptop[laptopIndex].name);
     drawLaptopProcessorInfoWindow(laptop[laptopIndex].processor);
     printf("        |_Memoria RAM: %3d_______________|\n\n",laptop[laptopIndex].ram);
 }
-
 
 void drawLaptopIdToMove(void)
 {
@@ -823,6 +879,27 @@ void drawDamagensNoneActive(int laptopId)
 
 }
 
+void drawDamageCancelMaxPermanent(void)
+{
+    printf("         ___________________________________________________\n");
+    printf("        |_PORTATEIS_____________________________________(X)_|\n");
+    printf("        |                                                   |\n");
+    printf("        | A(s) avaria(s) anterior(es) foi(ram) registada(s) |\n");
+    printf("        | com sucesso. A operacao foi cancelada pois ja foi |\n");
+    printf("        | atingido o limite maxido de avarias possivel.     |\n");
+    printf("        |___________________________________________________|\n\n");
+}
+
+void drawDamagesMaxPermanent(void)
+{
+    printf("         ______________________________________________\n");
+    printf("        |_PORTATEIS________________________________(X)_|\n");
+    printf("        |                                              |\n");
+    printf("        | O portatil ja atingiu o maximo de avarias    |\n");
+    printf("        | possivel, so e possivel registar reparacoes. |\n");
+    printf("        |______________________________________________|\n\n");
+}
+
 void drawConfirmExit(void)
 {
     printf("         _______________________________\n");
@@ -840,11 +917,11 @@ void drawPercentageBar(float percentage)
     int index;
 
     printf("[");
-    for(index=0;index<((int)percentage/5);index++)
+    for(index=0; index<((int)percentage/5); index++)
     {
         printf("#");
     }
-    for(index=0;index<20-((int)percentage/5);index++)
+    for(index=0; index<20-((int)percentage/5); index++)
     {
         printf("-");
     }
@@ -895,10 +972,9 @@ void alignMargin(int contentSize, int totalSpaces)
 
 }
 
-
-void enterToContinue(void)
+void enterToContinue(char *margin)
 {
-    printf("Pressione ENTER para continuar...");
+    printf("%sPressione ENTER para continuar...",margin);
 
     if (getchar() != '\n') //Impede que comece o menu com um erro de "Valor Inválido!"
     {

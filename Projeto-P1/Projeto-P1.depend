@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1672115929 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\main.c
+1672443124 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\main.c
 	<stdio.h>
 	<stdlib.h>
 	<locale.h>
@@ -14,12 +14,12 @@
 	<stdio.h>
 	"funcoesDeDesign.h"
 
-1672118479 c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdedados.h
+1672440082 c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdedados.h
 	<stdio.h>
 	"funcoesDePortateis.h"
 	"funcoesDeRequisicoes.h"
 
-1672100786 c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdeportateis.h
+1672445801 c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdeportateis.h
 	<stdio.h>
 	"funcoesDeData.h"
 	"constantes.h"
@@ -32,7 +32,7 @@
 	"funcoesDePortateis.h"
 	"funcoesDeDesign.h"
 
-1672120241 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdedados.c
+1672442921 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdedados.c
 	"funcoesDeDados.h"
 	<stdio.h>
 	<stdlib.h>
@@ -45,7 +45,7 @@
 	"funcoesDeDados.h"
 	<stdio.h>
 
-1672103101 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdeportateis.c
+1672446051 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdeportateis.c
 	"funcoesDePortateis.h"
 	<stdio.h>
 	<stdlib.h>
@@ -54,7 +54,7 @@
 	"funcoesDeDados.h"
 	"funcoesDeDesign.h"
 
-1672115647 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesderequisicoes.c
+1672445801 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesderequisicoes.c
 	"funcoesDeRequisicoes.h"
 	"funcoesDeDados.h"
 	<stdio.h>
@@ -64,17 +64,17 @@
 1672084848 c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdedata.h
 	<stdio.h>
 
-1671990384 c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\constantes.h
+1672418900 c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\constantes.h
 
 1672100813 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdedata.c
 	"funcoesDeData.h"
 	"funcoesDeDados.h"
 
-1672117054 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdedesign.c
+1672445801 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdedesign.c
 	"funcoesDeDesign.h"
 	<stdio.h>
 	<string.h>
 
-1672106204 c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdedesign.h
+1672447069 c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdedesign.h
 	"funcoesDeDados.h"
 

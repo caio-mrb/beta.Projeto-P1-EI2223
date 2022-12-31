@@ -11,9 +11,8 @@ typedef struct Damages
     int code;
     int state;
     int type;
-    DateType date;
     int duration;
-
+    DateType date;
 } DamageType;
 
 typedef struct Laptops
@@ -35,23 +34,27 @@ typedef struct Laptops
 
 #include "funcoesDeRequisicoes.h"
 
-void searchEqualLapId(int *result, LaptopType laptop[MAX_LAPTOPS],int totalLaptops, int numToComp);
+void searchEqualLaptopId(int *result, LaptopType laptop[MAX_LAPTOPS],int totalLaptops, int numToComp);
+void searchEqualDamage(int *equalIndex, DamageType *damageList, int totalDamages, DamageType damageToComp);
+void searchEqualDamageCodeAndHigherDate(int *equalIndex, DamageType *damageList, int totalDamages, DateType dateToComp, int codeToComp);
 int *searchTemporaryDamagesIndex(int *sizeDamageIndex, LaptopType laptop[MAX_LAPTOPS], int laptopId);
 
-void readLapName(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
-void readLapId(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
-void readLapProcessor(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
-void readLapRam(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
-void readLapPrice(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
-void readLapLocation(LaptopType laptop[MAX_LAPTOPS],int laptopIndex,int *cancel);
-void readLapPurchaseDate(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
+void readLaptopName(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
+void readLaptopId(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
+void readLaptopProcessor(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
+void readLaptopRam(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
+void readLaptopPrice(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
+void readLaptopLocation(LaptopType laptop[MAX_LAPTOPS],int laptopIndex,int *cancel);
+void readLaptopPurchaseDate(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);
+void registerNewLaptop(LaptopType laptop[MAX_LAPTOPS], int totalLaptops, int index, int numOfLaptops, int *cancel);
 
+void changeLaptopLocation(LaptopType laptop[MAX_LAPTOPS], int laptopIndex, int *cancel);
 
-void readDamageInfoCode(int index, int numOfDamages, DamageType *damageInfo, int *cancel);
+void readDamageInfoCode(int index, int numOfDamages, DamageType *damageInfo, DamageType *damageList, int totalDamages, int *cancel);
 void readDamageInfoType(int index, int numOfDamages, DamageType *damageInfo, int *cancel);
-void readDamageInfoDate(int index, int numOfDamages, DamageType *damageInfo, int *cancel);
+void readDamageInfoDate(int index, int numOfDamages, DamageType *damageInfo, DateType purchaseDate, DamageType *damageList, int totalDamages, int *cancel);
+void registerNewDamage(LaptopType laptop[MAX_LAPTOPS], int laptopIndex, int *index, int numOfDamages, int *cancel);
 
-int *changeLapLocationTo(int locationNum,LaptopType laptop[MAX_LAPTOPS],int laptopIndex);
 void showLaptopInfo(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,RequestType *request,int totalRequests);
 void showDamageHistoric(LaptopType laptop[MAX_LAPTOPS],int totalLaptops);
 void writeDamageCode(int code, int windowSize);

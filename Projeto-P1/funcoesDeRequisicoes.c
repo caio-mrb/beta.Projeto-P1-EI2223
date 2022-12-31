@@ -49,7 +49,7 @@ void showRequestInfo(LaptopType laptop[MAX_LAPTOPS], RequestType *request, int r
     printf("        ");
     centerTittle(extraTittleText,request[requestIndex].code,MAX_SPACES_INFO_WINDOW);
     printf("        |                                |\n");
-    drawNameInfoWindow(extraRequestNameText,request[requestIndex].applicantName);
+    drawNameInfoWindow("        ",extraRequestNameText,request[requestIndex].applicantName);
     drawRequestApplicantTypeInfoWindow(request[requestIndex].applicantType);
     printf("        |                                |\n");
     drawRequestStateInfoWindow(request[requestIndex].state);
@@ -63,7 +63,7 @@ void showRequestInfo(LaptopType laptop[MAX_LAPTOPS], RequestType *request, int r
     printf("        |                                |\n");
     printf("        | ---->Portatil Requisitado<---- |\n");
     drawRequestLaptopIdInfoWindow(laptop[request[requestIndex].laptopIndex].id);
-    drawNameInfoWindow(extraLaptopNameText,laptop[request[requestIndex].laptopIndex].name);
+    drawNameInfoWindow("        ",extraLaptopNameText,laptop[request[requestIndex].laptopIndex].name);
     drawLaptopStateInfoWindow(laptop[request[requestIndex].laptopIndex].state);
     drawLaptopDaysRequested(laptop[request[requestIndex].laptopIndex].daysRequestedCounter);
     printf("        |________________________________|\n\n");
@@ -137,7 +137,7 @@ void registerReturnByDamageMenu(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,
     {
         drawLocationsMiniList();
     }
-    readLapLocation(laptop,laptopIndex,cancel);
+    readLaptopLocation(laptop,laptopIndex,cancel);
     if (*cancel == FALSE_0)
     {
         request[requestIndex].returnLocation = laptop[laptopIndex].location;
@@ -148,16 +148,14 @@ void registerReturnByDamageMenu(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,
         if (request[requestIndex].durationTotal > request[requestIndex].duration)
         {
             request[requestIndex].delayFee = (request[requestIndex].durationTotal - request[requestIndex].duration) * 10;
-            drawReturnDelayFeeAlert(request[requestIndex].delayFee);
-            //Desenha a margem a esquerda
-            printf("        ");
-            //Aguarda o input do utilizador para dar seguimento ao programa
-            enterToContinue();
         }
         else
         {
             request[requestIndex].delayFee = 0;
         }
+        drawReturnDelayFeeAlert(request[requestIndex].delayFee);
+        //Aguarda o input do utilizador para dar seguimento ao programa
+        enterToContinue("        ");
         request[requestIndex].state = COMPLETED;
         laptop[laptopIndex].state = AVAILABLE;
         laptop[laptopIndex].daysRequestedCounter += (request[requestIndex].durationTotal - request[requestIndex].duration);
@@ -177,7 +175,7 @@ void registerReturnByRequestCode(LaptopType laptop[MAX_LAPTOPS],int totalLaptops
     {
         drawLocationsMiniList();
     }
-    readLapLocation(laptop,request[requestIndex].laptopIndex,cancel);
+    readLaptopLocation(laptop,request[requestIndex].laptopIndex,cancel);
     if (*cancel == FALSE_0)
     {
         request[requestIndex].returnLocation = laptop[request[requestIndex].laptopIndex].location;
@@ -188,16 +186,14 @@ void registerReturnByRequestCode(LaptopType laptop[MAX_LAPTOPS],int totalLaptops
         if (request[requestIndex].durationTotal > request[requestIndex].duration)
         {
             request[requestIndex].delayFee = (request[requestIndex].durationTotal - request[requestIndex].duration) * 10;
-            drawReturnDelayFeeAlert(request[requestIndex].delayFee);
-            //Desenha a margem a esquerda
-            printf("        ");
-            //Aguarda o input do utilizador para dar seguimento ao programa
-            enterToContinue();
         }
         else
         {
             request[requestIndex].delayFee = 0;
         }
+        drawReturnDelayFeeAlert(request[requestIndex].delayFee);
+        //Aguarda o input do utilizador para dar seguimento ao programa
+        enterToContinue("        ");
         request[requestIndex].state = COMPLETED;
         laptop[request[requestIndex].laptopIndex].state = AVAILABLE;
         laptop[request[requestIndex].laptopIndex].daysRequestedCounter += (request[requestIndex].durationTotal - request[requestIndex].duration);
@@ -220,7 +216,7 @@ void registerReturnByLaptopId(LaptopType laptop[MAX_LAPTOPS],int totalLaptops, R
         searchRequestIndex(&requestIndex,request,totalRequests,laptopIndex);
         drawLocationsMiniList();
     }
-    readLapLocation(laptop,laptopIndex,cancel);
+    readLaptopLocation(laptop,laptopIndex,cancel);
     if (*cancel == FALSE_0)
     {
         request[requestIndex].returnLocation = laptop[laptopIndex].location;
@@ -231,16 +227,14 @@ void registerReturnByLaptopId(LaptopType laptop[MAX_LAPTOPS],int totalLaptops, R
         if (request[requestIndex].durationTotal > request[requestIndex].duration)
         {
             request[requestIndex].delayFee = (request[requestIndex].durationTotal - request[requestIndex].duration) * 10;
-            drawReturnDelayFeeAlert(request[requestIndex].delayFee);
-            //Desenha a margem a esquerda
-            printf("        ");
-            //Aguarda o input do utilizador para dar seguimento ao programa
-            enterToContinue();
         }
         else
         {
             request[requestIndex].delayFee = 0;
         }
+        drawReturnDelayFeeAlert(request[requestIndex].delayFee);
+        //Aguarda o input do utilizador para dar seguimento ao programa
+        enterToContinue("        ");
         request[requestIndex].state = COMPLETED;
         laptop[laptopIndex].state = AVAILABLE;
         laptop[laptopIndex].daysRequestedCounter += (request[requestIndex].durationTotal - request[requestIndex].duration);
@@ -268,13 +262,13 @@ void readReturnDate(int *returnDays,RequestType *request, int requestIndex, int 
 
                 if (*returnDays < 0)
                 {
-                    printf("         __________________________________________\n");
-                    printf("        | A data de devolucao nao pode ser         |\n");
-                    printf("        | inferior a data de requisicao.           |\n");
-                    printf("        | Este portatil foi requisitado            |\n");
+                    printf("         __________________________________\n");
+                    printf("        | A data de devolucao nao pode ser |\n");
+                    printf("        | inferior a data de requisicao.   |\n");
+                    printf("        | Este portatil foi requisitado    |\n");
                     printf("        |_no dia ");
                     showDate(request[requestIndex].requestDate);
-                    printf("________________________|\n\n");
+                    printf("________________|\n\n");
                 }
             }
 
@@ -330,7 +324,7 @@ void readReturnLaptopId(int *laptopIndex, LaptopType laptop[MAX_LAPTOPS],int tot
             readInt(message,&laptopId,0,MAX_ID);
             if (laptopId > 0)
             {
-                searchEqualLapId(laptopIndex,laptop,totalLaptops,laptopId);
+                searchEqualLaptopId(laptopIndex,laptop,totalLaptops,laptopId);
                 if (*laptopIndex > -1)
                 {
                     if (laptop[*laptopIndex].state != REQUESTED)
@@ -357,8 +351,6 @@ void readReturnLaptopId(int *laptopIndex, LaptopType laptop[MAX_LAPTOPS],int tot
     }
 
 }
-
-
 
 RequestType *registerNewRequest(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,RequestType *request, int *totalRequests,int index,int numOfRequests, int *cancel)
 {
@@ -425,7 +417,7 @@ void readRequestDate(RequestType *newRequestInfo,LaptopType laptop[MAX_LAPTOPS],
                     printf("         ___________________________\n");
                     printf("        | A data da requisicao nao  |\n");
                     printf("        | pode ser inferior a data  |\n");
-                    printf("        | de compra po portatil.    |\n");
+                    printf("        | de compra do portatil.    |\n");
                     printf("        | O portatil em questao foi |\n");
                     printf("        | comprado dia ");
                     showDate(laptop[newRequestInfo->laptopIndex].purchaseDate);
@@ -487,7 +479,6 @@ void readRequestCodeShowInfo(int *requestIndex,RequestType *request,int totalReq
     while(*requestIndex == -1 && *cancel == FALSE_0);
 }
 
-
 void readRequestLaptopId(RequestType *newRequestInfo,LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel)
 {
     if (*cancel == FALSE_0)
@@ -504,7 +495,7 @@ void readRequestLaptopId(RequestType *newRequestInfo,LaptopType laptop[MAX_LAPTO
             }
             else
             {
-                searchEqualLapId(&equalLaptopIndex,laptop,totalLaptops,laptopId);
+                searchEqualLaptopId(&equalLaptopIndex,laptop,totalLaptops,laptopId);
                 if(equalLaptopIndex == -1)
                 {
                     printf("        Nao existe um portatil com este ID!\n");

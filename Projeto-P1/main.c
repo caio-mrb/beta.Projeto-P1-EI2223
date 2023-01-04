@@ -889,7 +889,6 @@ int main()
                     case 4:
                         if(totalRequests > 0)
                         {
-
                             do
                             {
                                 clearScreen();

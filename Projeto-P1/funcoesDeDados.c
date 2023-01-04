@@ -23,7 +23,7 @@ void removeOneNext(int *numArray,int arraySize, int removeFromWhere)
 {
     int index;
 
-    for(index=removeFromWhere;index<arraySize;index++)
+    for(index=removeFromWhere; index<arraySize; index++)
     {
         numArray[index] = numArray[index]-1;
     }
@@ -615,31 +615,71 @@ void showStatistics(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,RequestType 
 
 }
 
+void searchNewerReturnDate(int returnedIndex[3],RequestType *request, int totalRequests, int numOfRequests)
+{
+    int index, requestIndex, days, higherDays = 0, lastHigherDays, counter = 0;
+    DateType lowerDate;
+    lowerDate.day = 1;
+    lowerDate.month = 1;
+    lowerDate.year = 1899;
+
+    for(index = 0; index<numOfRequests; index++)
+    {
+        higherDays = 0;
+        for(requestIndex = 0; requestIndex<totalRequests; requestIndex++)
+        {
+            numOfDaysBetweenDates(&days,lowerDate,request[requestIndex].returnDate);
+            if(days > higherDays)
+            {
+                if(counter == 0)
+                {
+                    higherDays = days;
+                    returnedIndex[counter] = requestIndex;
+                }
+                else
+                {
+                    numOfDaysBetweenDates(&lastHigherDays,lowerDate,request[returnedIndex[counter-1]].returnDate);
+                    if(days < lastHigherDays)
+                    {
+                        returnedIndex[counter] = requestIndex;
+
+                    }
+                }
+            }
+        }
+
+    counter++;
+    }
+}
+
 void showRecentCompletedRequests(int numOfRequests,RequestType *request, int totalRequests)
 {
-    int index, counter = 0;
+    int index, counter = 0, requestIndex[3] = {0};
+
     char extraNameText[23];
-    for(index=totalRequests-1; index>=0; index--)
+
+    searchNewerReturnDate(requestIndex,request,totalRequests,numOfRequests);
+
+    for(index=0; index<numOfRequests; index++)
     {
-        if(request[index].state==COMPLETED)
-        {
-            counter++;
             printf("                   |                                |\n");
-            printf("                   | --------------[%d]------------- |\n",counter);
+            printf("                   | --------------[%d]------------- |\n",counter+1);
             strcpy(extraNameText,"Codigo da Requisicao: ");
-            drawNameInfoWindow("                   ",extraNameText,request[index].code);
+            drawNameInfoWindow("                   ",extraNameText,request[requestIndex[counter]].code);
             strcpy(extraNameText,"Nome do Utente: ");
-            drawNameInfoWindow("                   ",extraNameText,request[index].applicantName);
+            drawNameInfoWindow("                   ",extraNameText,request[requestIndex[counter]].applicantName);
+            printf("                   | ------------------------------ |\n");
             printf("           ");
-            drawRequestDurationInfoWindow(request[index].duration);
+            strcpy(extraNameText,"Data da Requisicao: ");
+            drawRequestDate(extraNameText,request[requestIndex[counter]].requestDate);
             printf("           ");
-            drawRequestTotalDurationInfoWindow(request[index].durationTotal);
-            numOfRequests--;
-        }
-        if(numOfRequests == 0)
-        {
-            index = -1;
-        }
+            strcpy(extraNameText,"Data da Devolucao: ");
+            drawRequestDate(extraNameText,request[requestIndex[counter]].returnDate);
+            printf("           ");
+            drawRequestDurationInfoWindow(request[requestIndex[counter]].duration);
+            printf("           ");
+            drawRequestTotalDurationInfoWindow(request[requestIndex[counter]].durationTotal);
+            counter++;
     }
 }
 
@@ -662,7 +702,7 @@ void higherFee(int *higher, RequestType *request,int totalRequests)
 {
     int index;
 
-    *higher = request[0].delayFee;
+    *higher = 0;
 
     for (index=0; index<totalRequests; index++)
     {

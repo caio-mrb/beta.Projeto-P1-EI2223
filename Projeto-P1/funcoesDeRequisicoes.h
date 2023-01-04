@@ -38,7 +38,7 @@ void registerReturnByDamageMenu(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,
 void registerRenewByLaptopId(LaptopType laptop[MAX_LAPTOPS],int totalLaptops, RequestType *request, int totalRequests,int index,int numOfReturns, int *cancel);
 void registerRenewByRequestCode(LaptopType laptop[MAX_LAPTOPS],int totalLaptops, RequestType *request, int totalRequests,int index,int numOfRenews, int *cancel);
 
-void readRequestCodeShowInfo(int *requestIndex,RequestType *request,int totalRequests, int *cancel);
+void readRequestCodeToShowInfo(int *requestIndex,RequestType *request,int totalRequests, int *cancel);
 
 void readRequestCode(RequestType *newRequestInfo,RequestType *request,int totalRequests,int *cancel);
 void readRequestLaptopId(RequestType *newRequestInfo,LaptopType laptop[MAX_LAPTOPS],int totalLaptops,int *cancel);

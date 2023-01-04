@@ -553,6 +553,17 @@ void drawRequestApplicantTypeInfoWindow(int applicantType)
     }
 }
 
+
+void drawRequestDate(char *extraText,DateType date)
+{
+    int extraTextSize;
+    extraTextSize = strlen(extraText);
+
+    printf("        | %s",extraText);
+    showDate(date);
+    alignMargin(extraTextSize+10,MAX_SPACES_INFO_WINDOW);
+}
+
 void drawRequestDelayFeeInfoWindow(int delayFee)
 {
     int feeDigits;
@@ -694,22 +705,22 @@ void drawReturnDelayFeeAlert(int delayFee)
 
     if(delayFee > 0)
     {
-    int delayFeeDigits;
+        int delayFeeDigits;
 
-    getNumOfDigits(&delayFeeDigits,delayFee);
+        getNumOfDigits(&delayFeeDigits,delayFee);
 
 
-    printf("        | Sera cobrada uma multa de %d euros",delayFee);
-    alignMargin(delayFeeDigits,8);
-    printf("        | devido aos %d dias de atraso.",(delayFee/10));
-    alignMargin(delayFeeDigits-1,13);
+        printf("        | Sera cobrada uma multa de %d euros",delayFee);
+        alignMargin(delayFeeDigits,8);
+        printf("        | devido aos %d dias de atraso.",(delayFee/10));
+        alignMargin(delayFeeDigits-1,13);
 
     }
     else
     {
 
-    printf("        | Nao sera cobrada nenhuma multa pois o    |\n");
-    printf("        | portatil foi devolvido dentro do prazo   |\n");
+        printf("        | Nao sera cobrada nenhuma multa pois o    |\n");
+        printf("        | portatil foi devolvido dentro do prazo   |\n");
 
     }
 
@@ -816,6 +827,29 @@ void drawLaptopSelectedInfo(int laptopIndex, LaptopType laptop[MAX_LAPTOPS])
     printf("        |_Memoria RAM: %3d_______________|\n\n",laptop[laptopIndex].ram);
 }
 
+void drawRequestCodeToShowInfoAsk(void)
+{
+    printf("         _______________________________\n");
+    printf("        |_REQUISICOES/DEVOLUCOES____(X)_|\n");
+    printf("        |                               |\n");
+    printf("        | Digite o codigo da requisicao |\n");
+    printf("        | que desejas ver.              |\n");
+    printf("        | Digite 0 para cancelar.       |\n");
+    printf("        |_______________________________|\n\n");
+}
+
+void drawRequestShowInfoSubMenu(void)
+{
+    printf("         ____________________________\n");
+    printf("        |_REQUISICOES/DEVOLUCOES_(X)_|\n");
+    printf("        |                            |\n");
+    printf("        | Mostrar:                   |\n");
+    printf("        | 1 - Uma requisicao         |\n");
+    printf("        | 2 - Todas as requisicoes   |\n");
+    printf("        | 3 - Voltar                 |\n");
+    printf("        |____________________________|\n\n");
+}
+
 void drawLaptopIdToMove(void)
 {
 
@@ -827,6 +861,44 @@ void drawLaptopIdToMove(void)
     printf("        | Digite 0 para cancelar.     |\n");
     printf("        |_____________________________|\n\n");
 
+}
+
+void drawRequestRenewSubMenu(void)
+{
+    printf("         ____________________________\n");
+    printf("        |_REQUISICOES/DEVOLUCOES_(X)_|\n");
+    printf("        |                            |\n");
+    printf("        | Renovar atraves do:        |\n");
+    printf("        | 1 - ID do poratil          |\n");
+    printf("        | 2 - Codigo da requisicao   |\n");
+    printf("        | 3 - Voltar                 |\n");
+    printf("        |____________________________|\n\n");
+}
+
+void drawRequestMenu(void)
+{
+    printf("         _______________________________________\n");
+    printf("        |_REQUISICOES/DEVOLUCOES____________(X)_|\n");
+    printf("        |                                       |\n");
+    printf("        | Selecione uma opcao:                  |\n");
+    printf("        | 1 - Requisitar portatil               |\n");
+    printf("        | 2 - Devolver portatil                 |\n");
+    printf("        | 3 - Renovar requisicao                |\n");
+    printf("        | 4 - Informacoes da(s) requisicao(oes) |\n");
+    printf("        | 5 - Voltar                            |\n");
+    printf("        |_______________________________________|\n\n");
+}
+
+void drawRequestReturnSubMenu(void)
+{
+    printf("         ____________________________\n");
+    printf("        |_REQUISICOES/DEVOLUCOES_(X)_|\n");
+    printf("        |                            |\n");
+    printf("        | Devolver atraves do:       |\n");
+    printf("        | 1 - ID do poratil          |\n");
+    printf("        | 2 - Codigo da requisicao   |\n");
+    printf("        | 3 - Voltar                 |\n");
+    printf("        |____________________________|\n\n");
 }
 
 void drawLaptopIdDamageAsk(void)

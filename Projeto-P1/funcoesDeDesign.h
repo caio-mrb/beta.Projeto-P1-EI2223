@@ -47,7 +47,16 @@ void drawLaptopDamagesSubMenu(int laptopId);
   *Como usar:                                                                 *
   *-> Adicionar uma função de leitura para receber a informação do utilizador **/
 
+void drawRequestMenu(void);
+
+void drawRequestReturnSubMenu(void);
+
+void drawRequestRenewSubMenu(void);
+
+void drawRequestShowInfoSubMenu(void);
+
 void drawReturnSubMenuInDamageMenu(void);
+
 
 void drawConfirmExit(void);
 /**Função para desenhar a confirmação de saída no ecrã                        *
@@ -78,6 +87,8 @@ void drawLaptopDaysRequested(int daysRequested);
 void drawRequestLaptopIdInfoWindow(int laptopId);
 void drawRequestApplicantTypeInfoWindow(int applicantType);
 void drawRequestDurationInfoWindow(int duration);
+void drawRequestDate(char *extraText,DateType date);
+
 
 
 //Alertas
@@ -148,6 +159,8 @@ void drawRequestInfoAsk(int index,int numOfRequests);
 void drawReturnInfoAsk(int index, int numOfReturns);
 
 void drawRenewInfoAsk(int index, int numOfRenews);
+
+void drawRequestCodeToShowInfoAsk(void);
 
 
 void drawLaptopIdToMove(void);

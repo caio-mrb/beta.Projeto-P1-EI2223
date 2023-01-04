@@ -213,7 +213,7 @@ int main()
 
                             strcpy(message,"Selecione uma opcao");
 
-                            readInt(message,&optInfoMenu,1,4);
+                            readInt(message,&optInfoMenu,1,3);
 
                             switch(optInfoMenu)
                             {
@@ -659,17 +659,7 @@ int main()
 
                     clearScreen();
                     cancel = FALSE_0;
-                    printf("         _______________________________________\n");
-                    printf("        |_REQUISICOES/DEVOLUCOES____________(X)_|\n");
-                    printf("        |                                       |\n");
-                    printf("        | Selecione uma opcao:                  |\n");
-                    printf("        | 1 - Requisitar portatil               |\n");
-                    printf("        | 2 - Devolver portatil                 |\n");
-                    printf("        | 3 - Renovar requisicao                |\n");
-                    printf("        | 4 - Informacoes da(s) requisicao(oes) |\n");
-                    printf("        | 5 - Voltar                            |\n");
-                    printf("        |_______________________________________|\n\n");
-
+                    drawRequestMenu();
                     strcpy(message,"Selecione uma opcao");
                     readInt(message,&optReqMenu,1,5);
 
@@ -715,6 +705,7 @@ int main()
                         }
                         else
                         {
+                            clearScreen();
                             //Desenha o alerta de 0 portateis disponiveis no sistema
                             drawLaptopsUnavailable();
                             //Aguarda o input do utilizador para dar seguimento ao programa
@@ -729,14 +720,7 @@ int main()
                             {
                                 clearScreen();
                                 cancel = FALSE_0;
-                                printf("         ____________________________\n");
-                                printf("        |_REQUISICOES/DEVOLUCOES_(X)_|\n");
-                                printf("        |                            |\n");
-                                printf("        | Devolver atraves do:       |\n");
-                                printf("        | 1 - ID do poratil          |\n");
-                                printf("        | 2 - Codigo da requisicao   |\n");
-                                printf("        | 3 - Voltar                 |\n");
-                                printf("        |____________________________|\n\n");
+                                drawRequestReturnSubMenu();
                                 strcpy(message,"Selecione uma opcao");
                                 readInt(message,&optReturnMenu,1,3);
                                 if (optReturnMenu != 3)
@@ -832,14 +816,7 @@ int main()
                             {
                                 clearScreen();
                                 cancel = FALSE_0;
-                                printf("         ____________________________\n");
-                                printf("        |_REQUISICOES/DEVOLUCOES_(X)_|\n");
-                                printf("        |                            |\n");
-                                printf("        | Renovar atraves do:        |\n");
-                                printf("        | 1 - ID do poratil          |\n");
-                                printf("        | 2 - Codigo da requisicao   |\n");
-                                printf("        | 3 - Voltar                 |\n");
-                                printf("        |____________________________|\n\n");
+                                drawRequestRenewSubMenu();
                                 strcpy(message,"Selecione uma opcao");
                                 readInt(message,&optRenewMenu,1,3);
                                 if (optRenewMenu != 3)
@@ -917,14 +894,7 @@ int main()
                             {
                                 clearScreen();
                                 cancel = FALSE_0;
-                                printf("         ____________________________\n");
-                                printf("        |_REQUISICOES/DEVOLUCOES_(X)_|\n");
-                                printf("        |                            |\n");
-                                printf("        | Mostrar:                   |\n");
-                                printf("        | 1 - Uma requisicao         |\n");
-                                printf("        | 2 - Todas as requisicoes   |\n");
-                                printf("        | 3 - Voltar                 |\n");
-                                printf("        |____________________________|\n\n");
+                                drawRequestShowInfoSubMenu();
                                 strcpy(message,"Selecione uma opcao");
                                 readInt(message,&optReqInfoMenu,1,3);
 
@@ -932,15 +902,9 @@ int main()
                                 {
                                 case 1:
                                     clearScreen();
-                                    printf("         _______________________________\n");
-                                    printf("        |_REQUISICOES/DEVOLUCOES____(X)_|\n");
-                                    printf("        |                               |\n");
-                                    printf("        | Digite o codigo da requisicao |\n");
-                                    printf("        | que desejas ver.              |\n");
-                                    printf("        | Digite 0 para cancelar.       |\n");
-                                    printf("        |_______________________________|\n\n");
+                                    drawRequestCodeToShowInfoAsk();
 
-                                    readRequestCodeShowInfo(&index,request,totalRequests,&cancel);
+                                    readRequestCodeToShowInfo(&index,request,totalRequests,&cancel);
                                     if(cancel == FALSE_0)
                                     {
                                         clearScreen();

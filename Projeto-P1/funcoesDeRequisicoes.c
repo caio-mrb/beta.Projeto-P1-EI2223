@@ -53,8 +53,10 @@ void showRequestInfo(LaptopType laptop[MAX_LAPTOPS], RequestType *request, int r
     drawRequestApplicantTypeInfoWindow(request[requestIndex].applicantType);
     printf("        |                                |\n");
     drawRequestStateInfoWindow(request[requestIndex].state);
+    drawRequestDate("Data da Requisicao: ",request[requestIndex].requestDate);
     if (request[requestIndex].state != ACTIVE)
     {
+        drawRequestDate("Data da Devolucao",request[requestIndex].returnDate);
         drawRequestLocationInfoWindow(request[requestIndex].returnLocation);
         drawRequestDurationInfoWindow(request[requestIndex].duration);
         drawRequestTotalDurationInfoWindow(request[requestIndex].durationTotal);
@@ -374,11 +376,18 @@ RequestType *registerNewRequest(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,
         drawRequestInfoAsk(index,numOfRequests);
         readRequestCode(&requestInfo,request,*totalRequests,cancel);
         readRequestLaptopId(&requestInfo,laptop,totalLaptops,cancel);
-        drawLaptopSelectedInfo(requestInfo.laptopIndex,laptop);
+        if (*cancel == FALSE_0)
+        {
+            drawLaptopSelectedInfo(requestInfo.laptopIndex,laptop);
+        }
         readRequestApplicantName(&requestInfo,cancel);
+
         readRequestApplicantType(&requestInfo,cancel);
+
         readRequestDate(&requestInfo,laptop,cancel);
+
         readRequestRequestDuration(&requestInfo,cancel);
+
 
         if (*cancel == FALSE_0)
         {
@@ -440,8 +449,11 @@ void readRequestCode(RequestType *newRequestInfo,RequestType *request,int totalR
         {
             readString(message,newRequestInfo->code,MAX_CODE_CHAR);
 
-            if(strcmp(request[totalRequests].code,"0") == 0)
+            puts(newRequestInfo->code);
+
+            if(strcmp(newRequestInfo->code,"0") == 0)
             {
+                printf("Join");
                 *cancel = TRUE_1;
             }
             else
@@ -457,7 +469,7 @@ void readRequestCode(RequestType *newRequestInfo,RequestType *request,int totalR
     }
 }
 
-void readRequestCodeShowInfo(int *requestIndex,RequestType *request,int totalRequests, int *cancel)
+void readRequestCodeToShowInfo(int *requestIndex,RequestType *request,int totalRequests, int *cancel)
 {
     char code[MAX_CODE_CHAR],message[MAX_READ_MESSAGE_SIZE] = "Codigo da requisicao";
     do

@@ -12,6 +12,7 @@ void clrScr(void);
 void splitString(int splitPoint, char *enterStr, char firstReturnStr[MAX_SPLIT_STRING], char secondReturnStr[MAX_SPLIT_STRING]);
 void toupperString(char *result, char *stringToUp);
 void getNumOfDigits(int *result, int numToCountDigits);
+void searchNewerReturnDate(int returnedIndex[3],RequestType *request, int totalRequests, int numOfRequests);
 
 void removeOneNext(int *numArray,int arraySize, int removeFromWhere);
 void readInt(char *message, int *num,int numMin, int numMax);

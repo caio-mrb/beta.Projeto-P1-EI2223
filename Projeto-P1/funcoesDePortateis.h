@@ -54,11 +54,12 @@ void readDamageInfoCode(int index, int numOfDamages, DamageType *damageInfo, Dam
 void readDamageInfoType(int index, int numOfDamages, DamageType *damageInfo, int *cancel);
 void readDamageInfoDate(int index, int numOfDamages, DamageType *damageInfo, DateType purchaseDate, DamageType *damageList, int totalDamages, int *cancel);
 void registerNewDamage(LaptopType laptop[MAX_LAPTOPS], int laptopIndex, int *index, int numOfDamages, int *cancel);
+int *registerNewRepair(LaptopType laptop[MAX_LAPTOPS], int laptopIndex, int *damageIndexList, int *sizeDamageIndex, int optRepairMenu);
 
 void showLaptopInfo(LaptopType laptop[MAX_LAPTOPS],int totalLaptops,RequestType *request,int totalRequests);
 void showDamageHistoric(LaptopType laptop[MAX_LAPTOPS],int totalLaptops);
 void writeDamageCode(int code, int windowSize);
 DamageType *addDamageRepairInfo(DamageType damageRepairInfo, LaptopType laptop[MAX_LAPTOPS],int laptopIndex, int *cancel);
-int *removeTemporaryDamage(int *damageIndexList,int sizeDamageIndexList, int indexPosition);
+int *removeTemporaryDamage(int *damageIndexList,int *sizeDamageIndexList, int indexPosition);
 
 #endif // FUNCOESDEPORTATEIS_H

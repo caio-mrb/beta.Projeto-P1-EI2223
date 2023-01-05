@@ -62,7 +62,7 @@ int main()
 
     int index,equalIndex,readedID=0,numOfLaptops,numOfRequests,numOfDamages,numOfReturns,numOfRenews;
 
-    int *damagesIndex, totalPermanentDamages, sizeDamageIndex = 0;
+    int *damagesIndex, totalPermanentDamages, sizeDamageIndex = 0, cancelOption;
 
     int cancel = FALSE_0;
 
@@ -548,45 +548,31 @@ int main()
                                                   * ->Registar o reparo de todas as avarias por arranjar *
                                                   *                                                      *
                                                   * Nesta opção o utilizador não pode:                   *
-                                                  * ->Alterar o poratil já selecionado                   **/
+                                                  * ->Alterar qual é o poratil selecionado               **/
+                                                //Encontra e armazena no vetor dinamico o indice de cada avaria
+                                                //temporaria pertencente a lista de avarias do respetivo portatil.
+                                                /*Mais informações em "funcoesDePortateis.c*/
+                                                damagesIndex = searchTemporaryDamagesIndex(&sizeDamageIndex,laptop,equalIndex);
                                                 do
                                                 {
-                                                    //Encontra e armazena no vetor dinamico o indice de cada avaria
-                                                    //temporaria pertencente a lista de avarias do respetivo portatil.
-                                                    /*Mais informações em "funcoesDePortateis.c*/
-                                                    damagesIndex = searchTemporaryDamagesIndex(&sizeDamageIndex,laptop,equalIndex);
                                                     //Executa se encontrar avarias temporárias por arranjar
                                                     if (sizeDamageIndex>0)
                                                     {
+                                                        cancelOption = sizeDamageIndex+1;
                                                         //Desenha a lista de avarias do respetivo portatil
                                                         drawRepairList(laptop,equalIndex,damagesIndex,sizeDamageIndex);
-
                                                         //Altera o texto da mensagem para fazer sentido ao utilizador
                                                         strcpy(message,"Selecione uma opcao");
                                                         //Lê a opção (int) da avaria para registar o arranjo
-                                                        readInt(message,&optRepairMenu,1,sizeDamageIndex+1);
+                                                        readInt(message,&optRepairMenu,1,cancelOption);
 
                                                         //Executa se o utilizador não pedir para cancelar
-                                                        if (optRepairMenu != sizeDamageIndex+1)
+                                                        if (optRepairMenu != cancelOption)
                                                         {
-                                                            //Altera o texto da mensagem para fazer sentido ao utilizador
-                                                            strcpy(message,"Digite quantos dias o portatil esteve avariado");
-                                                            //Lê e guarda o tempo (int) em dias que demorou até ser reparado
-                                                            readInt(message,&laptop[equalIndex].damagesList[damagesIndex[optRepairMenu-1]].duration,0,MAX_DAMAGE_DAYS);
-                                                            //Altera o estado da avaria para concluida
-                                                            laptop[equalIndex].damagesList[damagesIndex[optRepairMenu-1]].state = COMPLETED;
-                                                            //Remove 1 a quantidade de avarias ativas
-                                                            laptop[equalIndex].damagesCounterActive--;
-                                                            //Executa se nao possuir mais danos ativos
-                                                            if(laptop[equalIndex].damagesCounterActive == 0 && laptop[equalIndex].state != BROKEN_PERMANENT)
-                                                            {
-                                                                laptop[equalIndex].state = AVAILABLE;
-                                                            }
+                                                            damagesIndex = registerNewRepair(laptop,equalIndex,damagesIndex,&sizeDamageIndex,optRepairMenu);
+
                                                             //Armazena no ficheiro as atualizações do portatil
                                                             storeInfoToFile(laptop,totalLaptops,request,totalRequests);
-                                                            //Remove a avaria acabada de arranjar da lista de avarias temporárias
-                                                            damagesIndex = removeTemporaryDamage(damagesIndex,sizeDamageIndex,sizeDamageIndex);
-                                                            //Executa se não houverem mais avarias por reparar
                                                         }
                                                     }
                                                     else
@@ -597,14 +583,12 @@ int main()
                                                         //Aguarda o input do utilizador para dar seguimento ao programa
                                                         enterToContinue("        ");
                                                         //Iguala a opção do menu de reparação ao número que cancela no menu para quebrar o ciclo
-                                                        optRepairMenu = sizeDamageIndex+1;
+                                                        optRepairMenu = cancelOption;
                                                         //Redefine a variavel para verdadeiro para quebrar o outro ciclo e voltar ao menu dos portateis
                                                         cancel = TRUE_1;
                                                     }
-
-
                                                 }
-                                                while(optRepairMenu != sizeDamageIndex+1);
+                                                while(optRepairMenu != cancelOption);
 
 
                                                 /********************************************FIM OPÇÃO 2************************************************/

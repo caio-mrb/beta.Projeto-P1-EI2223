@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1672871113 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\main.c
+1672935737 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\main.c
 	<stdio.h>
 	<stdlib.h>
 	<locale.h>
@@ -19,7 +19,7 @@
 	"funcoesDePortateis.h"
 	"funcoesDeRequisicoes.h"
 
-1672445801 c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdeportateis.h
+1672933606 c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdeportateis.h
 	<stdio.h>
 	"funcoesDeData.h"
 	"constantes.h"
@@ -45,7 +45,7 @@
 	"funcoesDeDados.h"
 	<stdio.h>
 
-1672446051 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdeportateis.c
+1672933557 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdeportateis.c
 	"funcoesDePortateis.h"
 	<stdio.h>
 	<stdlib.h>

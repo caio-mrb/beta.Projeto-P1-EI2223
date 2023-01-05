@@ -46,7 +46,7 @@ void searchEqualDamage(int *equalIndex, DamageType *damageList, int totalDamages
 
 void searchEqualDamageCodeAndHigherDate(int *equalIndex, DamageType *damageList, int totalDamages, DateType dateToComp, int codeToComp)
 {
-    int index, days, maxDays = 0;
+    int index, days, maxDays;
     *equalIndex = -1;
     for (index=0; index<totalDamages; index++)
     {
@@ -58,17 +58,18 @@ void searchEqualDamageCodeAndHigherDate(int *equalIndex, DamageType *damageList,
             {
                 if (*equalIndex == -1)
                 {
+                    dateToComp = damageList[index].date;
                     maxDays = days;
                     *equalIndex = index;
                 }
-                else
+                if (days > maxDays)
                 {
-                    if(days > maxDays)
-                    {
+                    dateToComp = damageList[index].date;
+                    maxDays = days;
                     *equalIndex = index;
-                    }
                 }
             }
+
         }
     }
 }
@@ -637,17 +638,15 @@ void readDamageInfoDate(int index, int numOfDamages, DamageType *damageInfo, Dat
             {
                 *cancel = TRUE_1;
             }
-
             if(*cancel == FALSE_0)
             {
-
                 numOfDaysBetweenDates(&daysResult,purchaseDate,damageInfo->date);
 
                 if (daysResult < 0)
                 {
                     drawDamageDateMustBeHigherThanPurchaseDate(purchaseDate);
                 }
-                else
+                if(daysResult >= 0 && damageInfo->type == PERMANET)
                 {
                     searchEqualDamageCodeAndHigherDate(&equalIndex,damageList,totalDamages,damageInfo->date,damageInfo->code);
 
@@ -660,6 +659,27 @@ void readDamageInfoDate(int index, int numOfDamages, DamageType *damageInfo, Dat
         }
         while((daysResult < 0 || equalIndex > -1) && *cancel == FALSE_0);
     }
+}
+
+int *registerNewRepair(LaptopType laptop[MAX_LAPTOPS], int laptopIndex, int *damageIndexList, int *sizeDamageIndex, int optRepairMenu)
+{
+    char message[MAX_NAME_CHAR] = "Digite quantos dias o portatil esteve avariado";
+
+    //Lê e guarda o tempo (int) em dias que demorou até ser reparado
+    readInt(message,&laptop[laptopIndex].damagesList[damageIndexList[optRepairMenu-1]].duration,0,MAX_DAMAGE_DAYS);
+    //Altera o estado da avaria para concluida
+    laptop[laptopIndex].damagesList[damageIndexList[optRepairMenu-1]].state = COMPLETED;
+    //Remove 1 a quantidade de avarias ativas
+    laptop[laptopIndex].damagesCounterActive--;
+    //Executa se nao possuir mais danos ativos
+    if(laptop[laptopIndex].damagesCounterActive == 0 && laptop[laptopIndex].state != BROKEN_PERMANENT)
+    {
+        laptop[laptopIndex].state = AVAILABLE;
+    }
+    //Remove a avaria acabada de arranjar da lista de avarias temporárias
+    damageIndexList = removeTemporaryDamage(damageIndexList,sizeDamageIndex,optRepairMenu-1);
+
+    return damageIndexList;
 }
 
 void registerNewDamage(LaptopType laptop[MAX_LAPTOPS], int laptopIndex, int *index, int numOfDamages, int *cancel)
@@ -694,20 +714,27 @@ void registerNewDamage(LaptopType laptop[MAX_LAPTOPS], int laptopIndex, int *ind
 
 int *searchTemporaryDamagesIndex(int *sizeDamageIndex, LaptopType laptop[MAX_LAPTOPS], int laptopId)
 {
-
-    int *damagesIndex = NULL, index;
+    int *damagesIndex = NULL,*backupPointer, index;
     *sizeDamageIndex = 0;
-
 
     for (index = 0; index<laptop[laptopId].damagesCounterTotal; index++)
     {
-
         if (laptop[laptopId].damagesList[index].type == TEMPORARY && laptop[laptopId].damagesList[index].state == ACTIVE)
         {
             damagesIndex = realloc(damagesIndex, (*sizeDamageIndex + 1)*sizeof(int));
+            if (damagesIndex != NULL)
+            {
             damagesIndex[*sizeDamageIndex] = index;
             (*sizeDamageIndex)++;
+            }
+            else
+            {
+                printf("        Erro ao guardar a localizacao da avaria do portatil!\n");
+                damagesIndex = backupPointer;
+                index = laptop[laptopId].damagesCounterTotal;
+            }
         }
+        backupPointer = damagesIndex;
     }
     return damagesIndex;
 }
@@ -926,18 +953,24 @@ DamageType *addDamageRepairInfo(DamageType damageRepairInfo, LaptopType laptop[M
     return laptop[laptopIndex].damagesList;
 }
 
-int *removeTemporaryDamage(int *damageIndexList,int sizeDamageIndexList, int indexPosition)
+int *removeTemporaryDamage(int *damageIndexList,int *sizeDamageIndexList, int indexPosition)
 {
-    int index;
+    int index, *backupPointer;
+    backupPointer = damageIndexList;
 
-    for(index = indexPosition; index<sizeDamageIndexList; index++)
+    for(index = indexPosition; index<*sizeDamageIndexList; index++)
     {
         damageIndexList[index] = damageIndexList[index + 1];
     }
-    sizeDamageIndexList--;
-    if (sizeDamageIndexList > 0)
+    (*sizeDamageIndexList)--;
+    if (*sizeDamageIndexList > 0)
     {
-        damageIndexList = realloc(damageIndexList, (sizeDamageIndexList)*sizeof(int));
+        damageIndexList = realloc(damageIndexList, (*sizeDamageIndexList)*sizeof(int));
+        if (damageIndexList == NULL)
+        {
+            printf("        Erro ao guardar a reparacao do portatil!\n");
+            damageIndexList = backupPointer;
+        }
     }
     else
     {

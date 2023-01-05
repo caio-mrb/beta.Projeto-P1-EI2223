@@ -2,19 +2,39 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="funcoesDePortateis.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="constantes.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="617" topLine="0" />
+			<Cursor1 position="190" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="funcoesDeRequisicoes.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1740" topLine="3" />
+		</Cursor>
+	</File>
+	<File name="funcoesDeDesign.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="20523" topLine="600" />
 		</Cursor>
 	</File>
 	<File name="main.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="54749" topLine="907" />
+			<Cursor1 position="35019" topLine="569" />
 		</Cursor>
 	</File>
 	<File name="funcoesDeData.h" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="126" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="funcoesDeDados.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="478" topLine="3" />
+		</Cursor>
+	</File>
+	<File name="funcoesDePortateis.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3008" topLine="27" />
 		</Cursor>
 	</File>
 	<File name="funcoesDeData.c" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -27,47 +47,52 @@
 			<Collapse line="55" />
 		</Folding>
 	</File>
-	<File name="constantes.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="190" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="funcoesDePortateis.c" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="22659" topLine="609" />
-		</Cursor>
-		<Folding>
-			<Collapse line="614" />
-		</Folding>
-	</File>
-	<File name="funcoesDeDesign.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="20523" topLine="546" />
-		</Cursor>
-	</File>
-	<File name="funcoesDeDesign.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4002" topLine="70" />
-		</Cursor>
-	</File>
-	<File name="funcoesDeDados.c" open="1" top="1" tabpos="6" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="32066" topLine="1041" />
-		</Cursor>
-	</File>
-	<File name="funcoesDeDados.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="478" topLine="3" />
-		</Cursor>
-	</File>
 	<File name="funcoesDeRequisicoes.c" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="14256" topLine="462" />
 		</Cursor>
 	</File>
-	<File name="funcoesDeRequisicoes.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="funcoesDePortateis.c" open="1" top="1" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1740" topLine="3" />
+			<Cursor1 position="21996" topLine="40" />
+		</Cursor>
+		<Folding>
+			<Collapse line="11" />
+			<Collapse line="28" />
+			<Collapse line="47" />
+			<Collapse line="77" />
+			<Collapse line="123" />
+			<Collapse line="139" />
+			<Collapse line="194" />
+			<Collapse line="210" />
+			<Collapse line="226" />
+			<Collapse line="294" />
+			<Collapse line="310" />
+			<Collapse line="352" />
+			<Collapse line="392" />
+			<Collapse line="576" />
+			<Collapse line="613" />
+			<Collapse line="664" />
+			<Collapse line="685" />
+			<Collapse line="715" />
+			<Collapse line="742" />
+			<Collapse line="802" />
+			<Collapse line="858" />
+			<Collapse line="914" />
+			<Collapse line="956" />
+		</Folding>
+	</File>
+	<File name="funcoesDeDados.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="32066" topLine="503" />
+		</Cursor>
+		<Folding>
+			<Collapse line="515" />
+		</Folding>
+	</File>
+	<File name="funcoesDeDesign.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4002" topLine="70" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

@@ -4,6 +4,8 @@
 #include <string.h>
 
 
+//Titulo e Bem-Vindo
+
 void drawTittle(void)
 {
     printf(" _               _____ _______ ____  _____    _____  ______ ____  _    _ ______  _____ _______\n");
@@ -32,6 +34,8 @@ void drawWelcomeBack(void)
     printf("| ao Programa!       |\n");
     printf("|____________________|\n");
 }
+
+//Menus
 
 void drawMainMenu(int totalLaptops, int availableLaptops, int totalRequests, int activeRequests)
 {
@@ -98,6 +102,27 @@ void drawInfoMenu(void)
     printf("        | 2 - Historico de avarias     |\n");
     printf("        | 3 - Voltar                   |\n");
     printf("        |______________________________|\n\n");
+
+}
+
+void drawLaptopDamagesSubMenu(int laptopId)
+{
+    int idDigits;
+
+    getNumOfDigits(&idDigits,laptopId);
+
+    printf("         ____________________\n");
+    printf("        |_PORTATEIS______(X)_|\n");
+    printf("        |                    |\n");
+    printf("        | Selecionado:       |\n");
+    printf("        | ->Portatil ID#%d",laptopId);
+    alignMargin(idDigits,4);
+    printf("        |                    |\n");
+    printf("        | Pretende registar: |\n");
+    printf("        | 1 - Avaria         |\n");
+    printf("        | 2 - Reparacao      |\n");
+    printf("        | 3 - Cancelar       |\n");
+    printf("        |____________________|\n\n");
 
 }
 
@@ -553,7 +578,6 @@ void drawRequestApplicantTypeInfoWindow(int applicantType)
     }
 }
 
-
 void drawRequestDate(char *extraText,DateType date)
 {
     int extraTextSize;
@@ -912,26 +936,7 @@ void drawLaptopIdDamageAsk(void)
     printf("        |_______________________________________|\n\n");
 }
 
-void drawLaptopDamagesSubMenu(int laptopId)
-{
-    int idDigits;
 
-    getNumOfDigits(&idDigits,laptopId);
-
-    printf("         ____________________\n");
-    printf("        |_PORTATEIS______(X)_|\n");
-    printf("        |                    |\n");
-    printf("        | Selecionado:       |\n");
-    printf("        | ->Portatil ID#%d",laptopId);
-    alignMargin(idDigits,4);
-    printf("        |                    |\n");
-    printf("        | Pretende registar: |\n");
-    printf("        | 1 - Avaria         |\n");
-    printf("        | 2 - Reparacao      |\n");
-    printf("        | 3 - Cancelar       |\n");
-    printf("        |____________________|\n\n");
-
-}
 
 void drawDamagensNoneActive(int laptopId)
 {

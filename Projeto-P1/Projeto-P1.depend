@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1672935737 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\main.c
+1673265802 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\main.c
 	<stdio.h>
 	<stdlib.h>
 	<locale.h>
@@ -54,7 +54,7 @@
 	"funcoesDeDados.h"
 	"funcoesDeDesign.h"
 
-1672873629 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesderequisicoes.c
+1673265802 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesderequisicoes.c
 	"funcoesDeRequisicoes.h"
 	"funcoesDeDados.h"
 	<stdio.h>
@@ -70,11 +70,11 @@
 	"funcoesDeData.h"
 	"funcoesDeDados.h"
 
-1672871998 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdedesign.c
+1673264592 source:c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdedesign.c
 	"funcoesDeDesign.h"
 	<stdio.h>
 	<string.h>
 
-1672871782 c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdedesign.h
+1673264592 c:\users\caio\desktop\tudo\c\beta.projeto-p1-ei2223\projeto-p1\funcoesdedesign.h
 	"funcoesDeDados.h"
 

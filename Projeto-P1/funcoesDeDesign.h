@@ -57,7 +57,6 @@ void drawRequestShowInfoSubMenu(void);
 
 void drawReturnSubMenuInDamageMenu(void);
 
-
 void drawConfirmExit(void);
 /**Função para desenhar a confirmação de saída no ecrã                        *
   *Como usar:                                                                 *
@@ -66,8 +65,9 @@ void drawConfirmExit(void);
 
 //Funções de mostrar informações
 
-void drawLaptopIdInfoWindow(int laptopId);
 void drawNameInfoWindow(char *margin, char *extraText, char *name);
+
+void drawLaptopIdInfoWindow(int laptopId);
 void drawLaptopStateInfoWindow(int laptopState);
 void drawLaptopLocationInfoWindow(int laptopLocation);
 void drawLaptopTotalDamagesInfoWindow(int damagesTotal);
@@ -90,7 +90,6 @@ void drawRequestDurationInfoWindow(int duration);
 void drawRequestDate(char *extraText,DateType date);
 
 
-
 //Alertas
 
 void drawMaxLaptopsReachAlert(void);
@@ -106,8 +105,11 @@ void drawLaptopsNotFound(void);
 /**Função para desenhar o aviso que não foram encontrados portateis no sistema**/
 
 void drawAllReturnSucessful(void);
+
 void drawLaptopsUnavailable(void);
+
 void drawAllRepairSucessful(void);
+
 void drawActiveRequestsNotFound(void);
 
 void drawReturnDelayFeeAlert(int delayFee);
@@ -207,26 +209,25 @@ void drawPercentageBar(float percentage);
 void centerTittle(char *extraText, char *tittle, int windowSize);
 
 void alignMargin(int contentSize, int totalSpaces);
-/**Função para alinhar a margem da janela simulada de acordo com o                                                        *
-  *conteúdo a ser escrito                                                                                                 *
-  *Como usar:                                                                                                             *
-  *-> Utilizar o tamanho de espaços do conteúdo a ser escrito                                                             *
-  *-> Utilizar o tamanho máximo que o conteúdo pode ocupar na janela                                                      *
-  *(valor obtido ao subtrair o total de espaços por linha da janela com o número de caracteres que a linha já ocupa       *
-  *                                                                                                                       *
-  *Exemplo: Se há uma janela com o seguinte formato                                                                       *
-  * ___________                                                                                                           *
-  *|           |                                                                                                          *
-  *| 123456789 |                                                                                                          *
-  *|___________|                                                                                                          *
-  *                                                                                                                       *
-  *quer dizer que a janela possui 9 espaços ao todo por linha                                                             *
-  *                                                                                                                       *
-  *Se quiser escrever um conteúdo que varia entre 1 e 3                                                                   *
-  *                                                                                                                       *
-  *Chama-se da seguinte maneira                                                                                           *
-  *alignMargin("variavel que armazena o número de digitos a serem escritos","tamanho disponível para ser escrito(9 - 0)") **/
-
-
+/**Função para alinhar a margem da janela simulada de acordo com o conteúdo a ser escrito                                                              *
+  *                                                                                                                                                    *
+  *Como usar:                                                                                                                                          *
+  *-> Utilizar o tamanho de espaços do conteúdo a ser escrito                                                                                          *
+  *(valor obtido ao somar o total de caracteres já escritos com o número de caracteres que têm de ser escritos)                                        *
+  *-> Utilizar o tamanho máximo que o conteúdo pode ocupar na janela                                                                                   *
+  *(valor obitido ao contar o número máximo de caracteres por linha)                                                                                   *
+  *                                                                                                                                                    *
+  *Exemplo: Se há uma janela com o seguinte formato                                                                                                    *
+  * ______________                                                                                                                                     *
+  *|              |                                                                                                                                    *
+  *| Exemplo: XXX |                                                                                                                                    *
+  *|______________|                                                                                                                                    *
+  *                                                                                                                                                    *
+  *Quer dizer que a janela possui 12 espaços ao todo por linha com um conteúdo que varia entre 1 e 3 (XXX), então                                      *
+  *chama-se da seguinte maneira:                                                                                                                       *
+  *                                                                                                                                                    *
+  *alignMargin("numero de caracteres já escritos"+"variavel que armazena o número de digitos a serem escritos","tamanho disponível para ser escrito"); *
+  *                                                                                                                                                    *
+  *alignMargin(3+9,12);                                                                                                                                **/
 
 #endif // FUNCOESDEDESIGN_H

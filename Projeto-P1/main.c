@@ -449,7 +449,6 @@ int main()
                                                     readInt(message,&optReturnMenu,1,2);
                                                     if(optReturnMenu == 2)
                                                     {
-
                                                         cancel = TRUE_1;
                                                     }
                                                     else

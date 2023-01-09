@@ -632,6 +632,8 @@ void readDamageInfoDate(int index, int numOfDamages, DamageType *damageInfo, Dat
         strcpy(message,"Data");
         do
         {
+            equalIndex = -1;
+
             readDate(message,&(damageInfo->date));
 
             if (damageInfo->date.day == 0)

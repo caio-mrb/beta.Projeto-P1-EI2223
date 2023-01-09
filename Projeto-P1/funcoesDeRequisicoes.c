@@ -449,8 +449,6 @@ void readRequestCode(RequestType *newRequestInfo,RequestType *request,int totalR
         {
             readString(message,newRequestInfo->code,MAX_CODE_CHAR);
 
-            puts(newRequestInfo->code);
-
             if(strcmp(newRequestInfo->code,"0") == 0)
             {
                 printf("Join");
